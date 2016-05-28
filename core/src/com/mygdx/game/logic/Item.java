@@ -1,4 +1,4 @@
-package logic;
+package com.mygdx.game.logic;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 

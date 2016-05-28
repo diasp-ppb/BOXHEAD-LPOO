@@ -1,8 +1,7 @@
-package logic;
+package com.mygdx.game.logic;
 
 import java.util.Vector;
 
-import logic.Item;
 
 public class Weapon extends Item {
     private int damage;

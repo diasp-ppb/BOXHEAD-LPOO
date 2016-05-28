@@ -1,11 +1,9 @@
-package logic;
+package com.mygdx.game.logic;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
 import java.util.ArrayList;
 import java.util.Vector;
-
-import logic.Item;
 
 public class Player extends Sprite {
     private ArrayList<Item> bag = new ArrayList<Item>();
