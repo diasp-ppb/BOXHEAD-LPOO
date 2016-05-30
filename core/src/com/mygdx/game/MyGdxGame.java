@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.States.GameStateManager;
-import com.mygdx.game.States.MenuState;
+import com.mygdx.game.States.Menu;
 
 public class MyGdxGame extends ApplicationAdapter {
     //public float screen_width = Gdx.graphics.getWidth();
@@ -14,7 +14,7 @@ public class MyGdxGame extends ApplicationAdapter {
     public static float screen_width = 1280;
     public static float screen_height = 720;
 
-	public static final String GameTitle = "BoxHead";
+	public static final String GameTitle = "Apocalypse";
 	private GameStateManager stateManager;
 	private SpriteBatch batch; //1 per game
 	Texture img;
@@ -24,7 +24,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		batch = new SpriteBatch();
 		stateManager = new GameStateManager();
 		Gdx.gl.glClearColor(0, 0, 0, 1); //black
-		stateManager.push(new MenuState(stateManager));
+		stateManager.push(new Menu(stateManager));
 	}
 
 	@Override

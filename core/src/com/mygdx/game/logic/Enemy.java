@@ -13,6 +13,9 @@ public class Enemy extends Sprite{
     public void setLife(int life){
         this.life = life;
     }
+    public void decLife(int damage){
+        life -= damage;
+    }
     public int getLife(){
         return life;
     }
@@ -21,5 +24,8 @@ public class Enemy extends Sprite{
     }
     public int getDamage(){
         return damage;
+    }
+    public boolean isDead(){
+        return (life <= 0);
     }
 }
