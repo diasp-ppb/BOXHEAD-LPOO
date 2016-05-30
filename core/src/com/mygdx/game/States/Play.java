@@ -15,7 +15,9 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.logic.Game;
@@ -38,6 +40,17 @@ public class Play extends State {
     private ImageButton.ImageButtonStyle style;
     private Viewport viewp;
     private Stage stage;
+
+
+
+    //touchpad
+    private Touchpad touchpad;
+    private Touchpad.TouchpadStyle touchpadStyle;
+    private Skin touchpadSkin;
+    private Drawable touchBackground;
+    private Drawable touchKnob;
+
+
     //game
     private Game game;
     //map
@@ -80,12 +93,30 @@ public class Play extends State {
         skin.addRegions(ButtonsPack);
         style = new ImageButton.ImageButtonStyle();
 
+
+
+
+        touchpadStyle = new Touchpad.TouchpadStyle();
+        //Create Drawable's from TouchPad skin
+        touchBackground = skin.getDrawable("Joystick");
+        touchKnob = skin.getDrawable("Joystickp");
+        //Apply the Drawables to the TouchPad Style
+        touchpadStyle.background = touchBackground;
+        touchpadStyle.knob = touchKnob;
+        //Create new TouchPad with the created style
+        touchpad = new Touchpad(10, touchpadStyle);
+        //setBounds(x,y,width,height)
+        touchpad.setBounds(15, 15, 200, 200);
+        stage.addActor(touchpad);
+
+
+        /*
         style = new ImageButton.ImageButtonStyle();
         style.up = skin.getDrawable("Joystick");
         style.down = skin.getDrawable("Joystickp");
         joystick = new ImageButton(style);
         joystick.setPosition(joystick.getWidth() / 4, joystick.getHeight() / 8);
-        stage.addActor(joystick);
+        stage.addActor(joystick);*/
 
         style = new ImageButton.ImageButtonStyle();
         style.up = skin.getDrawable("Shoot");
@@ -128,12 +159,15 @@ public class Play extends State {
         backButton.setPosition(width - backButton.getWidth()*5/3, height - backButton.getHeight()* 4/3);
         stage.addActor(backButton);
 
+
+
+
     }
 
     @Override
     public void handleInput() {
 
-        joystick.addListener(new InputListener() {
+       /** joystick.addListener(new InputListener() {
             @Override
             public void touchUp(InputEvent event, float x, float y,
                                 int pointer, int button) {
@@ -169,8 +203,7 @@ public class Play extends State {
                 }
                 return false;
             }
-        });
-
+        });*/
         backButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -178,6 +211,8 @@ public class Play extends State {
                 dispose();
             }
         });
+
+
 
 
     }
@@ -197,7 +232,14 @@ public class Play extends State {
         /*batch.begin();
         batch.draw(background, 0, 0);
         batch.end();*/
+
+        //MOVES
+        cam.translate(touchpad.getKnobPercentX()*5,touchpad.getKnobPercentY()*5);
+
+        //
         renderer.render();
+
+
         //rederer B2D
         b2dr.render(world, cam.combined);
 
