@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
@@ -53,12 +54,15 @@ public class Play extends State {
 
     //game
     private Game game;
+
     //map
     private TmxMapLoader mapLoader;
     private TiledMap map;
     private OrthogonalTiledMapRenderer renderer;
     private World world;
     private Box2DDebugRenderer b2dr;
+    private int map_width;
+    private int map_height;
 
 
     public Play(GameStateManager manager) {
@@ -67,16 +71,18 @@ public class Play extends State {
         super.width = background.getWidth();
         super.height = background.getHeight();
 
-        super.cam.setToOrtho(false, width/2, height/2);
+        super.cam.setToOrtho(false, width*2, height*2);
         viewp = new FillViewport(width,height);
 
+        //map
         mapLoader = new TmxMapLoader();
         map = mapLoader.load("Mapa1.tmx");
         renderer = new OrthogonalTiledMapRenderer(map,1);
-        cam.position.set(viewp.getWorldWidth()/2, viewp.getWorldHeight() /2,0);
         world = new World(new Vector2(0,0), true);
         b2dr = new Box2DDebugRenderer();
-
+        map_width = (int)(((TiledMapTileLayer)map.getLayers().get(0)).getWidth() *  ((TiledMapTileLayer)map.getLayers().get(0)).getTileWidth());
+        map_height = (int)(((TiledMapTileLayer)map.getLayers().get(0)).getHeight() *  ((TiledMapTileLayer)map.getLayers().get(0)).getTileHeight());
+        cam.position.set(map_width/2, map_height/2,0);
 
         stage = new Stage(viewp);
         stage.clear();
@@ -85,7 +91,7 @@ public class Play extends State {
         //Game
         game = new Game();
         game.getPlayer().setSize(game.getPlayer().getWidth()/2,game.getPlayer().getHeight()/2);
-        game.getPlayer().setPosition(width/4 - game.getPlayer().getWidth(),height/4 - game.getPlayer().getHeight());
+        game.getPlayer().setPosition(cam.viewportWidth/2,cam.viewportHeight/2);
 
         //buttons
         ButtonsPack = new TextureAtlas("PlayButtons.atlas");        //pack de botões
@@ -234,7 +240,8 @@ public class Play extends State {
         batch.end();*/
 
         //MOVES
-        cam.translate(touchpad.getKnobPercentX()*5,touchpad.getKnobPercentY()*5);
+        if(!(cam.position.x - cam.viewportWidth/2 + touchpad.getKnobPercentX()*3  < 0 || cam.position.y -cam.viewportHeight/2 + touchpad.getKnobPercentY()*3< 0 || cam.position.x + cam.viewportWidth/2 + touchpad.getKnobPercentX()*3> map_width|| cam.position.y  + touchpad.getKnobPercentY()*3 + cam.viewportHeight/2>= map_height))
+                cam.translate(touchpad.getKnobPercentX()*3,touchpad.getKnobPercentY()*3);
 
         //
         renderer.render();

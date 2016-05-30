@@ -9,10 +9,8 @@ import com.mygdx.game.States.GameStateManager;
 import com.mygdx.game.States.Menu;
 
 public class MyGdxGame extends ApplicationAdapter {
-    //public float screen_width = Gdx.graphics.getWidth();
-    //public float screen_height = Gdx.graphics.getHeight();
-    public static float screen_width = 1280;
-    public static float screen_height = 720;
+    public float screen_width = Gdx.app.getGraphics().getWidth();
+    public float screen_height = Gdx.app.getGraphics().getHeight();
 
 	public static final String GameTitle = "Apocalypse";
 	private GameStateManager stateManager;
@@ -33,9 +31,6 @@ public class MyGdxGame extends ApplicationAdapter {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		stateManager.update(Gdx.graphics.getDeltaTime());
 		stateManager.render(batch);
-		/*batch.begin();
-		batch.draw(img, 0, 0);
-		batch.end();*/
 	}
 
 	/*SpriteBatch batch;
