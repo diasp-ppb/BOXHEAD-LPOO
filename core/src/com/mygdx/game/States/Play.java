@@ -156,17 +156,20 @@ public class Play extends State {
                 dispose();
             }
         });
+        shootButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.shoot();
+            }
+        });
     }
 
     @Override
     public void update(float delta_time){
         super.update(delta_time);
       //  world.step(1/60f,6,2);
-
+        game.update();
         joystyckMove();
-
-
-
         cam.update();
        // renderer.setView(cam);
     }
@@ -188,8 +191,9 @@ public class Play extends State {
     public void dispose(){
         skin.dispose();
         ButtonsPack.dispose();
-       // background.dispose();
+        map.dispose();
         stage.dispose();
+        game.dispose();
     }
 
     public void joystyckMove(){
@@ -199,14 +203,15 @@ public class Play extends State {
         double y_fin = cam.position.y + cam.viewportHeight/2 + touchpad.getKnobPercentY()*5f;
 
         if(x_init >= 0 && x_fin <= map.getWidth()){
-            game.movePlayer(touchpad.getKnobPercentX()*5f, 0);
-
+            game.movePlayer(touchpad.getKnobPercentX() * 5f, 0);
             cam.position.x += touchpad.getKnobPercentX()*5f;
         }
         if(y_init >= 0 && y_fin <= map.getHeight()){
             game.movePlayer(0, touchpad.getKnobPercentY() * 5f);
             cam.position.y += touchpad.getKnobPercentY()*5f;
         }
+        if(touchpad.getKnobPercentX() != 0 || touchpad.getKnobPercentY() != 0)
+            game.getPlayer().setDirection(new Vector2(touchpad.getKnobPercentX(),touchpad.getKnobPercentY()));
     }
 }
 

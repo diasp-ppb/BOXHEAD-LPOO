@@ -17,7 +17,7 @@ public class Player extends Sprite {
 
     public Player(){
         bag = new ArrayList<Item>();
-        direction = new Vector2(0,0);
+        direction = new Vector2(0,1);
         life = 100;
         damage = 1;
         super.setPosition(0,0);
@@ -67,6 +67,14 @@ public class Player extends Sprite {
 
     public final boolean isDead(){
         return (life <= 0);
+    }
+
+    public final Vector2 getDirection(){
+        return direction;
+    }
+
+    public void setDirection(Vector2 d){
+        direction = d;
     }
 
 
