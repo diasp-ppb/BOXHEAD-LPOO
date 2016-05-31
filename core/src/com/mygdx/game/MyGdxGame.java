@@ -9,8 +9,8 @@ import com.mygdx.game.States.GameStateManager;
 import com.mygdx.game.States.Menu;
 
 public class MyGdxGame extends ApplicationAdapter {
-    public float screen_width = Gdx.app.getGraphics().getWidth();
-    public float screen_height = Gdx.app.getGraphics().getHeight();
+    public float screen_width =1000;// Gdx.app.getGraphics().getWidth();
+    public float screen_height =800;// Gdx.app.getGraphics().getHeight();
 
 	public static final String GameTitle = "Apocalypse";
 	private GameStateManager stateManager;
@@ -27,6 +27,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
 	@Override
 	public void render () {	//method that is executed in a loop
+		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 		//clears the screen
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		stateManager.update(Gdx.graphics.getDeltaTime());

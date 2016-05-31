@@ -227,6 +227,12 @@ public class Play extends State {
     public void update(float delta_time){
         super.update(delta_time);
         world.step(1/60f,6,2);
+
+        game.movePlayer(touchpad.getKnobPercentX()*4f,touchpad.getKnobPercentY()*4f);
+        cam.position.x =   (int) game.getPlayer().getX();
+        cam.position.y =   (int) game.getPlayer().getY();
+
+
         cam.update();
         renderer.setView(cam);
     }
@@ -240,8 +246,8 @@ public class Play extends State {
         batch.end();*/
 
         //MOVES
-        if(!(cam.position.x - cam.viewportWidth/2 + touchpad.getKnobPercentX()*3  < 0 || cam.position.y -cam.viewportHeight/2 + touchpad.getKnobPercentY()*3< 0 || cam.position.x + cam.viewportWidth/2 + touchpad.getKnobPercentX()*3> map_width|| cam.position.y  + touchpad.getKnobPercentY()*3 + cam.viewportHeight/2>= map_height))
-                cam.translate(touchpad.getKnobPercentX()*3,touchpad.getKnobPercentY()*3);
+       // if(!(cam.position.x - cam.viewportWidth/2 + touchpad.getKnobPercentX()*3  < 0 || cam.position.y -cam.viewportHeight/2 + touchpad.getKnobPercentY()*3< 0 || cam.position.x + cam.viewportWidth/2 + touchpad.getKnobPercentX()*3> map_width|| cam.position.y  + touchpad.getKnobPercentY()*3 + cam.viewportHeight/2>= map_height))
+         //       cam.translate(touchpad.getKnobPercentX()*3,touchpad.getKnobPercentY()*3);
 
         //
         renderer.render();
