@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="64" height="64" tilewidth="64" tileheight="64" nextobjectid="1">
+ <tileset firstgid="1" name="spritesheet_tiles" tilewidth="64" tileheight="64" spacing="10" tilecount="540" columns="27">
+  <image source="spritesheet_tiles.png" width="1988" height="1470"/>
+ </tileset>
+ <layer name="Camada de Tiles 1" width="64" height="64">
+  <data encoding="base64" compression="zlib">
+   eJzt28lugzAQBmAohFsPuXcLx6pSjt1fots57/8UNRKjWCObxR57HGYOvxIjY/MBMWCUXVVVncnOSpcgqdqPbS+1e03/HNsCfdUmVyaNSespz9Xxrbe0vI9cf00Z3PCZuj/18/rx8lz+g8ndmH6h/xiYEv03Jj9jboX6n8eon8fvuk5J9ucc/0P81OO/ax9I8nP8/uFTsr8W7G824H8kCPbj61AKf0vgry/YH3v8IVL9l37+h/rxfUJuP0V/dkL8dp2t+LFLut93/79l/9z576qT0o/74vDbc82ptmfKn2J/xxz/HH58f8zth30g1S/l+M+N/7n8rmfkEq7/UOdQnefrKfKHQtl2SPoZ/3C8fk1eiDKY700exu9U7Ybkuzqfgzn9bybvBfmnfv8fJq+Ewec/Zdsh+Zzx2+MfjB/XEcHvv06JsvZ5OKffHv/Vr371l++360rwN559IMnvqt8K9ON1pPkp59/Vr371y/Z/jeGe/+iZ/DD/UcKzP4cf5j8k+qnnU2LnPnL7l5afAhLTn/rVX5J/KOv/P9Rfkj/0vRusj//T1jqW1Y5l6le/+vn90sc/SX58DsaEur3YbcFOn5t7u2P77ybi8/8DSSBZvA==
+  </data>
+ </layer>
+ <layer name="Camade de Tiles 2" width="64" height="64">
+  <data encoding="base64" compression="zlib">
+   eJztW0tuGzEMncnC8Bm6SYCmgNMjNJsA6Rl6H+ccXvgQtpNdGyCfbdrs0gA+QA7RUqgFKKw+JPUJM54HEII8tqTHJ+o7XnddtwFb72n6APZzj1Prh30D8F8C96X1w74BOC83/3ww6v/WjUFYgf3qebZi1qFZ/8ue/5sr5m8069+C/6i/Xv1NLD/2PBtS/LeAZv1boKX+E0E818ao/xj/Kf0l67DYmkxTHFD0N/Pwovvf5sQ6uHNyS1D05/C/2Nncea6Zv1R/l58Ll7s1l7+mvm8g0T/E3SDEn8M7d7zh7AdD+i88/GO8Xf7YB1z+knV/CKnYo+pP4W6BfcCN/5b8qfEvgTv+vXf9a7ahdH2cumP62zFgyPy163+LnqXy3Lprxj+1DbH6PudV/a71f4L0N9jzLv8d0h9g18TnlLop+kvOoXLOpHLr49Qd07/WWnXCnA9rgrP/19LmkuCc/+Tw1+q78fwnrb/Vbgb2SWAnnjJL7vGkd39dx9P/I9g3gR17yjJz3HRnpSA5Z4npv0D5GvwNblC7pXkJ/xb6H4IdobLcNdWHg9fPpPnS+mNI+X8BO0Vlufy5eoegVf9Q/7d4y/7fQn+Xv51LtPT/oeuPx3AMjv7nYGcC++opS3v8p/zGBZ7nc/r/tvenMf4hPq3uf2P8ufrfQv4O2X1fP/5zEONfCvacedrT15YU/UvHgkHJMw73rGOCfJBCSH/uGUUNH0kwLah/ygda9/QcpOJ/CBxjoI7/Q/UDdfyP8ffFPjcOLSRnxTlnCCn97RigUX/LO4d/avwvyZ9SnkT/HHDXf1r7gg+UObnV+l8raq//NY8fBtT7v9LvPGrxSUh//P7TH2Jb7Vjs24u9oLyPv8QnObFKvf/fonadQ34WaOvUsxfF3EOfG/6h79YA9f3f2nfeFq3jYrz/G9//d/Vv8D9r629taZP/WVt/a0v/As/XMvc=
+  </data>
+ </layer>
+ <layer name="Camade de Tiles 3" width="64" height="64">
+  <data encoding="base64" compression="zlib">
+   eJztmtsNAiEQRfHPSrQOrRT6sA36kY0hIgEXhkcY5p6EYCKvA8iCrFIAAI9tzEfNvwpW1TlY9ZuHu/9Bi8MO/i1I9wf7Es9tDnOd0sbcM8Amggm+N4k81Lp6QfWnQPH39Y3qB0q5NemNqvfOpU/Nr1pS+Ub6H5golKaP62x1zzH6N0Yh9J/RvpX9Z7Ca/2yk+3Ogxzqw4lpXQs8zNFd/H0vw/7e/HlH2auTayKHtPZDi+Y/Ze6DVkOgfn5Wk9YE03xjp/ileQWhNd1bG7qzoXzK2QCZc9oE3F+4uPJTS7rM+i0vK5HRWd17q+Qna9YM+i0vK5OJ+MGL8OTFi/Dnhx780ruV66dPOUfjxL41BHk7rXk92ekeKglTvkN73u9z6dOS7DgAAAACQg/T/VnP+Uu9adrxbLL1D2M0bfME6Jxvp/gCAvrwBcyuOxg==
+  </data>
+ </layer>
+</map>

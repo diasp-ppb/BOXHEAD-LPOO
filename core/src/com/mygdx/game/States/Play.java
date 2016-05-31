@@ -27,7 +27,6 @@ import com.mygdx.game.logic.Game;
  * Created by Catarina Ramos on 12/05/2016.
  */
 public class Play extends State {
-    protected Texture background;
     //botões
     private ImageButton joystick;
     private ImageButton aButton;
@@ -51,38 +50,20 @@ public class Play extends State {
     private Drawable touchBackground;
     private Drawable touchKnob;
 
+    //mapa
+    private Texture map;
 
     //game
     private Game game;
 
-    //map
-    private TmxMapLoader mapLoader;
-    private TiledMap map;
-    private OrthogonalTiledMapRenderer renderer;
-    private World world;
-    private Box2DDebugRenderer b2dr;
-    private int map_width;
-    private int map_height;
-
 
     public Play(GameStateManager manager) {
         super(manager);
-        background = new Texture("GameSettings.jpg");
-        super.width = background.getWidth();
-        super.height = background.getHeight();
+        map = new Texture("Mapa2.png");
 
-        super.cam.setToOrtho(false, width*2, height*2);
+        super.cam.setToOrtho(false, map.getWidth()/4,map.getHeight()/4 * height/(map.getHeight()/4));
         viewp = new FillViewport(width,height);
-
-        //map
-        mapLoader = new TmxMapLoader();
-        map = mapLoader.load("Mapa1.tmx");
-        renderer = new OrthogonalTiledMapRenderer(map,1);
-        world = new World(new Vector2(0,0), true);
-        b2dr = new Box2DDebugRenderer();
-        map_width = (int)(((TiledMapTileLayer)map.getLayers().get(0)).getWidth() *  ((TiledMapTileLayer)map.getLayers().get(0)).getTileWidth());
-        map_height = (int)(((TiledMapTileLayer)map.getLayers().get(0)).getHeight() *  ((TiledMapTileLayer)map.getLayers().get(0)).getTileHeight());
-        cam.position.set(map_width/2, map_height/2,0);
+        cam.position.set(map.getWidth()/2, map.getHeight()/2, 0);
 
         stage = new Stage(viewp);
         stage.clear();
@@ -100,8 +81,6 @@ public class Play extends State {
         style = new ImageButton.ImageButtonStyle();
 
 
-
-
         touchpadStyle = new Touchpad.TouchpadStyle();
         //Create Drawable's from TouchPad skin
         touchBackground = skin.getDrawable("Joystick");
@@ -112,104 +91,65 @@ public class Play extends State {
         //Create new TouchPad with the created style
         touchpad = new Touchpad(10, touchpadStyle);
         //setBounds(x,y,width,height)
-        touchpad.setBounds(15, 15, 200, 200);
+        touchpad.setBounds(15, 15,height/3, height/3);
         stage.addActor(touchpad);
-
-
-        /*
-        style = new ImageButton.ImageButtonStyle();
-        style.up = skin.getDrawable("Joystick");
-        style.down = skin.getDrawable("Joystickp");
-        joystick = new ImageButton(style);
-        joystick.setPosition(joystick.getWidth() / 4, joystick.getHeight() / 8);
-        stage.addActor(joystick);*/
 
         style = new ImageButton.ImageButtonStyle();
         style.up = skin.getDrawable("Shoot");
         style.down = skin.getDrawable("Shootp");
         shootButton = new ImageButton(style);
-        shootButton.setPosition(width - shootButton.getWidth() * 3 / 2, shootButton.getHeight() / 3);
+        shootButton.setWidth(height/5);
+        shootButton.setHeight(height / 5);
+        shootButton.setPosition(viewp.getScreenWidth() - shootButton.getWidth() -15, 15);
         stage.addActor(shootButton);
 
         style = new ImageButton.ImageButtonStyle();
         style.up = skin.getDrawable("A");
         style.down = skin.getDrawable("Ap");
         aButton = new ImageButton(style);
-        aButton.setPosition(width - aButton.getWidth() * 8 / 3, aButton.getHeight() / 3);
+        aButton.setWidth(height/5);
+        aButton.setHeight(height / 5);
+        aButton.setPosition(viewp.getScreenWidth() - aButton.getWidth() * 2 - 30, 15);
         stage.addActor(aButton);
 
         style = new ImageButton.ImageButtonStyle();
         style.up = skin.getDrawable("B");
         style.down = skin.getDrawable("Bp");
         bButton = new ImageButton(style);
-        bButton.setPosition(width - bButton.getWidth() * 3 / 2, bButton.getHeight() * 3 / 2);
+        bButton.setWidth(height/5);
+        bButton.setHeight(height / 5);
+        bButton.setPosition(viewp.getScreenWidth() - bButton.getWidth() - 15, bButton.getHeight() + 30);
         stage.addActor(bButton);
 
         style = new ImageButton.ImageButtonStyle();
         style.up = skin.getDrawable("Play");
         style.down = skin.getDrawable("Pause");
         playButton = new ImageButton(style);
-        playButton.setPosition(width / 2 - playButton.getWidth() / 2, height - playButton.getHeight() * 4 / 3);
+        playButton.setWidth(height/8);
+        playButton.setHeight(height / 8);
+        playButton.setPosition(viewp.getScreenWidth() / 2 - playButton.getWidth() / 2, viewp.getScreenHeight() - playButton.getHeight() * 4 / 3);
         stage.addActor(playButton);
 
         style = new ImageButton.ImageButtonStyle();
         style.up = skin.getDrawable("Sound");
         style.down = skin.getDrawable("Mute");
         soundButton = new ImageButton(style);
-        soundButton.setPosition(soundButton.getWidth() * 2/3, height - soundButton.getHeight() * 4 / 3);
+        soundButton.setWidth(height/8);
+        soundButton.setHeight(height / 8);
+        soundButton.setPosition(soundButton.getWidth() * 2 / 3, viewp.getScreenHeight() - soundButton.getHeight() * 4 / 3);
         stage.addActor(soundButton);
 
         style = new ImageButton.ImageButtonStyle();
         style.up = skin.getDrawable("Back");
         backButton = new ImageButton(style);
-        backButton.setPosition(width - backButton.getWidth()*5/3, height - backButton.getHeight()* 4/3);
+        backButton.setWidth(height/8);
+        backButton.setHeight(height / 8);
+        backButton.setPosition(viewp.getScreenWidth() - backButton.getWidth()*5/3, viewp.getScreenHeight() - backButton.getHeight()* 4/3);
         stage.addActor(backButton);
-
-
-
-
     }
 
     @Override
     public void handleInput() {
-
-       /** joystick.addListener(new InputListener() {
-            @Override
-            public void touchUp(InputEvent event, float x, float y,
-                                int pointer, int button) {
-                boolean touchdown=true;
-                //do your stuff
-                //it will work when finger is released..
-
-            }
-            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                boolean touchdown=true;
-                float deltax = x - (joystick.getX() / 2 + joystick.getWidth() / 2);
-                float deltay = y - (joystick.getY() / 2 + joystick.getHeight() / 2);
-
-                if (Math.abs(deltax) > Math.abs(deltay)) {
-                    if (deltax > 0){
-                        cam.translate(0.01f, 0);
-                        game.movePlayer(0.01f, 0);
-                    }
-                    else{
-                        cam.translate(-0.01f,0);
-                        game.movePlayer(-0.01f, 0);
-                    }
-
-                } else if (Math.abs(deltax) < Math.abs(deltay)) {
-                    if (deltay > 0){
-                        cam.translate(0, 0.01f);
-                        game.movePlayer(0, 0.01f);
-                    }
-                    else {
-                        cam.translate(0, -0.01f);
-                        game.movePlayer(0, -0.01f);
-                    }
-                }
-                return false;
-            }
-        });*/
         backButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -217,16 +157,12 @@ public class Play extends State {
                 dispose();
             }
         });
-
-
-
-
     }
 
     @Override
     public void update(float delta_time){
         super.update(delta_time);
-        world.step(1/60f,6,2);
+      //  world.step(1/60f,6,2);
 
         game.movePlayer(touchpad.getKnobPercentX()*4f,touchpad.getKnobPercentY()*4f);
         cam.position.x =   (int) game.getPlayer().getX();
@@ -234,27 +170,17 @@ public class Play extends State {
 
 
         cam.update();
-        renderer.setView(cam);
+       // renderer.setView(cam);
     }
 
     @Override
     public void render(SpriteBatch batch){
         cam.update();
         batch.setProjectionMatrix(cam.combined);
-        /*batch.begin();
-        batch.draw(background, 0, 0);
-        batch.end();*/
 
-        //MOVES
-       // if(!(cam.position.x - cam.viewportWidth/2 + touchpad.getKnobPercentX()*3  < 0 || cam.position.y -cam.viewportHeight/2 + touchpad.getKnobPercentY()*3< 0 || cam.position.x + cam.viewportWidth/2 + touchpad.getKnobPercentX()*3> map_width|| cam.position.y  + touchpad.getKnobPercentY()*3 + cam.viewportHeight/2>= map_height))
-         //       cam.translate(touchpad.getKnobPercentX()*3,touchpad.getKnobPercentY()*3);
-
-        //
-        renderer.render();
-
-
-        //rederer B2D
-        b2dr.render(world, cam.combined);
+        batch.begin();
+        batch.draw(map, 0, 0,map.getWidth(),map.getHeight());
+        batch.end();
 
         game.draw(batch);
         stage.draw();
@@ -264,7 +190,9 @@ public class Play extends State {
     public void dispose(){
         skin.dispose();
         ButtonsPack.dispose();
-        background.dispose();
+       // background.dispose();
         stage.dispose();
     }
 }
+
+

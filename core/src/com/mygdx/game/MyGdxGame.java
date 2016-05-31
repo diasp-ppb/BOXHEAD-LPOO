@@ -9,8 +9,6 @@ import com.mygdx.game.States.GameStateManager;
 import com.mygdx.game.States.Menu;
 
 public class MyGdxGame extends ApplicationAdapter {
-    public float screen_width =1000;// Gdx.app.getGraphics().getWidth();
-    public float screen_height =800;// Gdx.app.getGraphics().getHeight();
 
 	public static final String GameTitle = "Apocalypse";
 	private GameStateManager stateManager;
