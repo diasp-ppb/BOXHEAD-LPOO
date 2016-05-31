@@ -11,7 +11,7 @@ public class Bullet extends Sprite {
     private Vector2 direction;
     private int damage;
 
-    public void Bullet(Vector2 direction , int damage, String texture){
+    public Bullet(Vector2 direction , int damage, String texture){
         this.direction = direction;
         this.damage = damage;
         super.setTexture(new Texture(texture));

@@ -15,8 +15,12 @@ public class Game{
     private ArrayList<Enemy> enemies= new ArrayList<Enemy>();
     private ArrayList<Bullet> bullets= new ArrayList<Bullet>();
     private Player player = new Player();
+    private int width_world;
+    private int height_world;
 
-    public void Game(){
+    public Game(int map_width, int map_height){
+        width_world = map_width;
+        height_world = map_height;
         level = 1;
         score = 0;
     }
@@ -65,7 +69,7 @@ public class Game{
         for(int j = 0; j < enemies.size();j++){
             batch.draw(enemies.get(j).getTexture(),enemies.get(j).getX(),enemies.get(j).getY());
         }
-        batch.draw(player.getTexture(),player.getX(),player.getY(),player.getWidth()/2,player.getHeight()/2);
+        batch.draw(player.getTexture(),player.getX(),player.getY(),player.getTexture().getWidth(),player.getTexture().getHeight());
         batch.end();
     }
 

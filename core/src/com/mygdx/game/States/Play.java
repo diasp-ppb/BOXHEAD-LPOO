@@ -70,16 +70,15 @@ public class Play extends State {
         Gdx.input.setInputProcessor(stage);
 
         //Game
-        game = new Game();
+        game = new Game(map.getWidth(),map.getHeight());
         game.getPlayer().setSize(game.getPlayer().getWidth()/2,game.getPlayer().getHeight()/2);
-        game.getPlayer().setPosition(cam.viewportWidth/2,cam.viewportHeight/2);
+        game.getPlayer().setPosition(map.getWidth()/2, map.getHeight()/2);
 
         //buttons
         ButtonsPack = new TextureAtlas("PlayButtons.atlas");        //pack de botões
         skin = new Skin();                                      //skin de botão
         skin.addRegions(ButtonsPack);
         style = new ImageButton.ImageButtonStyle();
-
 
         touchpadStyle = new Touchpad.TouchpadStyle();
         //Create Drawable's from TouchPad skin
@@ -164,9 +163,8 @@ public class Play extends State {
         super.update(delta_time);
       //  world.step(1/60f,6,2);
 
-        game.movePlayer(touchpad.getKnobPercentX()*4f,touchpad.getKnobPercentY()*4f);
-        cam.position.x =   (int) game.getPlayer().getX();
-        cam.position.y =   (int) game.getPlayer().getY();
+        joystyckMove();
+
 
 
         cam.update();
@@ -179,7 +177,7 @@ public class Play extends State {
         batch.setProjectionMatrix(cam.combined);
 
         batch.begin();
-        batch.draw(map, 0, 0,map.getWidth(),map.getHeight());
+        batch.draw(map, 0, 0, map.getWidth(), map.getHeight());
         batch.end();
 
         game.draw(batch);
@@ -192,6 +190,23 @@ public class Play extends State {
         ButtonsPack.dispose();
        // background.dispose();
         stage.dispose();
+    }
+
+    public void joystyckMove(){
+        double x_init = cam.position.x - cam.viewportWidth/2 + touchpad.getKnobPercentX()*5f;
+        double y_init = cam.position.y - cam.viewportHeight/2 + touchpad.getKnobPercentY()*5f;
+        double x_fin = cam.position.x + cam.viewportWidth/2 + touchpad.getKnobPercentX()*5f;
+        double y_fin = cam.position.y + cam.viewportHeight/2 + touchpad.getKnobPercentY()*5f;
+
+        if(x_init >= 0 && x_fin <= map.getWidth()){
+            game.movePlayer(touchpad.getKnobPercentX()*5f, 0);
+
+            cam.position.x += touchpad.getKnobPercentX()*5f;
+        }
+        if(y_init >= 0 && y_fin <= map.getHeight()){
+            game.movePlayer(0, touchpad.getKnobPercentY() * 5f);
+            cam.position.y += touchpad.getKnobPercentY()*5f;
+        }
     }
 }
 
