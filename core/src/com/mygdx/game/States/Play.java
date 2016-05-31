@@ -90,7 +90,7 @@ public class Play extends State {
         //Create new TouchPad with the created style
         touchpad = new Touchpad(10, touchpadStyle);
         //setBounds(x,y,width,height)
-        touchpad.setBounds(15, 15,height/3, height/3);
+        touchpad.setBounds(30, 30,height/3, height/3);
         stage.addActor(touchpad);
 
         style = new ImageButton.ImageButtonStyle();
