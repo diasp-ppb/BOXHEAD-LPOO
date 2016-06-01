@@ -92,6 +92,8 @@ public class Game{
     }
 
     public void update(){
+        bulletsEnemiesColision();
+        playerEnemiesColision();
         for(int i = 0;i < bullets.size();i++){
             bullets.get(i).incPosition();
             if(!map.contains(bullets.get(i).getBoundingRectangle()) || bullets.get(i).outOfRange()) {
