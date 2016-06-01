@@ -3,7 +3,7 @@ package com.mygdx.game.logic;
 import java.util.Vector;
 
 
-public class Weapon extends Item {
+public class Weapon{
     private int damage;
 
     public Weapon(){};
@@ -17,8 +17,4 @@ public class Weapon extends Item {
         return damage;
     }
 
-    @Override
-    public void useItem(Vector<Integer> direction){
-        //Colisões até intersectar algo
-    };
 }

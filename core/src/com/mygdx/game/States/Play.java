@@ -21,6 +21,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.mygdx.game.logic.Enemy;
 import com.mygdx.game.logic.Game;
 
 /**
@@ -55,6 +56,8 @@ public class Play extends State {
 
     //game
     private Game game;
+    private World world;
+    private Box2DDebugRenderer b2render;
 
 
     public Play(GameStateManager manager) {
@@ -70,8 +73,14 @@ public class Play extends State {
         Gdx.input.setInputProcessor(stage);
 
         //Game
-        game = new Game(map.getWidth(),map.getHeight());
-        game.getPlayer().setSize(game.getPlayer().getWidth()/2,game.getPlayer().getHeight()/2);
+        world = new World(new Vector2(0,0),true);
+
+        game = new Game(map.getWidth(),map.getHeight(),world);
+        Enemy e = new Enemy(10,10,world);
+        e.setPosition(map.getWidth()/2 + 200,map.getHeight()/2);
+        game.addEnemy(e);
+        b2render = new Box2DDebugRenderer();
+
         game.getPlayer().setPosition(map.getWidth()/2, map.getHeight()/2);
 
         //buttons
@@ -167,7 +176,7 @@ public class Play extends State {
     @Override
     public void update(float delta_time){
         super.update(delta_time);
-      //  world.step(1/60f,6,2);
+        world.step(1 / 60f, 6, 2);
         game.update();
         joystyckMove();
         cam.update();
@@ -182,8 +191,9 @@ public class Play extends State {
         batch.begin();
         batch.draw(map, 0, 0, map.getWidth(), map.getHeight());
         batch.end();
-
+       // b2render.render(world, cam.combined);
         game.draw(batch);
+
         stage.draw();
     }
 
