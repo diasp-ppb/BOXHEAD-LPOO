@@ -70,17 +70,17 @@ public class Play extends State {
                 game.shoot();
             }
         });
+        hud.getaButton().clearListeners();
         hud.getaButton().addListener((ClickListener) new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 game.nextWeapon();
             }
         });
-
+        hud.getbButton().clearListeners();
         hud.getbButton().addListener((ClickListener) new ClickListener() {
-            @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.nextWeapon();
+                game.reloadWeapon();
             }
         });
 

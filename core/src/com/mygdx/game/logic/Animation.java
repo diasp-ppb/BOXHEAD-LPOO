@@ -12,6 +12,7 @@ public class Animation {
     private float currentFrameTime;
     private int frameCount;
     private int frame;
+    public double animationcicle;
 
     public Animation(TextureRegion region, int frameCount, float cycletime)
     {
@@ -35,11 +36,23 @@ public class Animation {
         if (currentFrameTime > maxFramesTime) {
             frame++;
             currentFrameTime = 0;
+
         }
         if(frame >= frameCount)
+        {
             frame = 0;
+            animationcicle ++;
+        }
     }
     public TextureRegion getFrame(){
         return frames.get(frame);
+    }
+
+
+    public double getAnimationCount () {return animationcicle;}
+    public void resetAnimation(){
+        frame = 0;
+        animationcicle = 0;
+        currentFrameTime = 0;
     }
 }

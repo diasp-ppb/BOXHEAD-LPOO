@@ -12,8 +12,9 @@ public class Player extends Character {
     private int inUseIndex;
 
     private Animation walk;
-
-
+    private Animation idle;
+    private boolean move = false;
+    private double AnimationclycleCount;
 
     public Player(){
         super(100,2);
@@ -40,6 +41,7 @@ public class Player extends Character {
     @Override
     public void loadAnimations() {
         walk = new Animation(new TextureRegion(new Texture("walk.png")),20,0.10f);
+        idle = new Animation(new TextureRegion(new Texture("idle_player.png")),1,0.5f);
     }
 
     public void nextWeapon(){
@@ -81,24 +83,36 @@ public class Player extends Character {
         TextureRegion temp = bag.get(inUseIndex).getFrame();
 
         if (inUseIndex  == 0) {
-            batch.draw(legs,(float)(legsOffsetX + getX() - legs.getRegionWidth()*0.5f),(float)(legsOffsetY + getY() - legs.getRegionHeight()*0.5f),
+
+            if(move)
+            batch.draw(legs,(float)(getWidth()/2+ legsOffsetX + getX() - legs.getRegionWidth()*0.5f),(float)(getHeight()/2 +legsOffsetY + getY() - legs.getRegionHeight()*0.5f),
                     legs.getRegionWidth()*0.5f, legs.getRegionHeight()*0.5f,
                     legs.getRegionWidth(), legs.getRegionHeight(),scale,scale,Rotation);
-            batch.draw(temp,(float)( getX() - temp.getRegionWidth() * 0.5f),(float)( getY() - temp.getRegionHeight() * 0.5f),
+            else
+                batch.draw(idle.getFrame(),(float)(getWidth()/2+ legsOffsetX + getX() - legs.getRegionWidth()*0.5f),(float)(getHeight()/2 +legsOffsetY + getY() - legs.getRegionHeight()*0.5f),
+                        legs.getRegionWidth()*0.5f, legs.getRegionHeight()*0.5f,
+                        legs.getRegionWidth(), legs.getRegionHeight(),scale,scale,Rotation);
+            batch.draw(temp,(float)( getWidth()/2+ getX() - temp.getRegionWidth() * 0.5f),(float)(getHeight()/2 + getY() - temp.getRegionHeight() * 0.5f),
                     temp.getRegionWidth() * 0.5f, temp.getRegionHeight() * 0.5f,
                     temp.getRegionWidth(), temp.getRegionHeight(), scale, scale, Rotation);
         }
         else if (inUseIndex == 1) {
-            float offsetX = 20* MathUtils.cosDeg(Rotation);
-            float offsetY = 20* MathUtils.sinDeg(Rotation);
+            float cos = MathUtils.cosDeg(Rotation);
+            float sin = MathUtils.sinDeg(Rotation);
+            float offsetX = 20* cos;
+            float offsetY = 20* sin;
 
-            legsOffsetX = offsetX;
-            legsOffsetY = offsetY;
-
-            batch.draw(legs,(float)(legsOffsetX + getX() - legs.getRegionWidth()*0.5f),(float)(legsOffsetY + getY() - legs.getRegionHeight()*0.5f),
+            legsOffsetX = 10 * cos;
+            legsOffsetY = 10* sin;
+            if(move)
+            batch.draw(legs,(float)(legsOffsetX +getWidth()/2+ getX() - legs.getRegionWidth()*0.5f),(float)(getHeight()/2 + getY() - legs.getRegionHeight()*0.5f),
                     legs.getRegionWidth()*0.5f, legs.getRegionHeight()*0.5f,
                     legs.getRegionWidth(), legs.getRegionHeight(),scale,scale,Rotation);
-            batch.draw(temp,(float)(offsetX + getX() - temp.getRegionWidth() *0.5f), (float)(offsetY + getY() - temp.getRegionHeight()  *0.5f),
+            else
+                batch.draw(idle.getFrame(),(float)(legsOffsetX +getWidth()/2+  getX() - legs.getRegionWidth()*0.5f),(float)(getHeight()/2 +legsOffsetY + getY() - legs.getRegionHeight()*0.5f),
+                        legs.getRegionWidth()*0.5f, legs.getRegionHeight()*0.5f,
+                        legs.getRegionWidth(), legs.getRegionHeight(),scale,scale,Rotation);
+            batch.draw(temp,(float)(offsetX +getWidth()/2+  getX() - temp.getRegionWidth() *0.5f), (float)(getHeight()/2 +offsetY + getY() - temp.getRegionHeight()  *0.5f),
                     temp.getRegionWidth()*0.5f,temp.getRegionHeight()*0.5f,
                     temp.getRegionWidth(), temp.getRegionHeight(),scale,scale,Rotation);
         }
@@ -107,8 +121,22 @@ public class Player extends Character {
 
     public void update(float dt)
     {
+        if(move)
         walk.update(dt);
+
         bag.get(inUseIndex).current_anim.update(dt);
+
+        if(bag.get(inUseIndex).current_anim.getAnimationCount() >= 1)
+        {
+            bag.get(inUseIndex).current_anim.resetAnimation();
+            idleAnimation();
+
+        }
+        if(walk.getAnimationCount() >= 1)
+        {
+            walk.resetAnimation();
+            move = false;
+        }
     }
 
 
@@ -136,9 +164,28 @@ public class Player extends Character {
     }
 
     public void rechargeWeapons(int level){
+
+
         for(int i = 0; i < bag.size(); i++){
             bag.get(i).recharge(level);
         }
+    }
+    public void attackAnimation()
+    {
+        bag.get(inUseIndex).setAnimation('a');
+    }
+    public void reloadAnimation()
+    {
+        bag.get(inUseIndex).setAnimation('r');
+    }
+
+    public void idleAnimation()
+    {
+        bag.get(inUseIndex).setAnimation('i');
+    }
+    public void moveAnimation()
+    {
+        move = true;
     }
 
 }

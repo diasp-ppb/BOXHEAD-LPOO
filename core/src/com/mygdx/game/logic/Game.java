@@ -43,6 +43,9 @@ public class Game {
         double x_fin = player.getX() + player.sprite.getWidth() + x * player.velocity;
         double y_fin = player.getY() + player.sprite.getHeight() + y * player.velocity;
 
+        if(x != 0 || y != 0)
+            player.moveAnimation();
+
         Vector2 res = new Vector2(0,0);
         if(x_init >= 0 && x_fin <= map.getWidth()){
             player.addPosition(x*player.velocity, 0);
@@ -107,6 +110,7 @@ public class Game {
         Bullet bullet = new Bullet(player.getDirection(), 10, bullet_text); //dir, vel , text
         bullet.setPosition(player.sprite.getX() + player.sprite.getWidth()/2-bullet.getWidth()/2, player.sprite.getY() + player.sprite.getHeight()/2 - bullet.getHeight()/2);
         bullets.add(bullet);
+        player.attackAnimation();
     }
 
     public void addEnemy(Enemy e) {
@@ -149,11 +153,9 @@ public class Game {
         else
             player.setInUse(inUse+1);
     }
-
-    public void simpleAttack(){
-        player.setWeaponBehavior('a');
+    public void reloadWeapon(){
+        player.reloadAnimation();
     }
-
 
 
 }
