@@ -95,11 +95,11 @@ public class Player extends Character {
         else if (inUseIndex == 1) {
             float cos = MathUtils.cosDeg(Rotation);
             float sin = MathUtils.sinDeg(Rotation);
-            float offsetX = 20* cos;
-            float offsetY = 20* sin;
+            float offsetX = 10* cos;
+            float offsetY = 10* sin;
 
-            legsOffsetX = 10 * cos;
-            legsOffsetY = 10* sin;
+            legsOffsetX = 0;//10 * cos;
+            legsOffsetY = 0;//10* sin;
             if(move)
             batch.draw(legs,(float)(legsOffsetX +getWidth()/2+ getX() - legs.getRegionWidth()*0.5f),(float)(getHeight()/2 + getY() - legs.getRegionHeight()*0.5f),
                     legs.getRegionWidth()*0.5f, legs.getRegionHeight()*0.5f,
