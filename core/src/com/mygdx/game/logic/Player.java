@@ -69,14 +69,10 @@ public class Player extends Character {
         float scale = 0.5f;
         TextureRegion legs = getFrame();
 
-
         float Rotation = MathUtils.atan2(direction.y,direction.x)* MathUtils.radiansToDegrees;;
-
 
         float legsOffsetX = 0;
         float legsOffsetY = 0;
-
-
 
         TextureRegion temp = bag.get(inUseIndex).getFrame();
 
