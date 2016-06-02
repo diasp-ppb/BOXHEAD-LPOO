@@ -12,7 +12,6 @@ import com.badlogic.gdx.physics.box2d.World;
 public class Enemy extends Sprite{
     int damage;
     int life;
-
     private World world;
     public Body body2d;
 
@@ -36,16 +35,19 @@ public class Enemy extends Sprite{
         //Body definition
         bdef = new BodyDef();
         bdef.position.set(getX(),getY());
-        bdef.type = BodyDef.BodyType.KinematicBody;
+        bdef.type = BodyDef.BodyType.DynamicBody;
 
         body2d = world.createBody(bdef);
 
         fixdef = new FixtureDef();
         shape = new PolygonShape();
         shape.setAsBox(100 / 2, 100 / 2);//tmp
-
         fixdef.shape = shape;
         body2d.createFixture(fixdef);
+
+        //body2d.setUserData(this);
+
+        //shape.dispose();
     }
 
     public void setLife(int life){

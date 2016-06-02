@@ -4,21 +4,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Contact;
-import com.badlogic.gdx.physics.box2d.ContactImpulse;
-import com.badlogic.gdx.physics.box2d.ContactListener;
-import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.World;
 
 import java.util.ArrayList;
 
-import javax.swing.text.Position;
 
-/**
- * Created by Catarina Ramos on 29/05/2016.
- */
+
 public class Game {
     private int level;
     private int score;
@@ -28,6 +19,9 @@ public class Game {
     private Rectangle map;
     private World world;
 
+    final short PLAYER_CAT = 0x0;
+    final short BULLET_CAT = 0x1;
+    final short ZOMBIE_CAT = 0x1 << 1;
 
     private Texture bullet_text;
 
@@ -50,6 +44,7 @@ public class Game {
 
     public void movePlayer(float x, float y) {
         player.setPosition(player.getX() + x, player.getY() + y);
+        //player.body2d.applyForceToCenter(4f,4f,true);
        /* if(x != 0 || y != 0)
             player.setDirection(new Vector2(x/(Math.abs(x) + Math.abs(y)),y/(Math.abs(x) + Math.abs(y))));*/
     }
@@ -86,13 +81,13 @@ public class Game {
 
     public void draw(SpriteBatch batch) {
         batch.begin();
-        for (int i = 0; i < bullets.size(); i++) {
+       /* for (int i = 0; i < bullets.size(); i++) {
             batch.draw(bullet_text, bullets.get(i).getX()-5, bullets.get(i).getY()-5,10,10);
         }
         for (int j = 0; j < enemies.size(); j++) {
             batch.draw(enemies.get(j).getTexture(), enemies.get(j).getX() - 50, enemies.get(j).getY() - 50, 100, 100);
         }
-        batch.draw(player.getTexture(), player.getX() - 50, player.getY() - 50, 100, 100);  //substituir por width e height
+        batch.draw(player.getTexture(), player.getX() - 50, player.getY() - 50, 100, 100);  //substituir por width e height*/
         batch.end();
     }
 
@@ -129,33 +124,5 @@ public class Game {
 
     public void dispose(){
         bullet_text.dispose();
-    }
-
-    private void createCollisionListener() {
-        world.setContactListener(new ContactListener() {
-
-            @Override
-            public void beginContact(Contact contact) {
-                Fixture fixtureA = contact.getFixtureA();
-                Fixture fixtureB = contact.getFixtureB();
-                Gdx.app.log("beginContact", "between " + fixtureA.toString() + " and " + fixtureB.toString());
-            }
-
-            @Override
-            public void endContact(Contact contact) {
-                Fixture fixtureA = contact.getFixtureA();
-                Fixture fixtureB = contact.getFixtureB();
-                Gdx.app.log("endContact", "between " + fixtureA.toString() + " and " + fixtureB.toString());
-            }
-
-            @Override
-            public void preSolve(Contact contact, Manifold oldManifold) {
-            }
-
-            @Override
-            public void postSolve(Contact contact, ContactImpulse impulse) {
-            }
-
-        });
     }
 }

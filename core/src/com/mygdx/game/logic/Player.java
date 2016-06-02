@@ -5,7 +5,8 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
@@ -17,7 +18,6 @@ public class Player extends Sprite {
     private Vector2 direction;
     private int life;
     private int damage = 1; //init
-
     private World world;
     public Body body2d;
 
@@ -29,7 +29,6 @@ public class Player extends Sprite {
         damage = 1;
         super.setPosition(0, 0);
         super.setTexture(new Texture("play.png")); //teste
-
         this.world = world;
         definePlayer();
     }
@@ -37,21 +36,25 @@ public class Player extends Sprite {
     public void definePlayer(){
         FixtureDef fixdef;
         BodyDef bdef;
-        PolygonShape shape;
+        CircleShape shape;
 
         //Body definition
         bdef = new BodyDef();
         bdef.position.set(getX(),getY());
-        bdef.type = BodyDef.BodyType.KinematicBody;
+        bdef.fixedRotation = false;     //para poder rodar
+        bdef.type = BodyDef.BodyType.DynamicBody;
 
         body2d = world.createBody(bdef);
 
         fixdef = new FixtureDef();
-        shape = new PolygonShape();
-        shape.setAsBox(100 / 2, 100 / 2);//tmp
-
+        shape = new CircleShape();
+        shape.setRadius(100 / 2);
         fixdef.shape = shape;
         body2d.createFixture(fixdef);
+
+        //body2d.setUserData(this);
+
+        //shape.dispose(); //importante
     }
 
     public void setLife(int life){
@@ -88,6 +91,4 @@ public class Player extends Sprite {
         super.getTexture().dispose();
         world.destroyBody(body2d);
     }
-
-
 }

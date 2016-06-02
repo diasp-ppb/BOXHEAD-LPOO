@@ -4,15 +4,15 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.Contact;
+import com.badlogic.gdx.physics.box2d.ContactImpulse;
+import com.badlogic.gdx.physics.box2d.ContactListener;
+import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -62,9 +62,9 @@ public class Play extends State {
 
     public Play(GameStateManager manager) {
         super(manager);
-        map = new Texture("Mapa2.png");
+        map = new Texture("map.jpg");
 
-        super.cam.setToOrtho(false, map.getWidth()/4,map.getHeight()/4 * height/(map.getHeight()/4));
+        super.cam.setToOrtho(false, width/2,height/2);
         viewp = new FillViewport(width,height);
         cam.position.set(map.getWidth()/2, map.getHeight()/2, 0);
 
@@ -74,12 +74,15 @@ public class Play extends State {
 
         //Game
         world = new World(new Vector2(0,0),true);
+        b2render = new Box2DDebugRenderer();
 
         game = new Game(map.getWidth(),map.getHeight(),world);
         Enemy e = new Enemy(10,10,world);
-        e.setPosition(map.getWidth()/2 + 200,map.getHeight()/2);
+        e.setPosition(map.getWidth() / 2 + 200, map.getHeight() / 2);
         game.addEnemy(e);
-        b2render = new Box2DDebugRenderer();
+
+
+
 
         game.getPlayer().setPosition(map.getWidth()/2, map.getHeight()/2);
 
@@ -176,8 +179,9 @@ public class Play extends State {
     @Override
     public void update(float delta_time){
         super.update(delta_time);
-        world.step(1 / 60f, 6, 2);
+        world.step(Gdx.graphics.getDeltaTime(), 6, 2);
         game.update();
+
         joystyckMove();
         cam.update();
        // renderer.setView(cam);
@@ -191,7 +195,8 @@ public class Play extends State {
         batch.begin();
         batch.draw(map, 0, 0, map.getWidth(), map.getHeight());
         batch.end();
-       // b2render.render(world, cam.combined);
+
+        b2render.render(world, cam.combined);
         game.draw(batch);
 
         stage.draw();
@@ -213,11 +218,11 @@ public class Play extends State {
         double y_fin = cam.position.y + cam.viewportHeight/2 + touchpad.getKnobPercentY()*5f;
 
         if(x_init >= 0 && x_fin <= map.getWidth()){
-            game.movePlayer(touchpad.getKnobPercentX() * 5f, 0);
+            game.movePlayer(touchpad.getKnobPercentX()*5f, 0);
             cam.position.x += touchpad.getKnobPercentX()*5f;
         }
         if(y_init >= 0 && y_fin <= map.getHeight()){
-            game.movePlayer(0, touchpad.getKnobPercentY() * 5f);
+            game.movePlayer(0, touchpad.getKnobPercentY()*5f);
             cam.position.y += touchpad.getKnobPercentY()*5f;
         }
         if(touchpad.getKnobPercentX() != 0 || touchpad.getKnobPercentY() != 0)

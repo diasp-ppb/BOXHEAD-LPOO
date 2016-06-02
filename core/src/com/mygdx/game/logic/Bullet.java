@@ -39,13 +39,13 @@ public class Bullet extends Sprite {
         //Body definition
         bdef = new BodyDef();
         bdef.position.set(getX(),getY());
-        bdef.type = BodyDef.BodyType.KinematicBody;
+        bdef.type = BodyDef.BodyType.DynamicBody;
 
         body2d = world.createBody(bdef);
 
         fixdef = new FixtureDef();
         shape = new PolygonShape();
-        shape.setAsBox(5,5);//width/2,height/2
+        shape.setAsBox(5,5);
 
         fixdef.shape = shape;
         body2d.createFixture(fixdef);
