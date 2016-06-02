@@ -68,11 +68,13 @@ public class Player extends Character {
     public void draw(SpriteBatch batch) {
         float scale = 0.5f;
         TextureRegion legs = getFrame();
+
+
         float Rotation = MathUtils.atan2(direction.y,direction.x)* MathUtils.radiansToDegrees;;
 
 
-        int legsOffsetX = 0;
-        int legsOffsetY = 0;
+        float legsOffsetX = 0;
+        float legsOffsetY = 0;
 
 
 
@@ -87,13 +89,16 @@ public class Player extends Character {
                     temp.getRegionWidth(), temp.getRegionHeight(), scale, scale, Rotation);
         }
         else if (inUseIndex == 1) {
-            int offsetX = 20;
-            legsOffsetX = 20;
+            float offsetX = 20* MathUtils.cosDeg(Rotation);
+            float offsetY = 20* MathUtils.sinDeg(Rotation);
+
+            legsOffsetX = offsetX;
+            legsOffsetY = offsetY;
 
             batch.draw(legs,(float)(legsOffsetX + getX() - legs.getRegionWidth()*0.5f),(float)(legsOffsetY + getY() - legs.getRegionHeight()*0.5f),
                     legs.getRegionWidth()*0.5f, legs.getRegionHeight()*0.5f,
                     legs.getRegionWidth(), legs.getRegionHeight(),scale,scale,Rotation);
-            batch.draw(temp,(float)(offsetX + getX() - temp.getRegionWidth() *0.5f), (float)(getY() - temp.getRegionHeight()  *0.5f),
+            batch.draw(temp,(float)(offsetX + getX() - temp.getRegionWidth() *0.5f), (float)(offsetY + getY() - temp.getRegionHeight()  *0.5f),
                     temp.getRegionWidth()*0.5f,temp.getRegionHeight()*0.5f,
                     temp.getRegionWidth(), temp.getRegionHeight(),scale,scale,Rotation);
         }
