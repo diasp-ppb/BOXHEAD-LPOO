@@ -2,6 +2,7 @@ package com.mygdx.game.logic;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -13,68 +14,34 @@ import com.badlogic.gdx.physics.box2d.World;
  * Created by Catarina Ramos on 29/05/2016.
  */
 public class Bullet extends Sprite {
-    private Vector2 direction;
     private int damage;
     private final int velocity = 40;
     private int range;
+    private Vector2 direction;
 
-    private World world;
-    public Body body2d;
-
-    public Bullet(Vector2 direction , int damage,Texture text,World world){
-        this.direction = direction;
+    public Bullet(Vector2 direction , int damage,Texture text){
         this.damage = damage;
+        this.direction = direction;
         super.setTexture(text);
-        range = 10; //temp
-
-        this.world = world;
-        defineBullet();
-    }
-
-    public void defineBullet(){
-        FixtureDef fixdef;
-        BodyDef bdef;
-        PolygonShape shape;
-
-        //Body definition
-        bdef = new BodyDef();
-        bdef.position.set(getX(),getY());
-        bdef.type = BodyDef.BodyType.DynamicBody;
-
-        body2d = world.createBody(bdef);
-
-        fixdef = new FixtureDef();
-        shape = new PolygonShape();
-        shape.setAsBox(5,5);
-
-        fixdef.shape = shape;
-        body2d.createFixture(fixdef);
+        setBounds(getX(),getY(),30,30);
+        range = 15; //temp
     }
 
     public final int getDamage(){
         return damage;
     }
 
-    public final Vector2 getDirection(){
-        return direction;
-    }
-
-    public void incPosition(){
-        setPosition(getX() + velocity * direction.x, getY() + velocity * direction.y);
-        range--;
-    }
-
     public boolean outOfRange(){
         return (range <= 0);
     }
 
-    @Override
-    public void setPosition(float x, float y){
-        super.setPosition(x,y);
-        body2d.setTransform(x,y,0);
+    public void incPosition(){
+        setPosition(direction.x*velocity + getX(),direction.y*velocity + getY());
+        range--;
     }
 
-    public void dispose(){
-        world.destroyBody(body2d);
+    public void draw(SpriteBatch batch, double width, double height){
+        setBounds((float) getX(), (float) getY(), (float) width, (float) height);
+        batch.draw(getTexture(), getX(), getY(), (float) width, (float) height);
     }
 }

@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 
 import java.util.ArrayList;
@@ -17,18 +18,11 @@ public class Game {
     private ArrayList<Bullet> bullets = new ArrayList<Bullet>();
     private Player player;
     private Rectangle map;
-    private World world;
-
-    final short PLAYER_CAT = 0x0;
-    final short BULLET_CAT = 0x1;
-    final short ZOMBIE_CAT = 0x1 << 1;
-
     private Texture bullet_text;
 
-    public Game(int map_width, int map_height, World world) {
+    public Game(int map_width, int map_height) {
         map = new Rectangle(0, 0, map_width, map_height);
-        this.world = world;
-        player = new Player(world);
+        player = new Player();
         bullet_text = new Texture("play.png");
         level = 1;
         score = 0;
@@ -42,23 +36,38 @@ public class Game {
         return player;
     }
 
-    public void movePlayer(float x, float y) {
-        player.setPosition(player.getX() + x, player.getY() + y);
-        //player.body2d.applyForceToCenter(4f,4f,true);
-       /* if(x != 0 || y != 0)
-            player.setDirection(new Vector2(x/(Math.abs(x) + Math.abs(y)),y/(Math.abs(x) + Math.abs(y))));*/
+    public Vector2 movePlayer(float x, float y) {
+
+        double x_init = player.getX()  + x * player.velocity;
+        double y_init = player.getY()  + y * player.velocity;
+        double x_fin = player.getX() + player.sprite.getWidth() + x * player.velocity;
+        double y_fin = player.getY() + player.sprite.getHeight() + y * player.velocity;
+
+        Vector2 res = new Vector2(0,0);
+        if(x_init >= 0 && x_fin <= map.getWidth()){
+            player.addPosition(x*player.velocity, 0);
+            res.x = (float)(x*player.velocity);
+            player.setDirection(new Vector2(x + player.getDirection().x,player.getDirection().y).nor());
+        }
+        if(y_init >= 0 && y_fin <= map.getHeight()){
+            player.addPosition(0, y*player.velocity);
+            res.y = (float)(y*player.velocity);
+            player.setDirection(new Vector2(player.getDirection().x,player.getDirection().y+y).nor());
+        }
+        Gdx.app.log(player.getDirection().toString() + " ","");
+
+            return res;
     }
 
     public void bulletsEnemiesColision() {
         for (int i = 0; i < bullets.size(); i++) {
             for (int j = 0; j < enemies.size(); j++) {
-                if (bullets.get(i).getBoundingRectangle().contains(enemies.get(j).getBoundingRectangle())) {
-                    enemies.get(j).decLife(bullets.get(i).getDamage());
-                    bullets.get(i).dispose();
+                if (bullets.get(i).getBoundingRectangle().overlaps(enemies.get(j).sprite.getBoundingRectangle())) {
+                    enemies.get(j).damageLife(bullets.get(i).getDamage());
                     bullets.remove(i);
                     i--;
                     if (enemies.get(j).isDead()) {
-                        enemies.get(i).dispose();
+                        enemies.get(j).dispose();
                         enemies.remove(j);
                         j--;
                     }
@@ -69,8 +78,8 @@ public class Game {
 
     public void playerEnemiesColision() {
         for (int i = 0; i < enemies.size(); i++) {
-            if (player.getBoundingRectangle().contains(enemies.get(i).getBoundingRectangle())) {
-                player.decLife(enemies.get(i).getDamage());
+            if (player.sprite.getBoundingRectangle().overlaps(enemies.get(i).sprite.getBoundingRectangle())) {
+                player.damageLife(enemies.get(i).getDamage());
                 if (player.isDead()){
                     player.dispose();
                     gameOver();
@@ -81,21 +90,21 @@ public class Game {
 
     public void draw(SpriteBatch batch) {
         batch.begin();
-       /* for (int i = 0; i < bullets.size(); i++) {
-            batch.draw(bullet_text, bullets.get(i).getX()-5, bullets.get(i).getY()-5,10,10);
+        for (int i = 0; i < bullets.size(); i++) {
+            bullets.get(i).draw(batch,bullets.get(i).getWidth(),bullets.get(i).getHeight());
         }
         for (int j = 0; j < enemies.size(); j++) {
-            batch.draw(enemies.get(j).getTexture(), enemies.get(j).getX() - 50, enemies.get(j).getY() - 50, 100, 100);
+            enemies.get(j).draw(batch,enemies.get(j).getWidth(),enemies.get(j).getHeight());
         }
-        batch.draw(player.getTexture(), player.getX() - 50, player.getY() - 50, 100, 100);  //substituir por width e height*/
+        player.draw(batch, player.getWidth(), player.getHeight());
         batch.end();
     }
 
     public void shoot() {
         //ver qual é a arma
         //retirar ammo
-        Bullet bullet = new Bullet(player.getDirection(), 10, null,world); //dir, vel , text
-        bullet.setPosition(player.getX(), player.getY());    //+ metade da textura ALTERAR
+        Bullet bullet = new Bullet(player.getDirection(), 10, bullet_text); //dir, vel , text
+        bullet.setPosition(player.sprite.getX() + player.sprite.getWidth()/2-bullet.getWidth()/2, player.sprite.getY() + player.sprite.getHeight()/2 - bullet.getHeight()/2);
         bullets.add(bullet);
     }
 
@@ -107,19 +116,17 @@ public class Game {
         bulletsEnemiesColision();
         playerEnemiesColision();
         for (int i = 0; i < bullets.size(); i++) {
-            bullets.get(i).incPosition();
-            if (!map.contains(bullets.get(i).getBoundingRectangle()) || bullets.get(i).outOfRange()) {
-                bullets.get(i).dispose();
+            if (!map.overlaps(bullets.get(i).getBoundingRectangle()) || bullets.get(i).outOfRange()) {
                 bullets.remove(i);
                 i--;
             }
+            else
+                bullets.get(i).incPosition();
         }
     }
 
     public void gameOver() {
-        /*
-        Fim do jogo
-         */
+        Gdx.app.log("End Game","go");
     }
 
     public void dispose(){
