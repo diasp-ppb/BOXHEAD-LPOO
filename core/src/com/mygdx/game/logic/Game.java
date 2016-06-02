@@ -97,6 +97,7 @@ public class Game {
             enemies.get(j).draw(batch,enemies.get(j).getWidth(),enemies.get(j).getHeight());
         }
         player.draw(batch, player.getWidth(), player.getHeight());
+        player.draw(batch);
         batch.end();
     }
 
@@ -112,7 +113,8 @@ public class Game {
         enemies.add(e);
     }
 
-    public void update() {
+    public void update(float dt) {
+        player.update(dt);
         bulletsEnemiesColision();
         playerEnemiesColision();
         for (int i = 0; i < bullets.size(); i++) {
@@ -132,4 +134,26 @@ public class Game {
     public void dispose(){
         bullet_text.dispose();
     }
+
+    public void playerAmmoCollision(){
+        player.setWeaponBehavior('r');
+        player.rechargeWeapons(level);
+    }
+
+    public void nextWeapon(){
+        int inUse = player.getInUse();
+        int size = player.getBag().size();
+
+        if(inUse == size-1)
+            player.setInUse(0);
+        else
+            player.setInUse(inUse+1);
+    }
+
+    public void simpleAttack(){
+        player.setWeaponBehavior('a');
+    }
+
+
+
 }

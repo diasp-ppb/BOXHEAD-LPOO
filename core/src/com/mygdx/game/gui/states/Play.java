@@ -70,12 +70,26 @@ public class Play extends State {
                 game.shoot();
             }
         });
+        hud.getaButton().addListener((ClickListener) new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.nextWeapon();
+            }
+        });
+
+        hud.getbButton().addListener((ClickListener) new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.nextWeapon();
+            }
+        });
+
     }
 
     @Override
     public void update(float delta_time){
         super.update(delta_time);
-        game.update();
+        game.update(delta_time);
         joystyckMove();
         cam.update();
     }
