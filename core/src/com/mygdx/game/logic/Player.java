@@ -144,6 +144,9 @@ public class Player extends Character {
 
 
     public void setInUse(int u){
+
+        bag.get(inUseIndex).current_anim.resetAnimation();
+        bag.get(inUseIndex).setAnimation('i');
         inUseIndex = u;
     }
 
