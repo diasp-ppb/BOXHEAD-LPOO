@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.mygdx.game.logic.designPatt.ZombieSpawner;
 
 import java.util.ArrayList;
 
@@ -20,13 +21,16 @@ public class Game {
     private Player player;
     private Rectangle map;
     private Texture bullet_text;
+    private ZombieSpawner zombieSpawner;
 
     public Game(int map_width, int map_height) {
+
         map = new Rectangle(0, 0, map_width, map_height);
         player = new Player();
         bullet_text = new Texture("play.png");
         level = 1;
         score = 0;
+        zombieSpawner = new ZombieSpawner(map.getWidth(),map.getHeight());
     }
 
     public int getLevel() {
@@ -107,6 +111,11 @@ public class Game {
     }
 
     public void update(float dt) {
+        if(enemies.size() == 0){
+            zombieSpawner.cleanWave();
+            zombieSpawner.create(10, 10, 10);
+            enemies = zombieSpawner.getEnemiesWave();
+        }
         player.update(dt);
         bulletsEnemiesColision();
         moveEnemies();
