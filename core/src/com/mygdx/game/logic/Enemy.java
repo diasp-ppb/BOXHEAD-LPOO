@@ -4,11 +4,11 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
 public class Enemy extends Character {
 
-   // private Array<Animation> animations;
     private static final int IDLE = 0;
     private static final int MOVE = 1;
     private static final int ATTACK = 2;
@@ -17,14 +17,17 @@ public class Enemy extends Character {
     private float timer = 0;
     private double animationcicle = 0;
     private boolean visible;
+    private boolean tracking;   //Track player
 
     public Enemy(int life, int damage,double x,double y){
         super(life,damage);
         sprite.setPosition((float) x, (float) y);
 
         sprite.setTexture(new Texture("start.png")); //teste
+        setDirection(new Vector2(1,0));
         sprite.setBounds(sprite.getX(), sprite.getY(), sprite.getTexture().getWidth(), sprite.getTexture().getHeight());
         visible = true;
+        tracking = false;
         loadAnimations();
     }
 
@@ -35,6 +38,10 @@ public class Enemy extends Character {
     public void setVisible(boolean v){
         visible = v;
     }
+
+    public final boolean isTracking(){return tracking;}
+
+    public void setTracking(boolean t){tracking = t;}
 
     @Override
     public void loadAnimations() {

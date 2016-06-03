@@ -35,7 +35,7 @@ public class Player extends Character {
         velocity = 5f;
 
         sprite.setPosition(0, 0);
-        direction = new Vector2(0,1);
+        direction = new Vector2(1,0);
         sprite.setTexture(new Texture("play.png")); //teste
 
         sprite.setBounds(sprite.getX(), sprite.getY(), sprite.getTexture().getWidth(), sprite.getTexture().getHeight());
@@ -57,22 +57,6 @@ public class Player extends Character {
             inUseIndex = 0;
         else
             inUseIndex++;
-    }
-
-    public void setLife(int life){
-        this.life = life;
-    }
-
-    public void decLife(int damage){
-        life -= damage;
-    }
-
-    public int getLife(){
-        return life;
-    }
-
-    public final boolean isDead(){
-        return (life <= 0);
     }
 
     public void draw(SpriteBatch batch) {
@@ -148,8 +132,6 @@ public class Player extends Character {
     {
         return animations.get(WALK).getFrame();
     }
-
-
 
     public void setInUse(int u){
 

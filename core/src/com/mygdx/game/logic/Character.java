@@ -48,6 +48,10 @@ public abstract class Character {
         return sprite.getY();
     }
 
+    public double getCenterX(){return sprite.getX()+sprite.getWidth()/2;}
+
+    public double getCenterY(){return sprite.getY()+sprite.getWidth()/2;}
+
     public void addPosition(double x,double y){
         sprite.setPosition((float)(x+getX()), (float)(y+getY()));
     }

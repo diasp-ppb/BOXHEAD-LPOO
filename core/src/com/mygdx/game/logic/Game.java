@@ -80,18 +80,6 @@ public class Game {
         }
     }
 
-    public void playerEnemiesColision() {
-        for (int i = 0; i < enemies.size(); i++) {
-            if (player.sprite.getBoundingRectangle().overlaps(enemies.get(i).sprite.getBoundingRectangle())) {
-                player.damageLife(enemies.get(i).getDamage());
-                if (player.isDead()){
-                    player.dispose();
-                    gameOver();
-                }
-            }
-        }
-    }
-
     public void draw(SpriteBatch batch) {
         batch.begin();
         for (int i = 0; i < bullets.size(); i++) {
@@ -124,7 +112,8 @@ public class Game {
     public void update(float dt) {
         player.update(dt);
         bulletsEnemiesColision();
-        playerEnemiesColision();
+        moveEnemies();
+
         for (int i = 0; i < bullets.size(); i++) {
             if (!map.overlaps(bullets.get(i).getBoundingRectangle()) || bullets.get(i).outOfRange()) {
                 bullets.remove(i);
@@ -171,11 +160,43 @@ public class Game {
         for (int i = 0;i < enemies.size();i++){
             if(visibleRegion.overlaps(enemies.get(i).sprite.getBoundingRectangle())){
                 enemies.get(i).setVisible(true);
+                enemies.get(i).setTracking(true);
             }
             else
                 enemies.get(i).setVisible(false);
         }
     }
+
+    public void moveEnemies(){
+        for(int i = 0; i < enemies.size(); i++) {
+            boolean collidingPlayer = enemies.get(i).sprite.getBoundingRectangle().overlaps(player.sprite.getBoundingRectangle());
+
+            if (enemies.get(i).isVisible() || enemies.get(i).isTracking()) { //it's on the players range or is tracking him
+             //algo que calcule se a distancia ao centro do player é 1/2 do enemie width então nesse caso ele não anda
+                Vector2 playerDirection = new Vector2((int) (player.getCenterX() - enemies.get(i).getCenterX()), (int) (player.getCenterY() - enemies.get(i).getCenterY())).nor();
+                if(playerDirection.x != 0 ||  playerDirection.y != 0)
+                    enemies.get(i).setDirection(playerDirection);  //Não desenha o player!!
+                enemies.get(i).addPosition(playerDirection.x, playerDirection.y);
+
+
+            }
+
+
+                // else{
+                //random position
+                //check map overlap
+                //direction addiction between 0 and 90º
+                // }
+            if(collidingPlayer){
+                enemies.get(i).attackAnimation();
+                player.damageLife(enemies.get(i).getDamage());
+                if (player.isDead()){
+                    player.dispose();
+                    gameOver();
+                }
+            }
+            }
+        }
 
 
 }

@@ -43,12 +43,10 @@ public class Play extends State {
         cam.position.set(map.getWidth()/2, map.getHeight()/2, 0);
 
         game = new Game(map.getWidth(),map.getHeight());
-        Enemy e = new Enemy(10,10,map.getWidth() / 2,map.getHeight() /2);
-       // Gdx.app.log(e.sprite.getBoundingRectangle().toString() + " "," " + e.getX() + " "+e.getY() + " "+e.getWidth() + " " + e.getHeight());
+        Enemy e = new Enemy(10,10,map.getWidth() / 2 + 100,map.getHeight() /2);
         game.addEnemy(e);
         game.getPlayer().setPosition(map.getWidth() / 2 - game.getPlayer().getWidth() / 2, map.getHeight() / 2 - game.getPlayer().getHeight() / 2);//- width/2 e height/2 --> MUDAR
-        //é preciso fazer o resize da imagem caso contrario se a desenhar escalada as colisões não seram detetadas pela imagem desenhada
-        //mas sim pelo rect já definido
+
 
         hud = new HUD();
 
