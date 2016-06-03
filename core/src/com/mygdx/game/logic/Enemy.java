@@ -8,7 +8,7 @@ import com.badlogic.gdx.utils.Array;
 
 public class Enemy extends Character {
 
-    private Array<Animation> animations;
+   // private Array<Animation> animations;
     private static final int IDLE = 0;
     private static final int MOVE = 1;
     private static final int ATTACK = 2;
@@ -38,10 +38,10 @@ public class Enemy extends Character {
 
     @Override
     public void loadAnimations() {
-        animations = new Array<Animation>();
-        animations.add( new Animation(new TextureRegion(new Texture("idle_zombie.png")),17,0.1f));
-        animations.add( new Animation(new TextureRegion(new Texture("move_zombie.png")),17,0.10f));
-        animations.add( new Animation (new TextureRegion(new Texture("attack_zombie.png")),9,0.1f));
+
+        super.animations.add( new Animation(new TextureRegion(new Texture("idle_zombie.png")),17,0.1f));
+        super.animations.add( new Animation(new TextureRegion(new Texture("move_zombie.png")),17,0.10f));
+        super.animations.add( new Animation (new TextureRegion(new Texture("attack_zombie.png")),9,0.1f));
     }
 
     public void idleAnimation()

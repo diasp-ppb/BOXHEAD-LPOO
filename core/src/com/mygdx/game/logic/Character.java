@@ -3,10 +3,8 @@ package com.mygdx.game.logic;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 
-import java.util.Vector;
-
-import javafx.animation.Animation;
 
 /**
  * Created by Catarina Ramos on 02/06/2016.
@@ -18,9 +16,8 @@ public abstract class Character {
     protected Vector2 direction;
     protected double velocity;
 
-    protected Animation idle;
-    protected Animation walk;
-    protected Animation attack;
+    protected Array<Animation> animations;
+
 
     public Character(int life, int damage){
         this.life = life;
@@ -28,6 +25,7 @@ public abstract class Character {
         sprite = new Sprite();
         direction = new Vector2(0,0); //N - influencia a maneira como o rectangular é formatado em set bounds
         sprite.rotate(direction.angle());
+        animations = new Array<Animation>();
     }
 
     public abstract void loadAnimations();

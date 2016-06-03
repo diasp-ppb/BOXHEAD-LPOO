@@ -11,14 +11,17 @@ import com.badlogic.gdx.math.Vector2;
 import java.util.ArrayList;
 
 public class Player extends Character {
+
+    private static final int IDLE = 0;
+    private static final int WALK = 1;
+
+
+
     private ArrayList<Weapon> bag;
     private int inUseIndex;
-
-    private Animation walk;
-    private Animation idle;
     private boolean move = false;
-    private double AnimationclycleCount;
     private Sound teste;
+
     public Player(){
         super(100,2);
         bag = new ArrayList<Weapon>();
@@ -36,13 +39,15 @@ public class Player extends Character {
         sprite.setTexture(new Texture("play.png")); //teste
 
         sprite.setBounds(sprite.getX(), sprite.getY(), sprite.getTexture().getWidth(), sprite.getTexture().getHeight());
+
         loadAnimations();
     }
 
     @Override
     public void loadAnimations() {
-        walk = new Animation(new TextureRegion(new Texture("walk.png")),20,0.10f);
-        idle = new Animation(new TextureRegion(new Texture("idle_player.png")),1,0.5f);
+
+        super.animations.add( new Animation(new TextureRegion(new Texture("idle_player.png")),1,0.5f));
+        super.animations.add( new Animation(new TextureRegion(new Texture("walk.png")),20,0.10f));
 
        teste = Gdx.audio.newSound(Gdx.files.internal("shootRifle.mp3"));
     }
@@ -55,7 +60,7 @@ public class Player extends Character {
     }
 
     public void setLife(int life){
-        life = life;
+        this.life = life;
     }
 
     public void decLife(int damage){
@@ -88,7 +93,7 @@ public class Player extends Character {
                     legs.getRegionWidth()*0.5f, legs.getRegionHeight()*0.5f,
                     legs.getRegionWidth(), legs.getRegionHeight(),scale,scale,Rotation);
             else
-                batch.draw(idle.getFrame(),(float)(getWidth()/2+ legsOffsetX + getX() - legs.getRegionWidth()*0.5f),(float)(getHeight()/2 +legsOffsetY + getY() - legs.getRegionHeight()*0.5f),
+                batch.draw(animations.get(IDLE).getFrame(),(float)(getWidth()/2+ legsOffsetX + getX() - legs.getRegionWidth()*0.5f),(float)(getHeight()/2 +legsOffsetY + getY() - legs.getRegionHeight()*0.5f),
                         legs.getRegionWidth()*0.5f, legs.getRegionHeight()*0.5f,
                         legs.getRegionWidth(), legs.getRegionHeight(),scale,scale,Rotation);
             batch.draw(temp,(float)( getWidth()/2+ getX() - temp.getRegionWidth() * 0.5f),(float)(getHeight()/2 + getY() - temp.getRegionHeight() * 0.5f),
@@ -108,7 +113,7 @@ public class Player extends Character {
                     legs.getRegionWidth()*0.5f, legs.getRegionHeight()*0.5f,
                     legs.getRegionWidth(), legs.getRegionHeight(),scale,scale,Rotation);
             else
-                batch.draw(idle.getFrame(),(float)(legsOffsetX +getWidth()/2+  getX() - legs.getRegionWidth()*0.5f),(float)(getHeight()/2 +legsOffsetY + getY() - legs.getRegionHeight()*0.5f),
+                batch.draw(animations.get(IDLE).getFrame(),(float)(legsOffsetX +getWidth()/2+  getX() - legs.getRegionWidth()*0.5f),(float)(getHeight()/2 +legsOffsetY + getY() - legs.getRegionHeight()*0.5f),
                         legs.getRegionWidth()*0.5f, legs.getRegionHeight()*0.5f,
                         legs.getRegionWidth(), legs.getRegionHeight(),scale,scale,Rotation);
             batch.draw(temp,(float)(offsetX +getWidth()/2+  getX() - temp.getRegionWidth() *0.5f), (float)(getHeight()/2 +offsetY + getY() - temp.getRegionHeight()  *0.5f),
@@ -121,7 +126,7 @@ public class Player extends Character {
     public void update(float dt)
     {
         if(move)
-        walk.update(dt);
+            animations.get(WALK).update(dt);
 
         bag.get(inUseIndex).current_anim.update(dt);
 
@@ -131,9 +136,9 @@ public class Player extends Character {
             idleAnimation();
 
         }
-        if(walk.getAnimationCount() >= 1)
+        if(animations.get(WALK).getAnimationCount() >= 1)
         {
-            walk.resetAnimation();
+            animations.get(WALK).resetAnimation();
             move = false;
         }
     }
@@ -141,7 +146,7 @@ public class Player extends Character {
 
     public TextureRegion getFrame()
     {
-        return walk.getFrame();
+        return animations.get(WALK).getFrame();
     }
 
 
