@@ -27,8 +27,6 @@ public class Player extends Character {
         bag.add(new Gun(5));
         bag.add(new Rifle(5));
 
-
-
         life = 100;
         damage = 1;
         velocity = 5f;

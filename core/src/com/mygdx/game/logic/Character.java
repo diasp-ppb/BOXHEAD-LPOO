@@ -79,7 +79,6 @@ public abstract class Character {
     }
 
     public void draw(SpriteBatch batch,double width, double height){
-        //rotate ?
         sprite.setBounds(sprite.getX(),sprite.getY(),(float)width,(float)height);
         batch.draw(sprite.getTexture(),sprite.getX(),sprite.getY(),(float)getWidth(),(float)getHeight());
     }

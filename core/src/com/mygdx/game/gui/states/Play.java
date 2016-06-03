@@ -46,11 +46,32 @@ public class Play extends State {
         Enemy e = new Enemy(10,10,map.getWidth() / 2,map.getHeight() /2);
        // Gdx.app.log(e.sprite.getBoundingRectangle().toString() + " "," " + e.getX() + " "+e.getY() + " "+e.getWidth() + " " + e.getHeight());
         game.addEnemy(e);
-        game.getPlayer().setPosition(map.getWidth() / 2 - game.getPlayer().getWidth()/2, map.getHeight() / 2 - game.getPlayer().getHeight()/2);//- width/2 e height/2 --> MUDAR
+        game.getPlayer().setPosition(map.getWidth() / 2 - game.getPlayer().getWidth() / 2, map.getHeight() / 2 - game.getPlayer().getHeight() / 2);//- width/2 e height/2 --> MUDAR
         //é preciso fazer o resize da imagem caso contrario se a desenhar escalada as colisões não seram detetadas pela imagem desenhada
         //mas sim pelo rect já definido
 
         hud = new HUD();
+
+        hud.getShootButton().addListener(new ClickListener() {
+
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.shoot();
+            }
+        });
+
+        hud.getaButton().addListener((ClickListener) new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.nextWeapon();
+            }
+        });
+
+        hud.getbButton().addListener((ClickListener) new ClickListener() {
+            public void clicked(InputEvent event, float x, float y) {
+                game.reloadWeapon();
+            }
+        });
     }
 
     @Override
@@ -62,33 +83,12 @@ public class Play extends State {
                 dispose();
             }
         });
-        hud.getShootButton().clearListeners();  //to not accumulate events
-        hud.getShootButton().addListener(new ClickListener() {
-
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                game.shoot();
-            }
-        });
-        hud.getaButton().clearListeners();
-        hud.getaButton().addListener((ClickListener) new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                game.nextWeapon();
-            }
-        });
-        hud.getbButton().clearListeners();
-        hud.getbButton().addListener((ClickListener) new ClickListener() {
-            public void clicked(InputEvent event, float x, float y) {
-                game.reloadWeapon();
-            }
-        });
-
     }
 
     @Override
     public void update(float delta_time){
         super.update(delta_time);
+        game.loadVisibleObjects(cam.position.x - cam.viewportWidth/2,cam.position.y - cam.viewportHeight/2,cam.viewportWidth,cam.viewportHeight);
         game.update(delta_time);
         joystyckMove();
         cam.update();

@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 import java.util.ArrayList;
 
@@ -97,8 +98,12 @@ public class Game {
             bullets.get(i).draw(batch,bullets.get(i).getWidth(),bullets.get(i).getHeight());
         }
         for (int j = 0; j < enemies.size(); j++) {
-            enemies.get(j).draw(batch,enemies.get(j).getWidth(),enemies.get(j).getHeight());
-            enemies.get(j).draw(batch);
+            if(enemies.get(j).isVisible()) {
+                enemies.get(j).draw(batch, enemies.get(j).getWidth(), enemies.get(j).getHeight());//TMMP !!!!!!!!
+                enemies.get(j).draw(batch);
+            }
+            else
+                Gdx.app.log("nao é visivel","not visible");
         }
         player.draw(batch, player.getWidth(), player.getHeight());
         player.draw(batch);
@@ -106,10 +111,8 @@ public class Game {
     }
 
     public void shoot() {
-        //ver qual é a arma
-        //retirar ammo
         Bullet bullet = new Bullet(player.getDirection(), 10, bullet_text); //dir, vel , text
-        bullet.setPosition(player.sprite.getX() + player.sprite.getWidth()/2-bullet.getWidth()/2, player.sprite.getY() + player.sprite.getHeight()/2 - bullet.getHeight()/2);
+        bullet.setPosition(player.sprite.getX() + player.sprite.getWidth() / 2 - bullet.getWidth() / 2, player.sprite.getY() + player.sprite.getHeight() / 2 - bullet.getHeight() / 2);
         bullets.add(bullet);
         player.attackAnimation();
     }
@@ -137,7 +140,7 @@ public class Game {
     }
 
     public void gameOver() {
-        Gdx.app.log("End Game","go");
+        Gdx.app.log("End Game", "go");
     }
 
     public void dispose(){
@@ -158,8 +161,20 @@ public class Game {
         else
             player.setInUse(inUse+1);
     }
+
     public void reloadWeapon(){
         player.reloadAnimation();
+    }
+
+    public void loadVisibleObjects(float x, float y, float width, float height){
+        Rectangle visibleRegion = new Rectangle(x,y,width,height);
+        for (int i = 0;i < enemies.size();i++){
+            if(visibleRegion.overlaps(enemies.get(i).sprite.getBoundingRectangle())){
+                enemies.get(i).setVisible(true);
+            }
+            else
+                enemies.get(i).setVisible(false);
+        }
     }
 
 

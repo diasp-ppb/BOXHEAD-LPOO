@@ -8,8 +8,6 @@ import com.badlogic.gdx.utils.Array;
 
 public class Enemy extends Character {
 
-
-
     private Array<Animation> animations;
     private static final int IDLE = 0;
     private static final int MOVE = 1;
@@ -18,6 +16,7 @@ public class Enemy extends Character {
     private int frame = 0;
     private float timer = 0;
     private double animationcicle = 0;
+    private boolean visible;
 
     public Enemy(int life, int damage,double x,double y){
         super(life,damage);
@@ -25,9 +24,16 @@ public class Enemy extends Character {
 
         sprite.setTexture(new Texture("start.png")); //teste
         sprite.setBounds(sprite.getX(), sprite.getY(), sprite.getTexture().getWidth(), sprite.getTexture().getHeight());
-
+        visible = true;
         loadAnimations();
+    }
 
+    public final boolean isVisible(){
+        return visible;
+    }
+
+    public void setVisible(boolean v){
+        visible = v;
     }
 
     @Override
