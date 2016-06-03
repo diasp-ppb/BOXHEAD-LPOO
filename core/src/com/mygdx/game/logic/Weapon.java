@@ -10,7 +10,7 @@ public class Weapon{
     private int ammo;
     protected Animation idle;
     protected Animation reload;
-    protected Animation attack;
+   // protected Animation attack;
     protected Animation current_anim;
 
 
@@ -42,10 +42,6 @@ public class Weapon{
         switch (anim){
             case 'r':{ //reload
                 current_anim = reload;
-                break;
-            }
-            case 'a':{ //attack
-                current_anim = attack;
                 break;
             }
             case 'i':{ //idle

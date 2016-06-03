@@ -1,6 +1,9 @@
 package com.mygdx.game.logic;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Gdx2DPixmap;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
@@ -15,7 +18,7 @@ public class Player extends Character {
     private Animation idle;
     private boolean move = false;
     private double AnimationclycleCount;
-
+    private Sound teste;
     public Player(){
         super(100,2);
         bag = new ArrayList<Weapon>();
@@ -42,6 +45,8 @@ public class Player extends Character {
     public void loadAnimations() {
         walk = new Animation(new TextureRegion(new Texture("walk.png")),20,0.10f);
         idle = new Animation(new TextureRegion(new Texture("idle_player.png")),1,0.5f);
+
+       teste = Gdx.audio.newSound(Gdx.files.internal("shootRifle.mp3"));
     }
 
     public void nextWeapon(){
@@ -171,7 +176,8 @@ public class Player extends Character {
     }
     public void attackAnimation()
     {
-        bag.get(inUseIndex).setAnimation('a');
+        teste.play();
+       //SOUNDWHRE
     }
     public void reloadAnimation()
     {

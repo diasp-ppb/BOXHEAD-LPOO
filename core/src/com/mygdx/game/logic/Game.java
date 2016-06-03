@@ -98,6 +98,7 @@ public class Game {
         }
         for (int j = 0; j < enemies.size(); j++) {
             enemies.get(j).draw(batch,enemies.get(j).getWidth(),enemies.get(j).getHeight());
+            enemies.get(j).draw(batch);
         }
         player.draw(batch, player.getWidth(), player.getHeight());
         player.draw(batch);
@@ -128,6 +129,10 @@ public class Game {
             }
             else
                 bullets.get(i).incPosition();
+        }
+        for(Enemy enemy: enemies)
+        {
+            enemy.update(dt);
         }
     }
 

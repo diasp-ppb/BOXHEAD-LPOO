@@ -12,7 +12,7 @@ public class Rifle extends Weapon {
         super(d);
         idle = new Animation(new TextureRegion(new Texture("idle_rifle.png")),1,0.20f);
         reload = new Animation(new TextureRegion(new Texture("reload_rifle.png")),20,0.10f);
-        attack = new Animation(new TextureRegion(new Texture("attack_rifle.png")),15,0.10f);
+      //  attack = new Animation(new TextureRegion(new Texture("attack_rifle.png")),15,0.10f);
 
         current_anim = idle;
     }

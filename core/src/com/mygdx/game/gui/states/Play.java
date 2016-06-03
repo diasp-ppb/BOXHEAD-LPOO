@@ -43,7 +43,7 @@ public class Play extends State {
         cam.position.set(map.getWidth()/2, map.getHeight()/2, 0);
 
         game = new Game(map.getWidth(),map.getHeight());
-        Enemy e = new Enemy(10,10,map.getWidth() / 3,map.getHeight() /3);
+        Enemy e = new Enemy(10,10,map.getWidth() / 2,map.getHeight() /2);
        // Gdx.app.log(e.sprite.getBoundingRectangle().toString() + " "," " + e.getX() + " "+e.getY() + " "+e.getWidth() + " " + e.getHeight());
         game.addEnemy(e);
         game.getPlayer().setPosition(map.getWidth() / 2 - game.getPlayer().getWidth()/2, map.getHeight() / 2 - game.getPlayer().getHeight()/2);//- width/2 e height/2 --> MUDAR

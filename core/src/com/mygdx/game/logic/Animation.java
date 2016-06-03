@@ -55,4 +55,17 @@ public class Animation {
         animationcicle = 0;
         currentFrameTime = 0;
     }
+
+    public TextureRegion getFrame(int frame)
+    {
+        return frames.get(frame);
+    }
+    public int getFramesCount()
+    {
+        return frames.size;
+    }
+    public  float getFrameTime()
+    {
+        return maxFramesTime;
+    }
 }
