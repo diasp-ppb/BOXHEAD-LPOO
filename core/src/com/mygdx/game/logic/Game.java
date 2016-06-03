@@ -71,7 +71,6 @@ public class Game {
                     bullets.remove(i);
                     i--;
                     if (enemies.get(j).isDead()) {
-                        enemies.get(j).dispose();
                         enemies.remove(j);
                         j--;
                     }
@@ -87,14 +86,12 @@ public class Game {
         }
         for (int j = 0; j < enemies.size(); j++) {
             if(enemies.get(j).isVisible()) {
-                enemies.get(j).draw(batch, enemies.get(j).getWidth(), enemies.get(j).getHeight());//TMMP !!!!!!!!
-                enemies.get(j).draw(batch);
+               enemies.get(j).draw(batch);
             }
             else
                 Gdx.app.log("nao é visivel","not visible");
         }
-        player.draw(batch, player.getWidth(), player.getHeight());
-        player.draw(batch);
+       player.draw(batch);
         batch.end();
     }
 
@@ -191,7 +188,6 @@ public class Game {
                 enemies.get(i).attackAnimation();
                 player.damageLife(enemies.get(i).getDamage());
                 if (player.isDead()){
-                    player.dispose();
                     gameOver();
                 }
             }

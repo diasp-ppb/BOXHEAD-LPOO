@@ -23,9 +23,8 @@ public class Enemy extends Character {
         super(life,damage);
         sprite.setPosition((float) x, (float) y);
 
-        sprite.setTexture(new Texture("start.png")); //teste
         setDirection(new Vector2(1,0));
-        sprite.setBounds(sprite.getX(), sprite.getY(), sprite.getTexture().getWidth(), sprite.getTexture().getHeight());
+        sprite.setBounds(sprite.getX(), sprite.getY(), (float)getSize(), (float)getSize());
         visible = true;
         tracking = false;
         loadAnimations();

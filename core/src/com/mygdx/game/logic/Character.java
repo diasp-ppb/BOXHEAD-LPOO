@@ -15,7 +15,7 @@ public abstract class Character {
     public Sprite sprite;
     protected Vector2 direction;
     protected double velocity;
-
+    protected final double size = 48;
     protected Array<Animation> animations;
 
 
@@ -64,6 +64,10 @@ public abstract class Character {
         return direction;
     }
 
+    public double getSize(){
+        return size;
+    }
+
     public void setDirection(Vector2 d){
         direction = d;
     }
@@ -83,9 +87,5 @@ public abstract class Character {
     public void draw(SpriteBatch batch,double width, double height){
         sprite.setBounds(sprite.getX(),sprite.getY(),(float)width,(float)height);
         batch.draw(sprite.getTexture(),sprite.getX(),sprite.getY(),(float)getWidth(),(float)getHeight());
-    }
-
-    public void dispose(){
-        sprite.getTexture().dispose();
     }
 }

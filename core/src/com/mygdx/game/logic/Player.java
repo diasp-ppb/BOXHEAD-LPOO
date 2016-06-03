@@ -36,9 +36,7 @@ public class Player extends Character {
 
         sprite.setPosition(0, 0);
         direction = new Vector2(1,0);
-        sprite.setTexture(new Texture("play.png")); //teste
-
-        sprite.setBounds(sprite.getX(), sprite.getY(), sprite.getTexture().getWidth(), sprite.getTexture().getHeight());
+        sprite.setBounds(sprite.getX(), sprite.getY(), (float)getSize(), (float)getSize());
 
         loadAnimations();
     }
