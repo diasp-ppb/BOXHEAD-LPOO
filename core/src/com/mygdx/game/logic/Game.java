@@ -1,11 +1,17 @@
 package com.mygdx.game.logic;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.game.logic.designPatterns.AmmoFactory;
 import com.mygdx.game.logic.designPatterns.BulletFactory;
 import com.mygdx.game.logic.designPatterns.ZombieSpawner;
+import com.mygdx.game.logic.sprites.Bullet;
+import com.mygdx.game.logic.sprites.Enemy;
+import com.mygdx.game.logic.sprites.GameObject;
+import com.mygdx.game.logic.sprites.Player;
 import com.mygdx.game.logic.sprites.Weapon;
 
 import java.util.ArrayList;
@@ -15,26 +21,34 @@ import java.util.Random;
 public class Game {
     private int level;
     private int score;
-    private ArrayList<com.mygdx.game.logic.sprites.Enemy> enemies = new ArrayList<com.mygdx.game.logic.sprites.Enemy>();
-    private ArrayList<com.mygdx.game.logic.sprites.Bullet> bullets = new ArrayList<com.mygdx.game.logic.sprites.Bullet>();
+    private ArrayList<Enemy> enemies;
+    private ArrayList<Bullet> bullets;
+    private ArrayList<GameObject> ammoBoxs;
     private com.mygdx.game.logic.sprites.Player player;
     private Rectangle map;
     private ZombieSpawner zombieSpawner;
     private BulletFactory bulletFactory;
+    private AmmoFactory ammoFactory;
     private boolean pause;
+    private int spriteSize;
 
-    public Game(int map_width, int map_height) {
+    public Game(int map_width, int map_height,int spritesSize) {
         pause = false;
-        map = new Rectangle(0, 0, map_width, map_height);
-        player = new com.mygdx.game.logic.sprites.Player();
         level = 1;
         score = 0;
-        zombieSpawner = new ZombieSpawner(map.getWidth(),map.getHeight());
-        bulletFactory = new BulletFactory();
-    }
+        map = new Rectangle(0, 0, map_width, map_height);
 
-    public int getLevel() {
-        return level;
+        spriteSize = spritesSize;
+
+        enemies = new ArrayList<Enemy>();
+        bullets = new ArrayList<Bullet>();
+        ammoBoxs = new ArrayList<GameObject>();
+
+        player = new Player(spritesSize);
+
+        zombieSpawner = new ZombieSpawner(map.getWidth(),map.getHeight(),spritesSize);
+        bulletFactory = new BulletFactory(spritesSize);
+        ammoFactory = new AmmoFactory(map.getWidth(),map.getHeight(),spritesSize);
     }
 
     public void setPause(boolean p){
@@ -45,7 +59,7 @@ public class Game {
         return pause;
     }
 
-    public final com.mygdx.game.logic.sprites.Player getPlayer() {
+    public final Player getPlayer() {
         return player;
     }
 
@@ -87,7 +101,7 @@ public class Game {
     public void bulletsEnemiesColision() {
         for (int i = 0; i < bullets.size(); i++) {
             for (int j = 0; j < enemies.size(); j++) {
-                if (bullets.get(i).getBoundingRectangle().overlaps(enemies.get(j).sprite.getBoundingRectangle())) {
+                if (bullets.get(i).sprite.getBoundingRectangle().overlaps(enemies.get(j).sprite.getBoundingRectangle())) {
                     enemies.get(j).die();
                     enemies.remove(j);
                     j--;
@@ -102,16 +116,31 @@ public class Game {
         }
     }
 
+    public void playerBoxColision(){
+        for(int i = 0; i < ammoBoxs.size();i++){
+            if(ammoBoxs.get(i).sprite.getBoundingRectangle().overlaps(player.sprite.getBoundingRectangle())){
+                player.setWeaponBehavior('r');
+                player.rechargeWeapons(level);
+                ammoBoxs.remove(i);
+                i--;
+            }
+        }
+    }
+
     public void draw(SpriteBatch batch) {
         batch.begin();
+        for (int b = 0; b < ammoBoxs.size();b++){
+           ammoBoxs.get(b).draw(batch);
+        }
         for (int i = 0; i < bullets.size(); i++) {
-            bullets.get(i).draw(batch,bullets.get(i).getWidth(),bullets.get(i).getHeight());
+            bullets.get(i).draw(batch);
         }
         for (int j = 0; j < enemies.size(); j++) {
             if(enemies.get(j).isVisible()) {
                enemies.get(j).draw(batch);
             }
         }
+
        player.draw(batch);
         batch.end();
     }
@@ -120,7 +149,7 @@ public class Game {
         player.attackAnimation();
         Weapon w = player.getBag().get(player.getInUse());
         if(w.use()) {
-            com.mygdx.game.logic.sprites.Bullet bullet = bulletFactory.create(player.getDirection(), w.getDurability(), new Vector2((float) player.getCenterX(), (float) player.getCenterY()));
+            Bullet bullet = bulletFactory.create(player.getDirection(), w.getDurability(), new Vector2((float) player.getCenterX(), (float) player.getCenterY()));
             bullets.add(bullet);
         }
     }
@@ -128,15 +157,17 @@ public class Game {
     public void update(float dt) {
         if(enemies.size() == 0){    //new botWave
             enemies = zombieSpawner.create(10 + level);
+            ammoBoxs = ammoFactory.create(3 + level/3);
             player.getBag().get(1).setDurability(2+level/7);
             level++;
         }
         moveEnemies();
         bulletsEnemiesColision();
         playerEnemiesColision();
+        playerBoxColision();
         player.update(dt);
         for (int i = 0; i < bullets.size(); i++) {
-            if (!map.overlaps(bullets.get(i).getBoundingRectangle()) || bullets.get(i).outOfRange()) {
+            if (!map.overlaps(bullets.get(i).sprite.getBoundingRectangle()) || bullets.get(i).outOfRange()) {
                 bullets.remove(i);
                 i--;
             }
@@ -153,13 +184,9 @@ public class Game {
         Gdx.app.log("End Game", "go");
     }
 
-    public void dispose(){
+    public void dispose() {
        bulletFactory.dispose();
-    }
-
-    public void playerAmmoCollision(){
-        player.setWeaponBehavior('r');
-        player.rechargeWeapons(level);
+       ammoFactory.dispose();
     }
 
     public void nextWeapon(){

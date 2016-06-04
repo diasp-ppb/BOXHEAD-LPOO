@@ -1,5 +1,6 @@
 package com.mygdx.game.logic.sprites;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
@@ -10,18 +11,16 @@ import com.mygdx.game.logic.Animation;
 /**
  * Created by Catarina Ramos on 02/06/2016.
  */
-public abstract class Character {
+public abstract class Character extends GameObject {
     protected boolean alive;
-    public Sprite sprite;
     protected Vector2 direction;
     protected double velocity;
-    protected final double size = 48;
     protected Array<Animation> animations;
 
 
-    public Character(){
+    public Character(int spriteSize){
+        super(spriteSize);
         this.alive = true;
-        sprite = new Sprite();
         direction = new Vector2(0,0); //N - influencia a maneira como o rectangular é formatado em set bounds
         sprite.rotate(direction.angle());
         animations = new Array<Animation>();
@@ -33,44 +32,12 @@ public abstract class Character {
         return velocity;
     }
 
-    public double getX(){
-        return sprite.getX();
-    }
-
-    public double getY(){
-        return sprite.getY();
-    }
-
-    public double getCenterX(){return sprite.getX()+sprite.getWidth()/2;}
-
-    public double getCenterY(){return sprite.getY()+sprite.getWidth()/2;}
-
-    public void addPosition(double x,double y){
-        sprite.setPosition((float)(x+getX()), (float)(y+getY()));
-    }
-
-    public void setPosition(double x, double y){
-        sprite.setPosition((float)x,(float)y);
-    }
-
     public Vector2 getDirection(){
         return direction;
     }
 
-    public double getSize(){
-        return size;
-    }
-
     public void setDirection(Vector2 d){
         direction = d;
-    }
-
-    public double getWidth(){
-        return sprite.getWidth();
-    }
-
-    public double getHeight(){
-        return sprite.getHeight();
     }
 
     public boolean isAlive(){
@@ -81,8 +48,4 @@ public abstract class Character {
         alive = false;
     }
 
-    public void draw(SpriteBatch batch,double width, double height){
-        sprite.setBounds(sprite.getX(),sprite.getY(),(float)width,(float)height);
-        batch.draw(sprite.getTexture(),sprite.getX(),sprite.getY(),(float)getWidth(),(float)getHeight());
-    }
 }

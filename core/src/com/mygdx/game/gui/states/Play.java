@@ -12,11 +12,9 @@ import com.mygdx.game.logic.Game;
  * Created by Catarina Ramos on 12/05/2016.
  */
 public class Play extends State {
-    //mapa
+
     private Texture map;
-    //game
     private Game game;
-    //controllers
     private HUD hud;
 
     public Play(GameStateManager manager) {
@@ -26,9 +24,7 @@ public class Play extends State {
         super.cam.setToOrtho(false, width / 2, height / 2);
         cam.position.set(map.getWidth()/2, map.getHeight()/2, 0);
 
-        game = new Game(map.getWidth(),map.getHeight());
-       // Enemy e = new Enemy(10,10,map.getWidth() / 2 + 100,map.getHeight() /2);
-       // game.addEnemy(e);
+        game = new Game(map.getWidth(),map.getHeight(),width/20);
         game.getPlayer().setPosition(map.getWidth() / 2 - game.getPlayer().getWidth() / 2, map.getHeight() / 2 - game.getPlayer().getHeight() / 2);//- width/2 e height/2 --> MUDAR
 
 

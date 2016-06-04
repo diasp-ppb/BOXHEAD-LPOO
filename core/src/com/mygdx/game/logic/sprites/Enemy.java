@@ -19,22 +19,14 @@ public class Enemy extends com.mygdx.game.logic.sprites.Character {
     private boolean visible;
     private boolean tracking;   //Track player
 
-    public Enemy(double x,double y){
-        super();
+    public Enemy(double x,double y, int size){
+        super(size);
         sprite.setPosition((float) x, (float) y);
 
         setDirection(new Vector2(1,0));
         sprite.setBounds(sprite.getX(), sprite.getY(), (float)getSize(), (float)getSize());
         visible = true;
         tracking = false;
-    }
-
-    public final boolean isVisible(){
-        return visible;
-    }
-
-    public void setVisible(boolean v){
-        visible = v;
     }
 
     public final boolean isTracking(){return tracking;}

@@ -21,8 +21,8 @@ public class Player extends com.mygdx.game.logic.sprites.Character {
     private boolean move = false;
     private Sound teste;
 
-    public Player(){
-        super();
+    public Player(int size){
+        super(size);
         bag = new ArrayList<Weapon>();
         inUseIndex = 0;
         bag.add(new Gun(15));
