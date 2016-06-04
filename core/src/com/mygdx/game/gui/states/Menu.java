@@ -102,6 +102,14 @@ public class Menu extends State {
                 Gdx.app.exit();
             }
         });
+
+        highScoresButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+               manager.set(new HighScores(manager));
+                dispose();
+            }
+        });
     }
 
     @Override
