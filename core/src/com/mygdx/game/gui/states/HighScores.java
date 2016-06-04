@@ -19,9 +19,12 @@ public class HighScores extends State  {
     private long[] highScores;
     private String[] names;
     private BitmapFont font;
-
-    public HighScores(GameStateManager manager) {
+    private SoundManager  soundManager;
+    public HighScores(GameStateManager manager, SoundManager soundManager) {
         super(manager);
+
+        this.soundManager = soundManager;
+
         FreeTypeFontGenerator gen = new FreeTypeFontGenerator(
                 Gdx.files.internal("chicagoexpress.ttf")
         );
@@ -48,7 +51,7 @@ public class HighScores extends State  {
     public void handleInput() {
         if(Gdx.input.isTouched())
         {
-            manager.set(new Menu(manager));
+            manager.set(new Menu(manager,soundManager));
             dispose();
         }
     }

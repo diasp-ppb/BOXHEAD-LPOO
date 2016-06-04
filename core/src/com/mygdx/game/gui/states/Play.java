@@ -16,9 +16,16 @@ public class Play extends State {
     private Texture map;
     private Game game;
     private HUD hud;
+    private SoundManager soundManager;
 
-    public Play(GameStateManager manager) {
+    public Play(GameStateManager manager, final SoundManager soundManager) {
+
+
+
         super(manager);
+
+        this.soundManager = soundManager;
+        this.soundManager.StopMusic();
         map = new Texture("map.jpg");
 
         super.cam.setToOrtho(false, width / 2, height / 2);
@@ -34,6 +41,7 @@ public class Play extends State {
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                soundManager.PlayShootRifle();
                 game.shoot();
             }
         });
@@ -41,18 +49,21 @@ public class Play extends State {
         hud.getaButton().addListener((ClickListener) new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                soundManager.PlayClick();
                 game.nextWeapon();
             }
         });
 
         hud.getbButton().addListener((ClickListener) new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
+                soundManager.PlayClick();
                 game.reloadWeapon();
             }
         });
 
         hud.getPlayButton().addListener((ClickListener) new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
+                soundManager.PlayClick();
                 if (game.isPause()){
                     hud.setPlay();
                     game.setPause(false);
@@ -63,6 +74,18 @@ public class Play extends State {
                 }
             }
         });
+        hud.getSoundButton().addListener((ClickListener) new ClickListener() {
+            public void clicked(InputEvent event, float x, float y) {
+                soundManager.PlayClick();
+                if(soundManager.getPlayStatus())
+                soundManager.Mute();
+                else
+                {
+                    soundManager.Play();
+                    soundManager.PlayMusic();
+                }
+            }
+        });
     }
 
     @Override
@@ -70,7 +93,8 @@ public class Play extends State {
         hud.getBackButton().addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                manager.set(new com.mygdx.game.gui.states.Menu(manager));
+                soundManager.PlayClick();
+                manager.set(new com.mygdx.game.gui.states.Menu(manager,soundManager));
                 dispose();
             }
         });

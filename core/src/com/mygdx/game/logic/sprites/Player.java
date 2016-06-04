@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.logic.Animation;
+import com.sun.javafx.binding.StringFormatter;
 
 import java.util.ArrayList;
 
@@ -19,7 +20,6 @@ public class Player extends com.mygdx.game.logic.sprites.Character {
     private ArrayList<Weapon> bag;
     private int inUseIndex;
     private boolean move = false;
-    private Sound teste;
 
     public Player(int size){
         super(size);
@@ -42,7 +42,7 @@ public class Player extends com.mygdx.game.logic.sprites.Character {
         super.animations.add( new Animation(new TextureRegion(new Texture("idle_player.png")),1,0.5f));
         super.animations.add( new Animation(new TextureRegion(new Texture("walk.png")),20,0.10f));
 
-       teste = Gdx.audio.newSound(Gdx.files.internal("shootRifle.mp3"));
+
     }
 
     public void nextWeapon(){
@@ -54,6 +54,8 @@ public class Player extends com.mygdx.game.logic.sprites.Character {
 
     public void draw(SpriteBatch batch) {
         float scale = 0.5f;
+
+
         TextureRegion legs = getFrame();
 
         float Rotation = MathUtils.atan2(direction.y,direction.x)* MathUtils.radiansToDegrees;;
@@ -153,7 +155,7 @@ public class Player extends com.mygdx.game.logic.sprites.Character {
     }
     public void attackAnimation()
     {
-        teste.play();
+
        //SOUNDWHRE
     }
     public void reloadAnimation()

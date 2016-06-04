@@ -26,15 +26,20 @@ public class Menu extends State {
     private Texture background;
     private Viewport viewp;
     private Stage stage;
+    private SoundManager soundManager;
 
 
-    public Menu(GameStateManager manager) {
+    public Menu(GameStateManager manager,SoundManager soundManager) {
         super(manager);
+
+        this.soundManager = soundManager;
+        this.soundManager.PlayMusic();
 
         background = new Texture("MenuBackgroundTitle.png");
         super.width = background.getWidth();
         super.height = background.getHeight();
         super.cam.setToOrtho(false, width, height);
+
         viewp = new FillViewport(width,height);
         stage = new Stage(viewp);
         stage.clear();
@@ -82,7 +87,8 @@ public class Menu extends State {
         playButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                manager.set(new Play(manager));         //demora tempo porque está a carregar imagens e etc
+                manager.set(new Play(manager,soundManager));         //demora tempo porque está a carregar imagens e etc
+                soundManager.PlayClick();
                 dispose();  //free memory
             }
         });
@@ -91,6 +97,7 @@ public class Menu extends State {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 manager.set(new Settings(manager));         //demora tempo porque está a carregar imagens e etc
+                soundManager.PlayClick();
                 dispose();  //free memory
             }
         });
@@ -98,6 +105,7 @@ public class Menu extends State {
         exitButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                soundManager.PlayClick();
                 dispose();  //free memory
                 Gdx.app.exit();
             }
@@ -106,7 +114,8 @@ public class Menu extends State {
         highScoresButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-               manager.set(new HighScores(manager));
+               manager.set(new HighScores(manager,soundManager));
+                soundManager.PlayClick();
                 dispose();
             }
         });

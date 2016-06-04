@@ -7,20 +7,23 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.gui.states.GameStateManager;
 import com.mygdx.game.gui.states.Menu;
+import com.mygdx.game.gui.states.SoundManager;
 
 public class MyGdxGame extends ApplicationAdapter {
 
 	public static final String GameTitle = "Apocalypse";
 	private GameStateManager stateManager;
 	private SpriteBatch batch; //1 per game
+	private SoundManager soundManager;
 	Texture img;
 
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
 		stateManager = new GameStateManager();
+		soundManager = new SoundManager();
 		Gdx.gl.glClearColor(0, 0, 0, 1); //black
-		stateManager.push(new Menu(stateManager));
+		stateManager.push(new Menu(stateManager,soundManager));
 	}
 
 	@Override
