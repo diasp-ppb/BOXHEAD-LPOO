@@ -27,7 +27,6 @@ public class Enemy extends Character {
         sprite.setBounds(sprite.getX(), sprite.getY(), (float)getSize(), (float)getSize());
         visible = true;
         tracking = false;
-        loadAnimations();
     }
 
     public final boolean isVisible(){
@@ -48,6 +47,12 @@ public class Enemy extends Character {
         super.animations.add( new Animation(new TextureRegion(new Texture("idle_zombie.png")),17,0.1f));
         super.animations.add( new Animation(new TextureRegion(new Texture("move_zombie.png")),17,0.10f));
         super.animations.add( new Animation (new TextureRegion(new Texture("attack_zombie.png")),9,0.1f));
+    }
+
+    public void loadAnimation(Animation idle, Animation move, Animation attack){
+        super.animations.add(idle);
+        super.animations.add(move);
+        super.animations.add(attack);
     }
 
     public void idleAnimation()

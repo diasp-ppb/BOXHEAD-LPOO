@@ -10,7 +10,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.logic.designPatt.ZombieSpawner;
 
 import java.util.ArrayList;
-
+import java.util.Random;
 
 
 public class Game {
@@ -78,6 +78,7 @@ public class Game {
                         enemies.remove(j);
                         j--;
                     }
+                    break;
                 }
             }
         }
@@ -92,8 +93,6 @@ public class Game {
             if(enemies.get(j).isVisible()) {
                enemies.get(j).draw(batch);
             }
-            else
-                Gdx.app.log("nao é visivel","not visible");
         }
        player.draw(batch);
         batch.end();
@@ -112,12 +111,12 @@ public class Game {
 
     public void update(float dt) {
         if(enemies.size() == 0){
-            zombieSpawner.cleanWave();
-            zombieSpawner.create(10, 10, 10);
-            enemies = zombieSpawner.getEnemiesWave();
+            enemies = zombieSpawner.create(10 + level*2/4, 10, 10);
+            level++;
         }
         player.update(dt);
         bulletsEnemiesColision();
+
         moveEnemies();
 
         for (int i = 0; i < bullets.size(); i++) {
@@ -177,22 +176,26 @@ public class Game {
         for(int i = 0; i < enemies.size(); i++) {
             boolean collidingPlayer = enemies.get(i).sprite.getBoundingRectangle().overlaps(player.sprite.getBoundingRectangle());
 
-            if (enemies.get(i).isVisible() || enemies.get(i).isTracking()) { //it's on the players range or is tracking him
-             //algo que calcule se a distancia ao centro do player é 1/2 do enemie width então nesse caso ele não anda
+            if (enemies.get(i).isVisible() || enemies.get(i).isTracking()) {
                 Vector2 playerDirection = new Vector2((int) (player.getCenterX() - enemies.get(i).getCenterX()), (int) (player.getCenterY() - enemies.get(i).getCenterY())).nor();
-                if(playerDirection.x != 0 ||  playerDirection.y != 0)
-                    enemies.get(i).setDirection(playerDirection);  //Não desenha o player!!
+                if (playerDirection.x != 0 || playerDirection.y != 0)
+                    enemies.get(i).setDirection(playerDirection);
                 enemies.get(i).addPosition(playerDirection.x, playerDirection.y);
-
-
             }
 
+             else{
+                Random rnd = new Random();
+                //up to 45º
+                Vector2 newDirection = new Vector2((float)(rnd.nextDouble()/8 - 0.5/8 + enemies.get(i).getDirection().x),(float)(rnd.nextDouble()/8 - 0.5/8 + enemies.get(i).getDirection().y)).nor();
+                enemies.get(i).setDirection(newDirection);
+                enemies.get(i).addPosition(newDirection.x, newDirection.y);
+                if(!map.contains(enemies.get(i).sprite.getBoundingRectangle())){
+                    newDirection.set(-newDirection.x,-newDirection.y);
+                    enemies.get(i).setDirection(newDirection);
+                    enemies.get(i).addPosition(newDirection.x,newDirection.y);
+                }
+           }
 
-                // else{
-                //random position
-                //check map overlap
-                //direction addiction between 0 and 90º
-                // }
             if(collidingPlayer){
                 enemies.get(i).attackAnimation();
                 player.damageLife(enemies.get(i).getDamage());
