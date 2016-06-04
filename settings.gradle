@@ -1,1 +1,1 @@
-include 'android', 'core', ':android', ':core'
+include 'android', 'core','tests', ':android', ':core'
