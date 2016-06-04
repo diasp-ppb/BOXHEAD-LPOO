@@ -28,6 +28,8 @@ public class HUD {
     private TextureAtlas ButtonsPack;
     private Skin skin;
     private ImageButton.ImageButtonStyle style;
+    private ImageButton.ImageButtonStyle play;
+    private ImageButton.ImageButtonStyle pause;
     private Viewport viewp;
     private Stage stage;
 
@@ -73,7 +75,7 @@ public class HUD {
         shootButton = new ImageButton(style);
         shootButton.setWidth(height/5);
         shootButton.setHeight(height / 5);
-        shootButton.setPosition(viewp.getScreenWidth() - shootButton.getWidth() -15, 15);
+        shootButton.setPosition(viewp.getScreenWidth() - shootButton.getWidth() - 15, 15);
         stage.addActor(shootButton);
 
         style = new ImageButton.ImageButtonStyle();
@@ -94,10 +96,11 @@ public class HUD {
         bButton.setPosition(viewp.getScreenWidth() - bButton.getWidth() - 15, bButton.getHeight() + 30);
         stage.addActor(bButton);
 
-        style = new ImageButton.ImageButtonStyle();
-        style.up = skin.getDrawable("Play");
-        style.down = skin.getDrawable("Pause");
-        playButton = new ImageButton(style);
+        play = new ImageButton.ImageButtonStyle();
+        pause = new ImageButton.ImageButtonStyle();
+        play.up = skin.getDrawable("Play");
+        pause.up = skin.getDrawable("Pause");
+        playButton = new ImageButton(play);
         playButton.setWidth(height/8);
         playButton.setHeight(height / 8);
         playButton.setPosition(viewp.getScreenWidth() / 2 - playButton.getWidth() / 2, viewp.getScreenHeight() - playButton.getHeight() * 4 / 3);
@@ -157,5 +160,13 @@ public class HUD {
         skin.dispose();
         ButtonsPack.dispose();
         stage.dispose();
+    }
+
+    public void setPause(){
+        playButton.setStyle(pause);
+    }
+
+    public void setPlay(){
+        playButton.setStyle(play);
     }
 }

@@ -22,9 +22,10 @@ public class Game {
     private Rectangle map;
     private Texture bullet_text;
     private ZombieSpawner zombieSpawner;
+    private boolean pause;
 
     public Game(int map_width, int map_height) {
-
+        pause = false;
         map = new Rectangle(0, 0, map_width, map_height);
         player = new Player();
         bullet_text = new Texture("play.png");
@@ -35,6 +36,14 @@ public class Game {
 
     public int getLevel() {
         return level;
+    }
+
+    public void setPause(boolean p){
+        pause = p;
+    }
+
+    public boolean isPause(){
+        return pause;
     }
 
     public final Player getPlayer() {

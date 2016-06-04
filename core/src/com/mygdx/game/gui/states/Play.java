@@ -70,6 +70,19 @@ public class Play extends State {
                 game.reloadWeapon();
             }
         });
+
+        hud.getPlayButton().addListener((ClickListener) new ClickListener() {
+            public void clicked(InputEvent event, float x, float y) {
+                if (game.isPause()){
+                    hud.setPlay();
+                    game.setPause(false);
+                }
+                else{
+                    hud.setPause();
+                    game.setPause(true);
+                }
+            }
+        });
     }
 
     @Override
@@ -86,9 +99,11 @@ public class Play extends State {
     @Override
     public void update(float delta_time){
         super.update(delta_time);
-        game.loadVisibleObjects(cam.position.x - cam.viewportWidth/2,cam.position.y - cam.viewportHeight/2,cam.viewportWidth,cam.viewportHeight);
-        game.update(delta_time);
-        joystyckMove();
+        if(!game.isPause()) {
+            game.loadVisibleObjects(cam.position.x - cam.viewportWidth / 2, cam.position.y - cam.viewportHeight / 2, cam.viewportWidth, cam.viewportHeight);
+            game.update(delta_time);
+            joystyckMove();
+        }
         cam.update();
     }
 
