@@ -1,21 +1,20 @@
-package com.mygdx.game.logic;
+package com.mygdx.game.logic.sprites;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Gdx2DPixmap;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.game.logic.Animation;
+
 import java.util.ArrayList;
 
-public class Player extends Character {
+public class Player extends com.mygdx.game.logic.sprites.Character {
 
     private static final int IDLE = 0;
     private static final int WALK = 1;
-
-
 
     private ArrayList<Weapon> bag;
     private int inUseIndex;
@@ -23,15 +22,11 @@ public class Player extends Character {
     private Sound teste;
 
     public Player(){
-        super(100,2);
+        super();
         bag = new ArrayList<Weapon>();
-        //bag add
         inUseIndex = 0;
-        bag.add(new Gun(5));
+        bag.add(new Gun(15));
         bag.add(new Rifle(5));
-
-        life = 100;
-        damage = 1;
         velocity = 5f;
 
         sprite.setPosition(0, 0);
@@ -142,6 +137,7 @@ public class Player extends Character {
     public int getInUse(){
         return inUseIndex;
     }
+
     public final ArrayList<Weapon> getBag(){
         return bag;
     }
@@ -151,8 +147,6 @@ public class Player extends Character {
     }
 
     public void rechargeWeapons(int level){
-
-
         for(int i = 0; i < bag.size(); i++){
             bag.get(i).recharge(level);
         }

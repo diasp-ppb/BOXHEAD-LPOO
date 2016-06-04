@@ -1,15 +1,13 @@
-package com.mygdx.game.logic.designPatt;
+package com.mygdx.game.logic.designPatterns;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.logic.Animation;
-import com.mygdx.game.logic.Enemy;
+import com.mygdx.game.logic.sprites.Enemy;
 
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.Vector;
 
 /**
  * Created by Catarina Ramos on 02/06/2016.
@@ -29,7 +27,7 @@ public class ZombieSpawner {
        attack = new Animation (new TextureRegion(new Texture("attack_zombie.png")),9,0.1f);;
     };
 
-    public ArrayList<Enemy> create(int number, int life, int damage){
+    public ArrayList<Enemy> create(int number){
         Random rnd = new Random();
         Vector2 entrance = new Vector2(0,0);
         ArrayList<Enemy> wave = new ArrayList<Enemy>();
@@ -52,7 +50,7 @@ public class ZombieSpawner {
                     break;
                 }
             }
-            Enemy e = new Enemy(life,damage,entrance.x,entrance.y);
+            Enemy e = new Enemy(entrance.x,entrance.y);
             e.loadAnimation(idle,move,attack);
             wave.add(e);
         }

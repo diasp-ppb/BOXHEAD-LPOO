@@ -1,13 +1,13 @@
-package com.mygdx.game.logic;
+package com.mygdx.game.logic.sprites;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Array;
+import com.mygdx.game.logic.Animation;
 
-public class Enemy extends Character {
+public class Enemy extends com.mygdx.game.logic.sprites.Character {
 
     private static final int IDLE = 0;
     private static final int MOVE = 1;
@@ -19,8 +19,8 @@ public class Enemy extends Character {
     private boolean visible;
     private boolean tracking;   //Track player
 
-    public Enemy(int life, int damage,double x,double y){
-        super(life,damage);
+    public Enemy(double x,double y){
+        super();
         sprite.setPosition((float) x, (float) y);
 
         setDirection(new Vector2(1,0));

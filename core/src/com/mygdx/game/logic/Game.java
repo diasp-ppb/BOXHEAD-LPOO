@@ -1,13 +1,12 @@
 package com.mygdx.game.logic;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.utils.viewport.Viewport;
-import com.mygdx.game.logic.designPatt.ZombieSpawner;
+import com.mygdx.game.logic.designPatterns.BulletFactory;
+import com.mygdx.game.logic.designPatterns.ZombieSpawner;
+import com.mygdx.game.logic.sprites.Weapon;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -16,22 +15,22 @@ import java.util.Random;
 public class Game {
     private int level;
     private int score;
-    private ArrayList<Enemy> enemies = new ArrayList<Enemy>();
-    private ArrayList<Bullet> bullets = new ArrayList<Bullet>();
-    private Player player;
+    private ArrayList<com.mygdx.game.logic.sprites.Enemy> enemies = new ArrayList<com.mygdx.game.logic.sprites.Enemy>();
+    private ArrayList<com.mygdx.game.logic.sprites.Bullet> bullets = new ArrayList<com.mygdx.game.logic.sprites.Bullet>();
+    private com.mygdx.game.logic.sprites.Player player;
     private Rectangle map;
-    private Texture bullet_text;
     private ZombieSpawner zombieSpawner;
+    private BulletFactory bulletFactory;
     private boolean pause;
 
     public Game(int map_width, int map_height) {
         pause = false;
         map = new Rectangle(0, 0, map_width, map_height);
-        player = new Player();
-        bullet_text = new Texture("play.png");
+        player = new com.mygdx.game.logic.sprites.Player();
         level = 1;
         score = 0;
         zombieSpawner = new ZombieSpawner(map.getWidth(),map.getHeight());
+        bulletFactory = new BulletFactory();
     }
 
     public int getLevel() {
@@ -46,48 +45,58 @@ public class Game {
         return pause;
     }
 
-    public final Player getPlayer() {
+    public final com.mygdx.game.logic.sprites.Player getPlayer() {
         return player;
     }
 
     public Vector2 movePlayer(float x, float y) {
 
-        double x_init = player.getX()  + x * player.velocity;
-        double y_init = player.getY()  + y * player.velocity;
-        double x_fin = player.getX() + player.sprite.getWidth() + x * player.velocity;
-        double y_fin = player.getY() + player.sprite.getHeight() + y * player.velocity;
+        double x_init = player.getX()  + x * player.getVelocity();
+        double y_init = player.getY()  + y * player.getVelocity();
+        double x_fin = player.getX() + player.sprite.getWidth() + x * player.getVelocity();
+        double y_fin = player.getY() + player.sprite.getHeight() + y * player.getVelocity();
 
         if(x != 0 || y != 0)
             player.moveAnimation();
 
         Vector2 res = new Vector2(0,0);
         if(x_init >= 0 && x_fin <= map.getWidth()){
-            player.addPosition(x*player.velocity, 0);
-            res.x = (float)(x*player.velocity);
+            player.addPosition(x*player.getVelocity(), 0);
+            res.x = (float)(x*player.getVelocity());
             player.setDirection(new Vector2(x + player.getDirection().x,player.getDirection().y).nor());
         }
         if(y_init >= 0 && y_fin <= map.getHeight()){
-            player.addPosition(0, y*player.velocity);
-            res.y = (float)(y*player.velocity);
-            player.setDirection(new Vector2(player.getDirection().x,player.getDirection().y+y).nor());
+            player.addPosition(0, y*player.getVelocity());
+            res.y = (float)(y*player.getVelocity());
+            player.setDirection(new Vector2(player.getDirection().x, player.getDirection().y + y).nor());
         }
-        Gdx.app.log(player.getDirection().toString() + " ","");
 
             return res;
+    }
+
+    public void playerEnemiesColision(){
+        for(int i = 0; i < enemies.size();i++) {
+            boolean collidingPlayer = enemies.get(i).sprite.getBoundingRectangle().overlaps(player.sprite.getBoundingRectangle());
+            if (collidingPlayer) {
+                player.die();
+                gameOver();
+            }
+        }
     }
 
     public void bulletsEnemiesColision() {
         for (int i = 0; i < bullets.size(); i++) {
             for (int j = 0; j < enemies.size(); j++) {
                 if (bullets.get(i).getBoundingRectangle().overlaps(enemies.get(j).sprite.getBoundingRectangle())) {
-                    enemies.get(j).damageLife(bullets.get(i).getDamage());
-                    bullets.remove(i);
-                    i--;
-                    if (enemies.get(j).isDead()) {
-                        enemies.remove(j);
-                        j--;
+                    enemies.get(j).die();
+                    enemies.remove(j);
+                    j--;
+                    bullets.get(i).decDurability();
+                    if(bullets.get(i).getDurability() == 0){
+                        bullets.remove(i);
+                        i--;
+                        break;
                     }
-                    break;
                 }
             }
         }
@@ -108,26 +117,24 @@ public class Game {
     }
 
     public void shoot() {
-        Bullet bullet = new Bullet(player.getDirection(), 10, bullet_text); //dir, vel , text
-        bullet.setPosition(player.sprite.getX() + player.sprite.getWidth() / 2 - bullet.getWidth() / 2, player.sprite.getY() + player.sprite.getHeight() / 2 - bullet.getHeight() / 2);
-        bullets.add(bullet);
         player.attackAnimation();
-    }
-
-    public void addEnemy(Enemy e) {
-        enemies.add(e);
+        Weapon w = player.getBag().get(player.getInUse());
+        if(w.use()) {
+            com.mygdx.game.logic.sprites.Bullet bullet = bulletFactory.create(player.getDirection(), w.getDurability(), new Vector2((float) player.getCenterX(), (float) player.getCenterY()));
+            bullets.add(bullet);
+        }
     }
 
     public void update(float dt) {
-        if(enemies.size() == 0){
-            enemies = zombieSpawner.create(10 + level*2/4, 10, 10);
+        if(enemies.size() == 0){    //new botWave
+            enemies = zombieSpawner.create(10 + level);
+            player.getBag().get(1).setDurability(2+level/7);
             level++;
         }
-        player.update(dt);
-        bulletsEnemiesColision();
-
         moveEnemies();
-
+        bulletsEnemiesColision();
+        playerEnemiesColision();
+        player.update(dt);
         for (int i = 0; i < bullets.size(); i++) {
             if (!map.overlaps(bullets.get(i).getBoundingRectangle()) || bullets.get(i).outOfRange()) {
                 bullets.remove(i);
@@ -136,7 +143,7 @@ public class Game {
             else
                 bullets.get(i).incPosition();
         }
-        for(Enemy enemy: enemies)
+        for(com.mygdx.game.logic.sprites.Enemy enemy: enemies)
         {
             enemy.update(dt);
         }
@@ -147,7 +154,7 @@ public class Game {
     }
 
     public void dispose(){
-        bullet_text.dispose();
+       bulletFactory.dispose();
     }
 
     public void playerAmmoCollision(){
@@ -183,35 +190,29 @@ public class Game {
 
     public void moveEnemies(){
         for(int i = 0; i < enemies.size(); i++) {
-            boolean collidingPlayer = enemies.get(i).sprite.getBoundingRectangle().overlaps(player.sprite.getBoundingRectangle());
 
-            if (enemies.get(i).isVisible() || enemies.get(i).isTracking()) {
+            if (enemies.get(i).isVisible() || enemies.get(i).isTracking()) {    //Tracks Player
                 Vector2 playerDirection = new Vector2((int) (player.getCenterX() - enemies.get(i).getCenterX()), (int) (player.getCenterY() - enemies.get(i).getCenterY())).nor();
                 if (playerDirection.x != 0 || playerDirection.y != 0)
                     enemies.get(i).setDirection(playerDirection);
                 enemies.get(i).addPosition(playerDirection.x, playerDirection.y);
+
+                if(Math.sqrt(Math.pow(player.getCenterX() - enemies.get(i).getX(),2) + Math.pow(player.getCenterY() - enemies.get(i).getCenterY(),2)) <= player.getWidth()*4){
+                    enemies.get(i).attackAnimation();
+                }
             }
 
-             else{
+             else{  //Random movement
                 Random rnd = new Random();
-                //up to 45º
-                Vector2 newDirection = new Vector2((float)(rnd.nextDouble()/8 - 0.5/8 + enemies.get(i).getDirection().x),(float)(rnd.nextDouble()/8 - 0.5/8 + enemies.get(i).getDirection().y)).nor();
+                Vector2 newDirection = new Vector2((float)(rnd.nextDouble()/8 - 0.5/8 + enemies.get(i).getDirection().x), (float) (rnd.nextDouble() / 8 - 0.5/8 + enemies.get(i).getDirection().y)).nor();
                 enemies.get(i).setDirection(newDirection);
                 enemies.get(i).addPosition(newDirection.x, newDirection.y);
-                if(!map.contains(enemies.get(i).sprite.getBoundingRectangle())){
+                if(!map.contains(enemies.get(i).sprite.getBoundingRectangle())) {
                     newDirection.set(-newDirection.x,-newDirection.y);
                     enemies.get(i).setDirection(newDirection);
                     enemies.get(i).addPosition(newDirection.x,newDirection.y);
                 }
            }
-
-            if(collidingPlayer){
-                enemies.get(i).attackAnimation();
-                player.damageLife(enemies.get(i).getDamage());
-                if (player.isDead()){
-                    gameOver();
-                }
-            }
             }
         }
 

@@ -1,17 +1,17 @@
-package com.mygdx.game.logic;
+package com.mygdx.game.logic.sprites;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.mygdx.game.logic.Animation;
 
 
 /**
  * Created by Catarina Ramos on 02/06/2016.
  */
 public abstract class Character {
-    protected int life;
-    protected int damage;
+    protected boolean alive;
     public Sprite sprite;
     protected Vector2 direction;
     protected double velocity;
@@ -19,9 +19,8 @@ public abstract class Character {
     protected Array<Animation> animations;
 
 
-    public Character(int life, int damage){
-        this.life = life;
-        this.damage = damage;
+    public Character(){
+        this.alive = true;
         sprite = new Sprite();
         direction = new Vector2(0,0); //N - influencia a maneira como o rectangular é formatado em set bounds
         sprite.rotate(direction.angle());
@@ -30,15 +29,9 @@ public abstract class Character {
 
     public abstract void loadAnimations();
 
-    public int getLife(){return life;}
-
-    public void setLife(int life){this.life = life;}
-
-    public void damageLife(int damage){life -= damage;}
-
-    public int getDamage() {return damage;}
-
-    public void setDamage(int damage){this.damage = damage;}
+    public double getVelocity(){
+        return velocity;
+    }
 
     public double getX(){
         return sprite.getX();
@@ -80,8 +73,12 @@ public abstract class Character {
         return sprite.getHeight();
     }
 
-    public boolean isDead(){
-        return (life == 0);
+    public boolean isAlive(){
+        return alive;
+    }
+
+    public void die(){
+        alive = false;
     }
 
     public void draw(SpriteBatch batch,double width, double height){
