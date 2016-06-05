@@ -41,19 +41,29 @@ public class Save {
     }
     public static void load() {
         FileHandle temp = Gdx.files.local("highscore.txt");
+
         Gdx.app.log("READ",temp.readString());
-        String teste  = temp.readString();
-        String[] teste2 = teste.split("\n");
-        Gdx.app.log("Files count",Integer.toString( teste2.length));
-       /* for(int i = 0; i < 5; i++)
+
+        String content  = temp.readString();
+
+        String[] lines = content.split("\n");
+
+        Gdx.app.log("Files count",Integer.toString( lines.length));
+
+        GameData nova = new GameData();
+        for(int i = 0; i < 5; i++)
         {
-            gd.addHighScore();
-        }*/
+            nova.getNames()[i] = lines[2*i];
+
+            nova.getHighScores()[i] = Long.parseLong(lines[i*2+1],10);
+
+        }
+        gd = nova;
     }
 
     public static boolean saveFileExists() {
         try{
-            FileHandle temp = Gdx.files.local("highscores.json");
+            FileHandle temp = Gdx.files.local("highscores.txt");
             ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(temp.file()));
             out.close();
             return true;

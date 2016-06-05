@@ -53,9 +53,12 @@ public class HighScores extends State  {
           Save.load();
 
         teste.addHighScore(100, "Maria");
+        Save.save();
+
+        teste.addHighScore(100, "Maria");
         teste.sortHighScores();
         Save.gd = teste;
-         Save.save();
+
          Save.load();
         highScores = Save.gd.getHighScores();
         names = Save.gd.getNames();
