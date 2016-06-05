@@ -21,6 +21,7 @@ public abstract class Weapon{
     public void decDurability(int d){
         durability--;
     }
+
     public int getDurability(){
         return durability;
     }

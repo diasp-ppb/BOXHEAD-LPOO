@@ -19,6 +19,6 @@ public class Rifle extends Weapon {
 
     @Override
     public void recharge(int level) {
-        ammo = 5 + level/2;
+        ammo += 5 + level/2;
     }
 }

@@ -21,7 +21,7 @@ public class AmmoFactory {
         this.spriteSize = 48;
         width = w;
         height = h;
-        box_text = new Texture("play.png");
+        box_text = new Texture("ammo.png");
     }
 
     public ArrayList<GameObject> create(int number) {
