@@ -1,7 +1,6 @@
 package com.mygdx.game.logic;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -13,7 +12,6 @@ import com.mygdx.game.logic.sprites.Enemy;
 import com.mygdx.game.logic.sprites.GameObject;
 import com.mygdx.game.logic.sprites.Player;
 import com.mygdx.game.logic.sprites.Weapon;
-
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -30,25 +28,22 @@ public class Game {
     private BulletFactory bulletFactory;
     private AmmoFactory ammoFactory;
     private boolean pause;
-    private int spriteSize;
 
-    public Game(int map_width, int map_height,int spritesSize) {
+    public Game(int map_width, int map_height) {
         pause = false;
         level = 1;
         score = 0;
         map = new Rectangle(0, 0, map_width, map_height);
 
-        spriteSize = spritesSize;
-
         enemies = new ArrayList<Enemy>();
         bullets = new ArrayList<Bullet>();
         ammoBoxs = new ArrayList<GameObject>();
 
-        player = new Player(spritesSize);
+        player = new Player();
 
-        zombieSpawner = new ZombieSpawner(map.getWidth(),map.getHeight(),spritesSize);
-        bulletFactory = new BulletFactory(spritesSize);
-        ammoFactory = new AmmoFactory(map.getWidth(),map.getHeight(),spritesSize);
+        zombieSpawner = new ZombieSpawner(map.getWidth(),map.getHeight());
+        bulletFactory = new BulletFactory();
+        ammoFactory = new AmmoFactory(map.getWidth(),map.getHeight());
     }
 
     public void setPause(boolean p){
@@ -127,13 +122,16 @@ public class Game {
         }
     }
 
+    //Only draws the visible objects
     public void draw(SpriteBatch batch) {
         batch.begin();
         for (int b = 0; b < ammoBoxs.size();b++){
-           ammoBoxs.get(b).draw(batch);
+            if(ammoBoxs.get(b).isVisible())
+                ammoBoxs.get(b).draw(batch);
         }
         for (int i = 0; i < bullets.size(); i++) {
-            bullets.get(i).draw(batch);
+            if(bullets.get(i).isVisible())
+                bullets.get(i).draw(batch);
         }
         for (int j = 0; j < enemies.size(); j++) {
             if(enemies.get(j).isVisible()) {
@@ -155,26 +153,26 @@ public class Game {
     }
 
     public void update(float dt) {
-        if(enemies.size() == 0){    //new botWave
+        //new level ?
+        if(enemies.size() == 0){
             enemies = zombieSpawner.create(10 + level);
             ammoBoxs = ammoFactory.create(3 + level/3);
             player.getBag().get(1).setDurability(2+level/7);
             level++;
         }
+
+        //moves
         moveEnemies();
+        moveBullets();
+
+        //collisions
         bulletsEnemiesColision();
         playerEnemiesColision();
         playerBoxColision();
+
+        //animation updates
         player.update(dt);
-        for (int i = 0; i < bullets.size(); i++) {
-            if (!map.overlaps(bullets.get(i).sprite.getBoundingRectangle()) || bullets.get(i).outOfRange()) {
-                bullets.remove(i);
-                i--;
-            }
-            else
-                bullets.get(i).incPosition();
-        }
-        for(com.mygdx.game.logic.sprites.Enemy enemy: enemies)
+        for(Enemy enemy: enemies)
         {
             enemy.update(dt);
         }
@@ -213,6 +211,20 @@ public class Game {
             else
                 enemies.get(i).setVisible(false);
         }
+        for(int j = 0; j < bullets.size();j++){
+            if(visibleRegion.overlaps(bullets.get(j).sprite.getBoundingRectangle())){
+                bullets.get(j).setVisible(true);
+            }
+            else
+                bullets.get(j).setVisible(false);
+        }
+        for(int b = 0; b < ammoBoxs.size();b++){
+            if(visibleRegion.overlaps(ammoBoxs.get(b).sprite.getBoundingRectangle())){
+                ammoBoxs.get(b).setVisible(true);
+            }
+            else
+                ammoBoxs.get(b).setVisible(false);
+        }
     }
 
     public void moveEnemies(){
@@ -243,5 +255,14 @@ public class Game {
             }
         }
 
-
+    public void moveBullets(){
+        for (int i = 0; i < bullets.size(); i++) {
+            if (!map.overlaps(bullets.get(i).sprite.getBoundingRectangle())) {
+                bullets.remove(i);
+                i--;
+            }
+            else
+                bullets.get(i).incPosition();
+        }
+    }
 }

@@ -1,4 +1,4 @@
-package com.mygdx.game.gui.states;
+package com.mygdx.game.audio;
 
 import com.badlogic.gdx.Audio;
 import com.badlogic.gdx.Gdx;

@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.logic.Animation;
 
-public class Enemy extends com.mygdx.game.logic.sprites.Character {
+public class Enemy extends Character {
 
     private static final int IDLE = 0;
     private static final int MOVE = 1;
@@ -20,10 +20,8 @@ public class Enemy extends com.mygdx.game.logic.sprites.Character {
     private boolean visible;
     private boolean tracking;   //Track player
 
-    public Enemy(double x,double y, int size){
-        super(size);
-        sprite.setPosition((float) x, (float) y);
-
+    public Enemy(int x,int y){
+        super(x,y);
         setDirection(new Vector2(1,0));
         sprite.setBounds(sprite.getX(), sprite.getY(), (float)getSize(), (float)getSize());
         visible = true;
@@ -87,6 +85,8 @@ public class Enemy extends com.mygdx.game.logic.sprites.Character {
             timer = 0;
         }
     }
+
+    @Override
     public void draw(SpriteBatch batch)
     {
         float scale  = 0.5f;

@@ -16,25 +16,18 @@ import com.badlogic.gdx.physics.box2d.World;
 public class Bullet extends GameObject {
     private int durability;
     private final int velocity = 40;
-    private int range;
     private Vector2 direction;
 
-    public Bullet(Vector2 direction , int dur, Texture text, int spriteSize){
-        super(spriteSize);
+    public Bullet(Vector2 direction , int dur, Texture text){
+        super(48/3,0,0);
         this.direction = direction;
         durability =dur;
         sprite.setTexture(text);
         sprite.setBounds((float)getX(), (float)getY(), spriteSize, spriteSize);
-        range = 15;
-    }
-
-    public boolean outOfRange(){
-        return (range <= 0);
     }
 
     public void incPosition(){
         setPosition(direction.x*velocity + getX(),direction.y*velocity + getY());
-        range--;
     }
 
     public void decDurability(){

@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.mygdx.game.audio.SoundManager;
 import com.mygdx.game.gui.controllers.HUD;
 import com.mygdx.game.logic.Game;
 
@@ -20,8 +21,6 @@ public class Play extends State {
 
     public Play(GameStateManager manager, final SoundManager soundManager) {
 
-
-
         super(manager);
 
         this.soundManager = soundManager;
@@ -31,7 +30,7 @@ public class Play extends State {
         super.cam.setToOrtho(false, width / 2, height / 2);
         cam.position.set(map.getWidth()/2, map.getHeight()/2, 0);
 
-        game = new Game(map.getWidth(),map.getHeight(),width/20);
+        game = new Game(map.getWidth(),map.getHeight());
         game.getPlayer().setPosition(map.getWidth() / 2 - game.getPlayer().getWidth() / 2, map.getHeight() / 2 - game.getPlayer().getHeight() / 2);//- width/2 e height/2 --> MUDAR
 
 
@@ -82,10 +81,13 @@ public class Play extends State {
             public void clicked(InputEvent event, float x, float y) {
                 soundManager.PlayClick();
 
-                if(soundManager.getPlayStatus())
-                soundManager.Mute();
+                if(soundManager.getPlayStatus()){
+                    hud.setMute();
+                    soundManager.Mute();
+                }
                 else
                 {
+                    hud.setSound();
                     soundManager.Play();
                     soundManager.PlayMusic();
                 }

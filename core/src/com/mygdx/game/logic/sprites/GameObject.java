@@ -11,8 +11,9 @@ public class GameObject {
     public int spriteSize;
     public Sprite sprite;
 
-    public GameObject(int size){
+    public GameObject(int size,int x,int y){
         sprite = new Sprite();
+        sprite.setPosition(x,y);
         visible = true;
         spriteSize = size;
     }
@@ -56,7 +57,6 @@ public class GameObject {
     public void setVisible(boolean v){
         visible = v;
     }
-
 
     public void draw(SpriteBatch batch){
         sprite.setBounds(sprite.getX(),sprite.getY(),spriteSize,spriteSize);

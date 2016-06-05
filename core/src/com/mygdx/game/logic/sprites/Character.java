@@ -18,8 +18,8 @@ public abstract class Character extends GameObject {
     protected Array<Animation> animations;
 
 
-    public Character(int spriteSize){
-        super(spriteSize);
+    public Character(int x,int y){
+        super(48,x,y);
         this.alive = true;
         direction = new Vector2(0,0); //N - influencia a maneira como o rectangular é formatado em set bounds
         sprite.rotate(direction.angle());
@@ -38,10 +38,6 @@ public abstract class Character extends GameObject {
 
     public void setDirection(Vector2 d){
         direction = d;
-    }
-
-    public boolean isAlive(){
-        return alive;
     }
 
     public void die(){

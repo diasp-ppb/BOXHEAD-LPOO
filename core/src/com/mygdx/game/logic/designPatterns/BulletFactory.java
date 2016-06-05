@@ -9,15 +9,13 @@ import com.mygdx.game.logic.sprites.Bullet;
  */
 public class BulletFactory {
     private Texture bullet_text;
-    private int spriteSize;
 
-    public BulletFactory(int spriteSize){
+    public BulletFactory(){
         bullet_text = new Texture("play.png");
-        this.spriteSize = spriteSize;
     }
 
     public Bullet create(Vector2 direction, int durability,Vector2 position){
-        Bullet bullet = new Bullet(direction,durability,bullet_text,spriteSize);
+        Bullet bullet = new Bullet(direction,durability,bullet_text);
         bullet.setPosition(position.x, position.y);
         return bullet;
     }

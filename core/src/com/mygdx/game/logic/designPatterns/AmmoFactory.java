@@ -17,8 +17,8 @@ public class AmmoFactory {
     private double height;
     private int spriteSize;
 
-    public AmmoFactory(double w, double h,int spriteSize){
-        this.spriteSize = spriteSize;
+    public AmmoFactory(double w, double h){
+        this.spriteSize = 48;
         width = w;
         height = h;
         box_text = new Texture("play.png");
@@ -28,9 +28,8 @@ public class AmmoFactory {
         Random rnd = new Random();
         ArrayList<GameObject> boxs = new ArrayList<GameObject>();
         for (int i = 0; i < number; i++) {
-            GameObject box = new GameObject(spriteSize);
+            GameObject box = new GameObject(spriteSize,rnd.nextInt((int) width - 50),rnd.nextInt((int) height - 50));
             box.sprite.setTexture(box_text);
-            box.setPosition(rnd.nextInt((int) width - 50),rnd.nextInt((int) height - 50));
             boxs.add(box);
         }
         return boxs;

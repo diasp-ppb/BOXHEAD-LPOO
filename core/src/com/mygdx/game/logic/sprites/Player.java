@@ -21,15 +21,13 @@ public class Player extends com.mygdx.game.logic.sprites.Character {
     private int inUseIndex;
     private boolean move = false;
 
-    public Player(int size){
-        super(size);
+    public Player(){
+        super(0,0);
         bag = new ArrayList<Weapon>();
         inUseIndex = 0;
         bag.add(new Gun(15));
         bag.add(new Rifle(5));
         velocity = 5f;
-
-        sprite.setPosition(0, 0);
         direction = new Vector2(1,0);
         sprite.setBounds(sprite.getX(), sprite.getY(), (float)getSize(), (float)getSize());
 
@@ -52,6 +50,7 @@ public class Player extends com.mygdx.game.logic.sprites.Character {
             inUseIndex++;
     }
 
+    @Override
     public void draw(SpriteBatch batch) {
         float scale = 0.5f;
 

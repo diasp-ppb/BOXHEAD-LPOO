@@ -30,6 +30,8 @@ public class HUD {
     private ImageButton.ImageButtonStyle style;
     private ImageButton.ImageButtonStyle play;
     private ImageButton.ImageButtonStyle pause;
+    private ImageButton.ImageButtonStyle sound;
+    private ImageButton.ImageButtonStyle mute;
     private Viewport viewp;
     private Stage stage;
 
@@ -106,10 +108,11 @@ public class HUD {
         playButton.setPosition(viewp.getScreenWidth() / 2 - playButton.getWidth() / 2, viewp.getScreenHeight() - playButton.getHeight() * 4 / 3);
         stage.addActor(playButton);
 
-        style = new ImageButton.ImageButtonStyle();
-        style.up = skin.getDrawable("Sound");
-        style.down = skin.getDrawable("Mute");
-        soundButton = new ImageButton(style);
+        sound = new ImageButton.ImageButtonStyle();
+        sound.up = skin.getDrawable("Sound");
+        mute = new ImageButton.ImageButtonStyle();
+        mute.up = skin.getDrawable("Mute");
+        soundButton = new ImageButton(sound);
         soundButton.setWidth(height/8);
         soundButton.setHeight(height / 8);
         soundButton.setPosition(soundButton.getWidth() * 2 / 3, viewp.getScreenHeight() - soundButton.getHeight() * 4 / 3);
@@ -169,4 +172,8 @@ public class HUD {
     public void setPlay(){
         playButton.setStyle(play);
     }
+
+    public void setSound(){soundButton.setStyle(sound);}
+
+    public void setMute(){soundButton.setStyle(mute);}
 }

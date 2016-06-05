@@ -8,8 +8,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.utils.Array;
-import com.mygdx.game.logic.Game;
+import com.mygdx.game.audio.SoundManager;
 import com.mygdx.game.logic.GameData;
 import com.mygdx.game.logic.Save;
 
@@ -21,7 +20,7 @@ public class HighScores extends State  {
     private long[] highScores;
     private String[] names;
     private BitmapFont font;
-    private SoundManager  soundManager;
+    private SoundManager soundManager;
     private Texture background;
 
     public HighScores(GameStateManager manager, SoundManager soundManager) {

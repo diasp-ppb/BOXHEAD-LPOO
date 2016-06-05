@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.gui.states.GameStateManager;
 import com.mygdx.game.gui.states.Menu;
-import com.mygdx.game.gui.states.SoundManager;
+import com.mygdx.game.audio.SoundManager;
 
 public class MyGdxGame extends ApplicationAdapter {
 

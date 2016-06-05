@@ -20,10 +20,9 @@ public class ZombieSpawner {
     private Animation move;
     private Animation attack;
 
-    public ZombieSpawner(double w, double h,int spriteSize){
+    public ZombieSpawner(double w, double h){
         width = w;
         height = h;
-        this.spriteSize = spriteSize;
         idle = new Animation(new TextureRegion(new Texture("idle_zombie.png")),17,0.1f);
         move = new Animation(new TextureRegion(new Texture("move_zombie.png")),17,0.10f);
        attack = new Animation (new TextureRegion(new Texture("attack_zombie.png")),9,0.1f);;
@@ -52,7 +51,7 @@ public class ZombieSpawner {
                     break;
                 }
             }
-            Enemy e = new Enemy(entrance.x,entrance.y,spriteSize);
+            Enemy e = new Enemy((int)entrance.x,(int)entrance.y);
             e.loadAnimation(idle,move,attack);
             wave.add(e);
         }
