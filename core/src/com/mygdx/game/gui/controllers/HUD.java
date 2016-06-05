@@ -1,11 +1,14 @@
 package com.mygdx.game.gui.controllers;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
@@ -32,6 +35,11 @@ public class HUD {
     private ImageButton.ImageButtonStyle pause;
     private ImageButton.ImageButtonStyle sound;
     private ImageButton.ImageButtonStyle mute;
+
+    private Label ammoLabel;
+    private Label ammoMsg;
+    private int ammo;
+
     private Viewport viewp;
     private Stage stage;
 
@@ -125,6 +133,16 @@ public class HUD {
         backButton.setHeight(height / 8);
         backButton.setPosition(viewp.getScreenWidth() - backButton.getWidth()*5/3, viewp.getScreenHeight() - backButton.getHeight()* 4/3);
         stage.addActor(backButton);
+
+        ammoMsg =new Label("Ammo", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        ammoMsg.setFontScale(2);
+        ammoMsg.setPosition((viewp.getScreenWidth() - ammoMsg.getWidth()/2)/2, viewp.getScreenHeight()*3/20);
+        stage.addActor(ammoMsg);
+
+        ammoLabel =new Label(String.format("%06d", ammo), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        ammoLabel.setFontScale(2);
+        ammoLabel.setPosition((viewp.getScreenWidth() - ammoLabel.getWidth()/2)/2, viewp.getScreenHeight()/20);
+        stage.addActor(ammoLabel);
     }
 
     public ImageButton getaButton(){
@@ -176,4 +194,10 @@ public class HUD {
     public void setSound(){soundButton.setStyle(sound);}
 
     public void setMute(){soundButton.setStyle(mute);}
+
+    public void setAmmo(int ammo)
+    {
+        this.ammo = ammo;
+        ammoLabel.setText(String.format("%06d", ammo));
+    }
 }

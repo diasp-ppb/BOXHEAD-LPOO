@@ -1,12 +1,16 @@
 package com.mygdx.game.logic;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.logic.designPatterns.AmmoFactory;
 import com.mygdx.game.logic.designPatterns.BulletFactory;
 import com.mygdx.game.logic.designPatterns.ZombieSpawner;
+import com.mygdx.game.logic.sprites.Bomb;
 import com.mygdx.game.logic.sprites.Bullet;
 import com.mygdx.game.logic.sprites.Enemy;
 import com.mygdx.game.logic.sprites.GameObject;
@@ -18,16 +22,19 @@ import java.util.Random;
 
 public class Game {
     private int level;
-    private int score;
+    private long score;
     private ArrayList<Enemy> enemies;
     private ArrayList<Bullet> bullets;
     private ArrayList<GameObject> ammoBoxs;
+    private ArrayList<Bomb> bombs;
     private com.mygdx.game.logic.sprites.Player player;
     private Rectangle map;
     private ZombieSpawner zombieSpawner;
     private BulletFactory bulletFactory;
     private AmmoFactory ammoFactory;
     private boolean pause;
+    private boolean endGame;
+    private Animation bomb;
 
     public Game(int map_width, int map_height) {
         pause = false;
@@ -39,11 +46,16 @@ public class Game {
         bullets = new ArrayList<Bullet>();
         ammoBoxs = new ArrayList<GameObject>();
 
+
         player = new Player();
 
         zombieSpawner = new ZombieSpawner(map.getWidth(),map.getHeight());
         bulletFactory = new BulletFactory();
         ammoFactory = new AmmoFactory(map.getWidth(),map.getHeight());
+        endGame = false;
+
+        bombs = new ArrayList<Bomb>();
+        bomb =new Animation(new TextureRegion(new Texture("explosion.png")),13,0.05f);
     }
 
     public void setPause(boolean p){
@@ -97,8 +109,10 @@ public class Game {
         for (int i = 0; i < bullets.size(); i++) {
             for (int j = 0; j < enemies.size(); j++) {
                 if (bullets.get(i).sprite.getBoundingRectangle().overlaps(enemies.get(j).sprite.getBoundingRectangle())) {
+                    bombs.add(new Bomb((int) enemies.get(j).getX(),(int)enemies.get(j).getY(),bomb));
                     enemies.get(j).die();
                     enemies.remove(j);
+                    score += 100;
                     j--;
                     bullets.get(i).decDurability();
                     if(bullets.get(i).getDurability() == 0){
@@ -138,6 +152,10 @@ public class Game {
                enemies.get(j).draw(batch);
             }
         }
+        for(Bomb bomb : bombs)
+        {
+            bomb.draw(batch);
+        }
 
        player.draw(batch);
         batch.end();
@@ -176,10 +194,20 @@ public class Game {
         {
             enemy.update(dt);
         }
+        for(int i = 0; i < bombs.size(); i ++){
+            if(bombs.get(i).getAnimationcicle() == 1)
+            {
+                bombs.get(i).die();
+                bombs.remove(i);
+                i--;
+            }
+            else
+            bombs.get(i).update(dt);
+        }
     }
 
     public void gameOver() {
-        Gdx.app.log("End Game", "go");
+        endGame = true;
     }
 
     public void dispose() {
@@ -265,4 +293,13 @@ public class Game {
                 bullets.get(i).incPosition();
         }
     }
+
+    public boolean getEndGame(){
+        return  endGame;
+    }
+    public long getScore()
+    {
+        return score;
+    }
+
 }

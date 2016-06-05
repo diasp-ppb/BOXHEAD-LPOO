@@ -23,10 +23,9 @@ public class Save {
     public static void save () {
         FileHandle temp = Gdx.files.local("highscore.txt");
         if(!temp.exists())
-            Gdx.app.log("File","dont exits");
+            Gdx.app.log("FileEXITS","dont exits");
         else
-            Gdx.app.log("File","" +
-                    " exits");
+            Gdx.app.log("FileEXITS", " exits");
 
 
       for(int i = 0; i < 5; i++)
@@ -53,9 +52,12 @@ public class Save {
         GameData nova = new GameData();
         for(int i = 0; i < 5; i++)
         {
+
             nova.getNames()[i] = lines[2*i];
 
             nova.getHighScores()[i] = Long.parseLong(lines[i*2+1],10);
+            Gdx.app.log("Read Name",nova.getNames()[i]);
+            Gdx.app.log("Read SCORE",Long.toString(nova.getHighScores()[i]));
 
         }
         gd = nova;
@@ -63,9 +65,9 @@ public class Save {
 
     public static boolean saveFileExists() {
         try{
-            FileHandle temp = Gdx.files.local("highscores.txt");
-            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(temp.file()));
-            out.close();
+            FileHandle temp = Gdx.files.local("highscore.txt");
+          //  ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(temp.file()));
+           // out.close();
             return true;
         }
         catch(Exception e){

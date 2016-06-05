@@ -41,24 +41,9 @@ public class HighScores extends State  {
         config.color = Color.GRAY;
         font = gen.generateFont(config);
 
-
-        GameData teste = new GameData();
-        teste.init();
-        teste.addHighScore(1000, "Maria");
-        Save.gd = teste;
-
-          Save.save();
-
-          Save.load();
-
-        teste.addHighScore(100, "Maria");
-        Save.save();
-
-        teste.addHighScore(100, "Maria");
-        teste.sortHighScores();
-        Save.gd = teste;
-
-         Save.load();
+        Save save = new Save();
+        //save.gd.init();
+        save.load();
         highScores = Save.gd.getHighScores();
         names = Save.gd.getNames();
 
@@ -73,9 +58,9 @@ public class HighScores extends State  {
             manager.set(new Menu(manager,soundManager));
             dispose();
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.BACK)){
+        /*if (Gdx.input.isKeyPressed(Input.Keys.BACK)){
 
-        }
+        }*/
     }
 
     @Override

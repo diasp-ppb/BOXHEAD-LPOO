@@ -171,4 +171,9 @@ public class Player extends com.mygdx.game.logic.sprites.Character {
         move = true;
     }
 
+    public int getAmmo()
+    {
+        return bag.get(inUseIndex).ammo;
+    }
+
 }

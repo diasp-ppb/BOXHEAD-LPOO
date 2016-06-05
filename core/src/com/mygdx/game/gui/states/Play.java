@@ -35,14 +35,15 @@ public class Play extends State {
 
 
         hud = new HUD();
-
+        hud.setAmmo(game.getPlayer().getAmmo());
         hud.getShootButton().addListener(new ClickListener() {
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 soundManager.PlayShootRifle();
-                if(!game.isPause())
-                game.shoot();
+                if(!game.isPause()) {
+                    game.shoot();
+                }
             }
         });
 
@@ -51,7 +52,9 @@ public class Play extends State {
             public void clicked(InputEvent event, float x, float y) {
                 soundManager.PlayClick();
                 if(!game.isPause())
-                game.nextWeapon();
+                {
+                    game.nextWeapon();
+                }
             }
         });
 
@@ -114,9 +117,16 @@ public class Play extends State {
             game.loadVisibleObjects(cam.position.x - cam.viewportWidth / 2, cam.position.y - cam.viewportHeight / 2, cam.viewportWidth, cam.viewportHeight);
             game.update(delta_time);
             joystyckMove();
+            hud.setAmmo(game.getPlayer().getAmmo());
         }
+
         cam.update();
-    }
+        if(game.getEndGame()) {
+            manager.set(new GameOver(manager,game.getScore(), soundManager));
+            dispose();
+        }
+
+        }
 
     @Override
     public void render(SpriteBatch batch){
