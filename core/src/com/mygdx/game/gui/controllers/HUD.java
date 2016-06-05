@@ -3,7 +3,6 @@ package com.mygdx.game.gui.controllers;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -17,9 +16,6 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import java.util.Vector;
 
-/**
- * Created by Catarina Ramos on 02/06/2016.
- */
 public class HUD {
     //botões
     private ImageButton aButton;
@@ -135,13 +131,13 @@ public class HUD {
         stage.addActor(backButton);
 
         ammoMsg =new Label("Ammo", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        ammoMsg.setFontScale(2);
-        ammoMsg.setPosition((viewp.getScreenWidth() - ammoMsg.getWidth()/2)/2, viewp.getScreenHeight()*3/20);
+        ammoMsg.setFontScale(3);
+        ammoMsg.setPosition(viewp.getScreenWidth()/2 - ammoMsg.getWidth()/2, viewp.getScreenHeight()*3/20);
         stage.addActor(ammoMsg);
 
         ammoLabel =new Label(String.format("%06d", ammo), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        ammoLabel.setFontScale(2);
-        ammoLabel.setPosition((viewp.getScreenWidth() - ammoLabel.getWidth()/2)/2, viewp.getScreenHeight()/20);
+        ammoLabel.setFontScale(3);
+        ammoLabel.setPosition(viewp.getScreenWidth()/2 - ammoLabel.getWidth()/2, viewp.getScreenHeight()/20);
         stage.addActor(ammoLabel);
     }
 

@@ -19,7 +19,7 @@ public class Bullet extends GameObject {
     private Vector2 direction;
 
     public Bullet(Vector2 direction , int dur, Texture text){
-        super(48/3,0,0);
+        super(24,0,0);
         this.direction = direction;
         durability =dur;
         sprite.setTexture(text);

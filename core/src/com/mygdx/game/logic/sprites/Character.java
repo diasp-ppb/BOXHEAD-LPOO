@@ -7,26 +7,19 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.logic.Animation;
 
-
-/**
- * Created by Catarina Ramos on 02/06/2016.
- */
-public abstract class Character extends GameObject {
+public abstract class Character extends Animated {
     protected boolean alive;
     protected Vector2 direction;
     protected double velocity;
-    protected Array<Animation> animations;
 
-
-    public Character(int x,int y){
+    public Character(int x,int y, double velocity){
         super(48,x,y);
         this.alive = true;
+        this.velocity = velocity;
         direction = new Vector2(0,0); //N - influencia a maneira como o rectangular é formatado em set bounds
         sprite.rotate(direction.angle());
-        animations = new Array<Animation>();
+        sprite.setBounds(sprite.getX(), sprite.getY(), (float)getSize(), (float)getSize());
     }
-
-    public abstract void loadAnimations();
 
     public double getVelocity(){
         return velocity;

@@ -12,7 +12,7 @@ import com.sun.javafx.binding.StringFormatter;
 
 import java.util.ArrayList;
 
-public class Player extends com.mygdx.game.logic.sprites.Character {
+public class Player extends Character {
 
     private static final int IDLE = 0;
     private static final int WALK = 1;
@@ -22,32 +22,19 @@ public class Player extends com.mygdx.game.logic.sprites.Character {
     private boolean move = false;
 
     public Player(){
-        super(0,0);
+        super(0,0,4);
         bag = new ArrayList<Weapon>();
         inUseIndex = 0;
         bag.add(new Gun(15));
         bag.add(new Rifle(5));
-        velocity = 5f;
         direction = new Vector2(1,0);
-        sprite.setBounds(sprite.getX(), sprite.getY(), (float)getSize(), (float)getSize());
-
         loadAnimations();
     }
 
     @Override
     public void loadAnimations() {
-
         super.animations.add( new Animation(new TextureRegion(new Texture("idle_player.png")),1,0.5f));
         super.animations.add( new Animation(new TextureRegion(new Texture("walk.png")),20,0.10f));
-
-
-    }
-
-    public void nextWeapon(){
-        if(inUseIndex+1 == bag.size())
-            inUseIndex = 0;
-        else
-            inUseIndex++;
     }
 
     @Override

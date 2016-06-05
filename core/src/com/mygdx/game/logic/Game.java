@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.logic.designPatterns.AmmoFactory;
 import com.mygdx.game.logic.designPatterns.BulletFactory;
 import com.mygdx.game.logic.designPatterns.ZombieSpawner;
@@ -109,10 +108,11 @@ public class Game {
         for (int i = 0; i < bullets.size(); i++) {
             for (int j = 0; j < enemies.size(); j++) {
                 if (bullets.get(i).sprite.getBoundingRectangle().overlaps(enemies.get(j).sprite.getBoundingRectangle())) {
+
                     bombs.add(new Bomb((int) enemies.get(j).getX(),(int)enemies.get(j).getY(),bomb));
                     enemies.get(j).die();
                     enemies.remove(j);
-                    score += 100;
+                    score += level;
                     j--;
                     bullets.get(i).decDurability();
                     if(bullets.get(i).getDurability() == 0){
@@ -197,7 +197,6 @@ public class Game {
         for(int i = 0; i < bombs.size(); i ++){
             if(bombs.get(i).getAnimationcicle() == 1)
             {
-                bombs.get(i).die();
                 bombs.remove(i);
                 i--;
             }
@@ -235,6 +234,8 @@ public class Game {
             if(visibleRegion.overlaps(enemies.get(i).sprite.getBoundingRectangle())){
                 enemies.get(i).setVisible(true);
                 enemies.get(i).setTracking(true);
+                Gdx.app.log("in range", "zumbie");
+
             }
             else
                 enemies.get(i).setVisible(false);
@@ -262,7 +263,7 @@ public class Game {
                 Vector2 playerDirection = new Vector2((int) (player.getCenterX() - enemies.get(i).getCenterX()), (int) (player.getCenterY() - enemies.get(i).getCenterY())).nor();
                 if (playerDirection.x != 0 || playerDirection.y != 0)
                     enemies.get(i).setDirection(playerDirection);
-                enemies.get(i).addPosition(playerDirection.x, playerDirection.y);
+                enemies.get(i).addPosition(playerDirection.x*enemies.get(i).getVelocity(), playerDirection.y*enemies.get(i).getVelocity());
 
                 if(Math.sqrt(Math.pow(player.getCenterX() - enemies.get(i).getX(),2) + Math.pow(player.getCenterY() - enemies.get(i).getCenterY(),2)) <= player.getWidth()*4){
                     enemies.get(i).attackAnimation();
@@ -277,7 +278,7 @@ public class Game {
                 if(!map.contains(enemies.get(i).sprite.getBoundingRectangle())) {
                     newDirection.set(-newDirection.x,-newDirection.y);
                     enemies.get(i).setDirection(newDirection);
-                    enemies.get(i).addPosition(newDirection.x,newDirection.y);
+                    enemies.get(i).addPosition(newDirection.x*enemies.get(i).getVelocity(),newDirection.y*enemies.get(i).getVelocity());
                 }
            }
             }
@@ -297,6 +298,7 @@ public class Game {
     public boolean getEndGame(){
         return  endGame;
     }
+
     public long getScore()
     {
         return score;

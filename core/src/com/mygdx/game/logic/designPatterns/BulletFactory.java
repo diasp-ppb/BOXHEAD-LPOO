@@ -11,7 +11,7 @@ public class BulletFactory {
     private Texture bullet_text;
 
     public BulletFactory(){
-        bullet_text = new Texture("play.png");
+        bullet_text = new Texture("bullet.png");
     }
 
     public Bullet create(Vector2 direction, int durability,Vector2 position){

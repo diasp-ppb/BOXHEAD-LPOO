@@ -27,7 +27,7 @@ public class Play extends State {
        // this.soundManager.StopMusic();
         map = new Texture("map.jpg");
 
-        super.cam.setToOrtho(false, width / 2, height / 2);
+        super.cam.setToOrtho(false, map.getWidth()/3, map.getWidth()/3*height/width);
         cam.position.set(map.getWidth()/2, map.getHeight()/2, 0);
 
         game = new Game(map.getWidth(),map.getHeight());

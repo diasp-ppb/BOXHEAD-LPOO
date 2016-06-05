@@ -13,19 +13,17 @@ public class Enemy extends Character {
     private static final int IDLE = 0;
     private static final int MOVE = 1;
     private static final int ATTACK = 2;
-    private int currentAnimation = 1;
-    private int frame = 0;
-    private float timer = 0;
-    private double animationcicle = 0;
-    private boolean visible;
     private boolean tracking;   //Track player
 
     public Enemy(int x,int y){
-        super(x,y);
-        setDirection(new Vector2(1,0));
-        sprite.setBounds(sprite.getX(), sprite.getY(), (float)getSize(), (float)getSize());
-        visible = true;
+        super(x, y, 0.75);
+        setDirection(new Vector2(1, 0));
+        setVisible(true);
         tracking = false;
+        currentAnimation = 1;
+        frame = 0;
+        timer = 0;
+        animationcicle = 0;
     }
 
     public final boolean isTracking(){return tracking;}
@@ -52,6 +50,7 @@ public class Enemy extends Character {
         timer = 0;
         currentAnimation = 0;
     }
+
     public void moveAnimation()
     {
         frame  = 0;
