@@ -1,6 +1,8 @@
 package com.mygdx.game.gui.states;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
@@ -20,10 +22,15 @@ public class HighScores extends State  {
     private String[] names;
     private BitmapFont font;
     private SoundManager  soundManager;
+    private Texture background;
+
     public HighScores(GameStateManager manager, SoundManager soundManager) {
         super(manager);
 
         this.soundManager = soundManager;
+
+
+        background = new Texture("MenuBackgroundTitle.png");
 
         FreeTypeFontGenerator gen = new FreeTypeFontGenerator(
                 Gdx.files.internal("chicagoexpress.ttf")
@@ -32,15 +39,24 @@ public class HighScores extends State  {
         config.size = 30;
         config.magFilter = Texture.TextureFilter.Nearest;
         config.minFilter = Texture.TextureFilter.Nearest;
+        config.color = Color.GRAY;
         font = gen.generateFont(config);
 
 
         GameData teste = new GameData();
         teste.init();
+        teste.addHighScore(1000, "Maria");
         Save.gd = teste;
 
           Save.save();
+
           Save.load();
+
+        teste.addHighScore(100, "Maria");
+        teste.sortHighScores();
+        Save.gd = teste;
+         Save.save();
+         Save.load();
         highScores = Save.gd.getHighScores();
         names = Save.gd.getNames();
 
@@ -51,8 +67,12 @@ public class HighScores extends State  {
     public void handleInput() {
         if(Gdx.input.isTouched())
         {
+            soundManager.PlayClick();
             manager.set(new Menu(manager,soundManager));
             dispose();
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.BACK)){
+
         }
     }
 
@@ -60,7 +80,8 @@ public class HighScores extends State  {
     public void render(SpriteBatch batch) {
 
         batch.begin();
-        float GameWidth = Gdx.app.getGraphics().getHeight()/2;
+        batch.draw(background, 0, 0);
+        float GameWidth = Gdx.app.getGraphics().getWidth()/2;
 
         GlyphLayout glyphLayout = new GlyphLayout();
 
@@ -74,7 +95,7 @@ public class HighScores extends State  {
         glyphLayout.setText(font,s);
 
         w = glyphLayout.width;
-        font.draw(batch, s, (GameWidth - w) / 2, 300);
+        font.draw(batch, s, (GameWidth - w/2) / 2, 240);
 
         for(int i = 0; i < highScores.length; i++) {
             s = String.format(
@@ -85,7 +106,7 @@ public class HighScores extends State  {
             );
             glyphLayout.setText(font,s);
             w = glyphLayout.width;
-            font.draw(batch, s, (GameWidth - w) / 2, 270 - 20 * i);
+            font.draw(batch, s, (GameWidth - w/2) / 2, 200 - 20 * i);
         }
         batch.end();
     }

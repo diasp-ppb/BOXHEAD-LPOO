@@ -1,6 +1,7 @@
 package com.mygdx.game.gui.states;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -27,10 +28,13 @@ public class Menu extends State {
     private Viewport viewp;
     private Stage stage;
     private SoundManager soundManager;
+    private boolean backButtonExit;
 
 
     public Menu(GameStateManager manager,SoundManager soundManager) {
         super(manager);
+
+        backButtonExit = false;
 
         this.soundManager = soundManager;
         this.soundManager.PlayMusic();
@@ -43,7 +47,9 @@ public class Menu extends State {
         viewp = new FillViewport(width,height);
         stage = new Stage(viewp);
         stage.clear();
+
         Gdx.input.setInputProcessor(stage);
+        Gdx.input.setCatchBackKey(true);
 
         //buttons
         ButtonsPack = new TextureAtlas("MenuButtons.atlas");        //pack de botões
@@ -119,6 +125,16 @@ public class Menu extends State {
                 dispose();
             }
         });
+
+        if (Gdx.input.isKeyPressed(Input.Keys.BACK)){
+            if(!backButtonExit) { // Remove LOOPING
+                soundManager.PlayClick();
+               // dispose();
+                Gdx.app.exit();
+                backButtonExit = false;
+            }
+            backButtonExit = true;
+        }
     }
 
     @Override

@@ -25,7 +25,7 @@ public class Play extends State {
         super(manager);
 
         this.soundManager = soundManager;
-        this.soundManager.StopMusic();
+       // this.soundManager.StopMusic();
         map = new Texture("map.jpg");
 
         super.cam.setToOrtho(false, width / 2, height / 2);
@@ -42,6 +42,7 @@ public class Play extends State {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 soundManager.PlayShootRifle();
+                if(!game.isPause())
                 game.shoot();
             }
         });
@@ -50,6 +51,7 @@ public class Play extends State {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 soundManager.PlayClick();
+                if(!game.isPause())
                 game.nextWeapon();
             }
         });
@@ -57,6 +59,7 @@ public class Play extends State {
         hud.getbButton().addListener((ClickListener) new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
                 soundManager.PlayClick();
+                if(!game.isPause())
                 game.reloadWeapon();
             }
         });
@@ -64,6 +67,7 @@ public class Play extends State {
         hud.getPlayButton().addListener((ClickListener) new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
                 soundManager.PlayClick();
+
                 if (game.isPause()){
                     hud.setPlay();
                     game.setPause(false);
@@ -77,6 +81,7 @@ public class Play extends State {
         hud.getSoundButton().addListener((ClickListener) new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
                 soundManager.PlayClick();
+
                 if(soundManager.getPlayStatus())
                 soundManager.Mute();
                 else

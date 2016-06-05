@@ -5,20 +5,18 @@ import java.io.Serializable;
 /**
  * Created by Madnar on 04/06/2016.
  */
-public class GameData implements Serializable {
+public class GameData {
 
-    private static final long serialVersion = 1;
+
 
     private final int MAX_SCORES = 5;
-    private long[] highScores;
-    private String[] names;
+    private long[] highScores = new long[MAX_SCORES];
+    private String[] names = new String[MAX_SCORES];
 
-    private long scoreTry;
+    private long scoreTry = 0;
 
     public GameData()
     {
-        highScores = new long[MAX_SCORES];
-        names = new String[MAX_SCORES];
     }
 
     public void init() {
