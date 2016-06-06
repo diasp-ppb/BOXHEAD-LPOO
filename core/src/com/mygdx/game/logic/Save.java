@@ -22,12 +22,6 @@ public class Save {
 
     public static void save () {
         FileHandle temp = Gdx.files.local("highscore.txt");
-        if(!temp.exists())
-            Gdx.app.log("FileEXITS","dont exits");
-        else
-            Gdx.app.log("FileEXITS", " exits");
-
-
       for(int i = 0; i < 5; i++)
       {
           if(i == 0)
@@ -41,13 +35,12 @@ public class Save {
     public static void load() {
         FileHandle temp = Gdx.files.local("highscore.txt");
 
-        Gdx.app.log("READ",temp.readString());
 
         String content  = temp.readString();
 
         String[] lines = content.split("\n");
 
-        Gdx.app.log("Files count",Integer.toString( lines.length));
+
 
         GameData nova = new GameData();
         for(int i = 0; i < 5; i++)
@@ -56,8 +49,7 @@ public class Save {
             nova.getNames()[i] = lines[2*i];
 
             nova.getHighScores()[i] = Long.parseLong(lines[i*2+1],10);
-            Gdx.app.log("Read Name",nova.getNames()[i]);
-            Gdx.app.log("Read SCORE",Long.toString(nova.getHighScores()[i]));
+
 
         }
         gd = nova;
