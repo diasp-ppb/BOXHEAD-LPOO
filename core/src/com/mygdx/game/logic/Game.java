@@ -37,7 +37,7 @@ public class Game {
 
     public Game(int map_width, int map_height) {
         pause = false;
-        level = 1;
+        level = 0;
         score = 0;
         map = new Rectangle(0, 0, map_width, map_height);
 
@@ -54,7 +54,7 @@ public class Game {
         endGame = false;
 
         bombs = new ArrayList<Bomb>();
-        bomb =new Animation(new TextureRegion(new Texture("explosion.png")),13,0.05f);
+        bomb  = new Animation(new TextureRegion(new Texture("explosion.png")),13,0.05f);
     }
 
     public void setPause(boolean p){
@@ -303,5 +303,7 @@ public class Game {
     {
         return score;
     }
+
+    public int getLevel() {return level; }
 
 }

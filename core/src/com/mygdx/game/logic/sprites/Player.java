@@ -141,7 +141,6 @@ public class Player extends Character {
     }
     public void attackAnimation()
     {
-
        //SOUNDWHRE
     }
     public void reloadAnimation()

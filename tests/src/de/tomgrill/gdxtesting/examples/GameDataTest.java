@@ -16,12 +16,8 @@
 
 package de.tomgrill.gdxtesting.examples;
 
-import com.mygdx.game.logic.GameData;
-import com.mygdx.game.logic.Save;
-import com.mygdx.game.logic.sprites.Gun;
-import com.mygdx.game.logic.sprites.Weapon;
 
-import junit.framework.Assert;
+
 
 import static org.junit.Assert.assertEquals;
 

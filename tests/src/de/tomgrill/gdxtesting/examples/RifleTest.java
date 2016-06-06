@@ -5,6 +5,7 @@ package de.tomgrill.gdxtesting.examples;
  */
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
@@ -27,13 +28,28 @@ public class RifleTest {
     {
 
         Rifle test = new Rifle(1);
-        assertEquals(1,test.getDurability());
+        assertEquals(2,test.getDurability());
         assertEquals(true,test.use());
         assertEquals(false,test.use());
 
         test.recharge(1);
 
         assertEquals(true,test.use());
+
+        assertEquals(2,test.getDurability());
+
+        test.setDurability(3);
+
+        assertEquals(3,test.getDurability());
+
+
+        assertNotNull(test.getFrame());
+        test.setAnimation('r');
+        assertNotNull(test.getFrame());
+        test.setAnimation('i');
+        assertNotNull(test.getFrame());
+        test.setAnimation('x');
+        assertNotNull(test.getFrame());
 
 
     }

@@ -36,6 +36,7 @@ public class Play extends State {
 
         hud = new HUD();
         hud.setAmmo(game.getPlayer().getAmmo());
+        hud.setLevel(1);
         hud.getShootButton().addListener(new ClickListener() {
 
             @Override
@@ -118,6 +119,8 @@ public class Play extends State {
             game.update(delta_time);
             joystyckMove();
             hud.setAmmo(game.getPlayer().getAmmo());
+            hud.setLevel(game.getLevel());
+            hud.setScore(game.getScore());
         }
 
         cam.update();

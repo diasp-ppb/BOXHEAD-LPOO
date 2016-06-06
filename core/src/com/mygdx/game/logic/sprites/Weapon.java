@@ -11,17 +11,16 @@ public abstract class Weapon{
     protected int ammo;
     protected Animation idle;
     protected Animation reload;
-   // protected Animation attack;
     protected Animation current_anim;
 
     public Weapon(int a,int d){
         ammo = a;
         durability = d;
     }
-    public void decDurability(int d){
+   /* public void decDurability(int d){
         durability--;
     }
-
+*/
     public int getDurability(){
         return durability;
     }

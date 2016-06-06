@@ -8,7 +8,11 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.audio.SoundManager;
+import com.mygdx.game.logic.Game;
 import com.mygdx.game.logic.GameData;
 import com.mygdx.game.logic.Save;
 
@@ -22,6 +26,7 @@ public class HighScores extends State  {
     private BitmapFont font;
     private SoundManager soundManager;
     private Texture background;
+
 
     public HighScores(GameStateManager manager, SoundManager soundManager) {
         super(manager);
@@ -48,6 +53,9 @@ public class HighScores extends State  {
         highScores = Save.gd.getHighScores();
         names = Save.gd.getNames();
 
+
+
+
     }
 
 
@@ -69,7 +77,13 @@ public class HighScores extends State  {
 
         batch.begin();
         batch.draw(background, 0, 0);
-        float GameWidth = Gdx.app.getGraphics().getWidth()/2;
+
+
+
+        Table table = new Table();
+
+
+
 
         GlyphLayout glyphLayout = new GlyphLayout();
 
@@ -83,18 +97,22 @@ public class HighScores extends State  {
         glyphLayout.setText(font,s);
 
         w = glyphLayout.width;
-        font.draw(batch, s, (GameWidth - w/2) / 2, 240);
+        font.draw(batch, s,  240,(background.getWidth() - w) / 2);
+
+
 
         for(int i = 0; i < highScores.length; i++) {
+
             s = String.format(
                     "%2d. %7s %s",
                     i + 1,
                     highScores[i],
                     names[i]
             );
+
             glyphLayout.setText(font,s);
             w = glyphLayout.width;
-            font.draw(batch, s, (GameWidth - w/2) / 2, 200 - 20 * i);
+            font.draw(batch, s, (background.getWidth() - w) / 2, 200 - 20 * i);
         }
         batch.end();
     }

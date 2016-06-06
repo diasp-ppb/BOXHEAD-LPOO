@@ -85,7 +85,8 @@ public class GameOver extends State {
 
             batch.begin();
             batch.draw(background, 0, 0);
-            float GameWidth = Gdx.app.getGraphics().getWidth() / 2;
+
+            float GameWidth = background.getWidth();
 
             GlyphLayout glyphLayout = new GlyphLayout();
 
@@ -109,9 +110,6 @@ public class GameOver extends State {
             {
                  s = "NEW HIGHSCORE";
                 font.draw(batch, s, (GameWidth - w) / 2, 180);
-
-
-
             }
 
 

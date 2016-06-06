@@ -36,6 +36,14 @@ public class HUD {
     private Label ammoMsg;
     private int ammo;
 
+    private Label scoreLabel;
+    private Label scoreMsg;
+    private long score;
+
+    private Label levelLabel;
+    private Label levelMsg;
+    private int level;
+
     private Viewport viewp;
     private Stage stage;
 
@@ -47,6 +55,8 @@ public class HUD {
 
     private float width;
     private float height;
+
+    private int fontScale = 3;
 
     public HUD(){
         width = Gdx.app.getGraphics().getWidth();
@@ -131,14 +141,37 @@ public class HUD {
         stage.addActor(backButton);
 
         ammoMsg =new Label("Ammo", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        ammoMsg.setFontScale(3);
+        ammoMsg.setFontScale(fontScale);
         ammoMsg.setPosition(viewp.getScreenWidth()/2 - ammoMsg.getWidth()/2, viewp.getScreenHeight()*3/20);
         stage.addActor(ammoMsg);
 
         ammoLabel =new Label(String.format("%06d", ammo), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        ammoLabel.setFontScale(3);
+        ammoLabel.setFontScale(fontScale);
         ammoLabel.setPosition(viewp.getScreenWidth()/2 - ammoLabel.getWidth()/2, viewp.getScreenHeight()/20);
         stage.addActor(ammoLabel);
+
+
+        scoreMsg = new Label("Score", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        scoreMsg.setFontScale(fontScale);
+        scoreMsg.setPosition(viewp.getScreenWidth()*2/3 ,viewp.getScreenHeight() - backButton.getHeight());
+        stage.addActor(scoreMsg);
+
+        scoreLabel = new Label(String.format("%06d", score), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        scoreLabel.setFontScale(fontScale);
+        scoreLabel.setPosition(viewp.getScreenWidth()*2/3,viewp.getScreenHeight() - backButton.getHeight() - 2*scoreMsg.getHeight());
+        stage.addActor(scoreLabel);
+
+        levelMsg = new Label("Level", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        levelMsg.setFontScale(fontScale);
+        levelMsg.setPosition(viewp.getScreenWidth()*3/12, viewp.getScreenHeight() - backButton.getHeight());
+        stage.addActor(levelMsg);
+
+        levelLabel = new Label(String.format("%06d", level), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        levelLabel.setFontScale(3);
+        levelLabel.setPosition(viewp.getScreenWidth()*3/12, viewp.getScreenHeight() - backButton.getHeight() - 2*levelMsg.getHeight());
+        stage.addActor( levelLabel);
+
+
     }
 
     public ImageButton getaButton(){
@@ -195,5 +228,15 @@ public class HUD {
     {
         this.ammo = ammo;
         ammoLabel.setText(String.format("%06d", ammo));
+    }
+    public void setScore(long score)
+    {
+        this.score = score;
+        scoreLabel.setText(String.format("%06d", score));
+    }
+    public void setLevel(int level)
+    {
+        this.level = level;
+        levelLabel.setText(String.format("%06d", level));
     }
 }
