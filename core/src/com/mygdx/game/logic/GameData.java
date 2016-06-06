@@ -10,14 +10,17 @@ public class GameData {
 
 
     private final int MAX_SCORES = 5;
-    private long[] highScores = new long[MAX_SCORES];
-    private String[] names = new String[MAX_SCORES];
+    private long[] highScores;
+    private String[] names;
 
-    private long scoreTry = 0;
 
     public GameData()
     {
+        highScores = new long[MAX_SCORES];
+        names =  new String[MAX_SCORES];
     }
+
+
 
     public void init() {
         for(int i  = 0; i < MAX_SCORES; i++)
@@ -34,13 +37,7 @@ public class GameData {
         return names;
     }
 
-    public long getScoreTry(){
-        return scoreTry;
-    }
 
-    public void setScoreTry(long score) {
-        scoreTry = score;
-    }
 
     public boolean isHighScore( long score ) {
         return score > highScores[MAX_SCORES - 1];
@@ -69,5 +66,11 @@ public class GameData {
             highScores[j + 1] = score;
             names[j + 1] = name;
         }
+    }
+    public void setArrays(long[] hiqhscores, String[] names)
+    {
+        this.highScores = hiqhscores;
+        this.names = names;
+
     }
 }

@@ -23,6 +23,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Texture;
 import com.mygdx.game.logic.GameData;
 import com.mygdx.game.logic.Save;
 import com.mygdx.game.logic.sprites.Gun;
@@ -30,16 +32,19 @@ import com.mygdx.game.logic.sprites.Gun;
 import de.tomgrill.gdxtesting.GdxTestRunner;
 
 @RunWith(GdxTestRunner.class)
-public class AssetExistsExampleTest {
+public class GameSaveTest {
+
 
     @Test
     public void testSave()
     {
-        GameData test = new GameData();
-        test.init();
+
+        Gdx.files.local("highscore.txt").delete();
+
 
         Save temp = new Save();
         temp.init();
+
         temp.load();
 
         long scores [] = temp.gd.getHighScores();
@@ -63,18 +68,25 @@ public class AssetExistsExampleTest {
 
         assertEquals(10,scores[0]);
         assertEquals("20/20/20",names[0]);
+
+        temp.gd.addHighScore(10,"20/20/20");
+        temp.gd.addHighScore(10,"20/20/20");
+        temp.gd.addHighScore(10,"20/20/20");
+        temp.gd.addHighScore(10,"20/20/20");
+
+        temp.save();
+
+        temp.load();
+
+        scores = temp.gd.getHighScores();
+        names  = temp.gd.getNames();
+        for(int i = 0; i < 5 ; i++) {
+            assertEquals(10, scores[i]);
+            assertEquals("20/20/20", names[i]);
+        }
     }
 
 
-    @Test
-    public void testGun()
-    {
-      //  Gun test = new Gun(1);
-    //    assertEquals(1,test.getDurability());
-     //   assertEquals(true,test.use());
-     //   assertEquals(false,test.use());
 
-
-    }
 
 }

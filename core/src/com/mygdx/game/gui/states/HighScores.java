@@ -42,7 +42,8 @@ public class HighScores extends State  {
         font = gen.generateFont(config);
 
         Save save = new Save();
-        //save.gd.init();
+        save.init();
+
         save.load();
         highScores = Save.gd.getHighScores();
         names = Save.gd.getNames();

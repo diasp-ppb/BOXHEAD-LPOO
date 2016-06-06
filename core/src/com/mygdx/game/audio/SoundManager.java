@@ -9,6 +9,10 @@ import com.badlogic.gdx.audio.Sound;
 /**
  * Created by Madnar on 04/06/2016.
  */
+
+/**
+ *
+ */
 public class SoundManager {
 
     boolean play;

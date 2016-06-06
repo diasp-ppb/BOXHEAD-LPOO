@@ -40,38 +40,32 @@ public class Save {
 
         String[] lines = content.split("\n");
 
-
-
+        if(lines.length < 10)
+        {
+            gd.init();
+            return;
+        }
         GameData nova = new GameData();
+        long scores[] = new long[5];
+        String names[] = new String[5];
         for(int i = 0; i < 5; i++)
         {
-
-            nova.getNames()[i] = lines[2*i];
-
-            nova.getHighScores()[i] = Long.parseLong(lines[i*2+1],10);
-
-
+            names[i] = lines[2*i];
+            scores[i] = Long.parseLong(lines[i*2+1],10);
         }
+        nova.setArrays(scores,names);
+
         gd = nova;
     }
 
-    public static boolean saveFileExists() {
-        try{
-            FileHandle temp = Gdx.files.local("highscore.txt");
-          //  ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(temp.file()));
-           // out.close();
-            return true;
-        }
-        catch(Exception e){
-            return false;
-        }
 
-    }
 
     public static void init() {
         gd = new GameData();
         gd.init();
-        save();
+        FileHandle temp = Gdx.files.local("highscore.txt");
+        temp.writeString("",true);
+
     }
 
 }

@@ -27,14 +27,14 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-public class UnitTestExample {
+public class GameDataTest {
 
 	//GAMEDATA TEST
 
 	@Test
 	public void testGameData()
 	{
-		GameData test = new GameData();
+		com.mygdx.game.logic.GameData test = new com.mygdx.game.logic.GameData();
 		test.init();
 
 		long scores [] = test.getHighScores();

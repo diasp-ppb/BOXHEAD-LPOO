@@ -53,7 +53,7 @@ public class GameOver extends State {
 
         Save scores = new Save();
         sdf = new SimpleDateFormat("dd/MM/yyyy");
-
+        scores.init();
         scores.load();
         if(scores.gd.isHighScore(score)) {
             String currentDateandTime = sdf.format(new Date());
