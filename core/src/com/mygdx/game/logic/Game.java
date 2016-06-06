@@ -173,9 +173,9 @@ public class Game {
     public void update(float dt) {
         //new level ?
         if(enemies.size() == 0){
-            enemies = zombieSpawner.create(10 + level);
-            ammoBoxs = ammoFactory.create(3 + level/3);
-            player.getBag().get(1).setDurability(2+level/7);
+            enemies = zombieSpawner.create(6 + level);
+            ammoBoxs = ammoFactory.create(2 + level/3);
+            player.getBag().get(1).setDurability(2+level/6);
             level++;
         }
 

@@ -29,13 +29,10 @@ public class Menu extends State {
     private Viewport viewp;
     private Stage stage;
     private SoundManager soundManager;
-    private boolean backButtonExit;
 
 
     public Menu(GameStateManager manager,SoundManager soundManager) {
         super(manager);
-
-        backButtonExit = false;
 
         this.soundManager = soundManager;
         this.soundManager.PlayMusic();
@@ -94,7 +91,7 @@ public class Menu extends State {
         playButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                manager.set(new Play(manager,soundManager));         //demora tempo porque está a carregar imagens e etc
+                manager.set(new Play(manager,soundManager));
                 soundManager.PlayClick();
                 dispose();  //free memory
             }
@@ -103,7 +100,7 @@ public class Menu extends State {
         settingsButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                manager.set(new Settings(manager));         //demora tempo porque está a carregar imagens e etc
+                manager.set(new HowToPlay(manager,soundManager));
                 soundManager.PlayClick();
                 dispose();  //free memory
             }
@@ -126,16 +123,6 @@ public class Menu extends State {
                 dispose();
             }
         });
-
-        if (Gdx.input.isKeyPressed(Input.Keys.BACK)){
-            if(!backButtonExit) { // Remove LOOPING
-                soundManager.PlayClick();
-               // dispose();
-                Gdx.app.exit();
-                backButtonExit = false;
-            }
-            backButtonExit = true;
-        }
     }
 
     @Override
