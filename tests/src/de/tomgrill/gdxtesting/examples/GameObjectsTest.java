@@ -18,6 +18,7 @@ import de.tomgrill.gdxtesting.GdxTestRunner;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -67,6 +68,7 @@ public class GameObjectsTest {
         assertEquals(true, test.isTracking());
         //AssertNumber of animatiom cicles
         assertEquals(0,test.getAnimationcicle(),0);
+
     }
 
     @Test
@@ -131,6 +133,15 @@ public class GameObjectsTest {
 
         //2 weapons on bag;
         assertEquals(2,test.getBag().size());
+
+        test.rechargeWeapons(0);
+
+        assertEquals(25,test.getAmmo(),0);
+
+
+        test.setWeaponBehavior('r');
+
+        assertNotEquals(null,test.getBag().get(test.getInUse()).getFrame());
     }
 
     @Test

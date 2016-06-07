@@ -99,14 +99,19 @@ public class GameOver extends State {
             w = glyphLayout.width;
             font.draw(batch, s, (GameWidth - w / 2) / 2, 240);
 
+
             s = String.format("%7d", score);
 
+        glyphLayout.setText(font, s);
+        w = glyphLayout.width;
             font.draw(batch, s, (GameWidth - w / 2) / 2, 200);
 
 
         if(drawMsg)
             {
                  s = "NEW HIGHSCORE";
+                glyphLayout.setText(font, s);
+                w = glyphLayout.width;
                 font.draw(batch, s, (GameWidth - w) / 2, 180);
             }
 

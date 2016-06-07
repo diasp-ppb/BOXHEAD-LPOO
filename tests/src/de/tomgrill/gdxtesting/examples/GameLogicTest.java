@@ -84,16 +84,23 @@ public class GameLogicTest {
         test.update(0.5f);
 
         assertEquals(1,test.getLevel());
+
+        assertEquals(0,test.getScore(),0);
+        assertEquals(1,test.getLevel(),0);
     }
 
     @Test
     public void testBomb()
     {
-        Animation bomb = new Animation(new TextureRegion(new Texture("explosion.png")),13,0.05f);
+        Animation bomb = new Animation(new TextureRegion(new Texture("explosion.png")),13,0.5f);
         Bomb test = new Bomb(10,10,bomb);
 
         assertEquals(10,test.getX(),0);
         assertEquals(10,test.getY(),0);
+
+        for(int i = 0; i < 100; i++)
+        test.update(0.5f);
+        assertEquals(1,test.getAnimationcicle(),0);
     }
     @Test
     public void testFactory(){
