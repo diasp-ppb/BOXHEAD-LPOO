@@ -5,10 +5,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
 /**
- * Repesents a object present in the game
+ * Class that represents all objects of the game
  */
 public class GameObject {
-    private boolean visible;
+    private boolean visible; /*attribute to know if the object is visible to the player*/
     private int spriteSize;
     private Sprite sprite;
 

@@ -8,7 +8,7 @@ import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.logic.Animation;
 
 /**
- * Represents game characters
+ * Class that represents the games "living" characters
  */
 public abstract class Character extends Animated {
     protected boolean alive;
@@ -25,7 +25,7 @@ public abstract class Character extends Animated {
         super(48,x,y);
         this.alive = true;
         this.velocity = velocity;
-        direction = new Vector2(0,0); //N - influencia a maneira como o rectangular é formatado em set bounds
+        direction = new Vector2(0,0);
         getSprite().rotate(direction.angle());
         getSprite().setBounds(getX(), getY(), getSize(), getSize());
     }

@@ -1,11 +1,13 @@
 package com.mygdx.game.logic.sprites;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.mygdx.game.logic.Animation;
 
 /**
- * Responsible for draw small explosion
+ * Class that draw small explosion with animation
+ * It is used when a bullet collides with an enemy
  */
 public class Bomb extends Animated {
     /**
@@ -23,14 +25,15 @@ public class Bomb extends Animated {
     }
 
     /**
-     * Load animations
+     * Load the animation automatic
      */
     @Override
     public void loadAnimations() {
+        super.animations.add(new Animation(new TextureRegion(new Texture("explosion.png")),13,0.05f));
     }
 
     /**
-     * Add a animation to  animations array
+     * Add the animation to  animations array
      * @param bomb  bomb animation
      */
     public void loadAnimations(Animation bomb) {
@@ -55,7 +58,7 @@ public class Bomb extends Animated {
     }
 
     /**
-     * Draw explosion in a Spritebatch
+     * Draw bomb current frame in a Spritebatch
      * @param batch SpriteBatch
      */
     public void draw(SpriteBatch batch)

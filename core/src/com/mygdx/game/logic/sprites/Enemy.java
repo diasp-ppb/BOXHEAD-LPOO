@@ -9,14 +9,14 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.logic.Animation;
 
 /**
- * Represents players enemies
+ * Class derived of Character that represents an enemy
  */
 public class Enemy extends Character {
 
-    private static final int IDLE = 0;
-    private static final int MOVE = 1;
-    private static final int ATTACK = 2;
-    private boolean tracking;   //Track player
+    private static final int IDLE = 0; /*index of idle animation*/
+    private static final int MOVE = 1; /*index of move animation*/
+    private static final int ATTACK = 2; /*index of attack animation*/
+    private boolean tracking; /*attribute that describes if the moviment is random (false) or in the direction of a player (true)*/
 
     /**
      * Enemy constructor
@@ -58,7 +58,7 @@ public class Enemy extends Character {
     }
 
     /**
-     * Add enemy animations
+     * Add enemy basic animations
      * @param idle idle animation
      * @param move move animation
      * @param attack attack animation

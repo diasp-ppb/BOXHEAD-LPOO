@@ -9,7 +9,7 @@ import java.util.Vector;
  * Design a skeleton for Weapons in game
  */
 public abstract class Weapon{
-    protected int durability;
+    protected int durability; /* bullet durability - number of zombies capable of kill with just one shot*/
     protected int ammo;
     protected Animation idle;
     protected Animation reload;

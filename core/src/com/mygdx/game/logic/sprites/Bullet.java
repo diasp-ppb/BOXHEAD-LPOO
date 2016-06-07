@@ -11,10 +11,11 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 
 /**
- * Represents bullet in the game
+ * Class that represents bullet in the game
+ * It is used to kill the enemies
  */
 public class Bullet extends GameObject {
-    private int durability;
+    private int durability; /*Number of enemies that can kill */
     private final int velocity = 40;
     private Vector2 direction;
 

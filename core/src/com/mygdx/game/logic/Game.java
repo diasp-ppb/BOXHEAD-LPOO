@@ -18,17 +18,21 @@ import java.util.Random;
  * Implements all game logic and all objects relations
  */
 public class Game {
+    //game properties
     private int level;
     private long score;
+    private boolean pause;
+    private boolean endGame;
+    //gameObjects
     private ArrayList<Enemy> enemies;
     private ArrayList<Bullet> bullets;
     private ArrayList<GameObject> ammoBoxs;
     private ArrayList<Bomb> bombs;
     private com.mygdx.game.logic.sprites.Player player;
-    private Rectangle map;
+    //factory
     private GameObjectFactory objectFactory;
-    private boolean pause;
-    private boolean endGame;
+    //game range
+    private Rectangle map;
 
 
     /**
@@ -94,12 +98,14 @@ public class Game {
         if(x != 0 || y != 0)
             player.moveAnimation();
 
+        //if new x coord is between the map limits
         Vector2 res = new Vector2(0,0);
         if(x_init >= 0 && x_fin <= map.getWidth()){
             player.addPosition((float)(x*player.getVelocity()), 0);
             res.x = (float)(x*player.getVelocity());
             player.setDirection(new Vector2(x + player.getDirection().x,player.getDirection().y).nor());
         }
+        //if new y coord is between the map limits
         if(y_init >= 0 && y_fin <= map.getHeight()){
             player.addPosition(0, (float)(y*player.getVelocity()));
             res.y = (float)(y*player.getVelocity());
@@ -125,20 +131,22 @@ public class Game {
 
     /**
      * Test collision between bullets  and enemies
-     * If collision exits kills zombie
-     * If bullet durability decreased to 0, destroy bullet
+     * If collision exists the zombie is killed
+     * If bullet durability decreases to 0, the bullet is destroyed
      */
     public void bulletsEnemiesColision() {
         for (int i = 0; i < bullets.size(); i++) {
             for (int j = 0; j < enemies.size(); j++) {
+                //colision ?
                 if (bullets.get(i).getSprite().getBoundingRectangle().overlaps(enemies.get(j).getSprite().getBoundingRectangle())) {
-
+                    //explosion and zombie death
                     bombs.add(objectFactory.createBomb(enemies.get(j).getPosition()));
                     enemies.get(j).die();
                     enemies.remove(j);
                     score += level;
                     j--;
                     bullets.get(i).decDurability();
+                    //destroy bullet ?
                     if(bullets.get(i).getDurability() == 0){
                         bullets.remove(i);
                         i--;
@@ -283,7 +291,8 @@ public class Game {
     }
 
     /**
-     * Receives camera view and calculate all objects in the game, deciding what object will be draw
+     * Receives the games camera viewport and calculate the game objects that are visible in that area to be drawn later
+     * Once visible an enemy tracks the player until one of them is dead
      * @param x camera X coordinate
      * @param y camera Y coordinate
      * @param width displayed width
@@ -295,7 +304,6 @@ public class Game {
             if(visibleRegion.overlaps(enemies.get(i).getSprite().getBoundingRectangle())){
                 enemies.get(i).setVisible(true);
                 enemies.get(i).setTracking(true);
-                Gdx.app.log("in range", "zumbie");
 
             }
             else
@@ -318,7 +326,9 @@ public class Game {
     }
 
     /**
-     * Move all enemies if enemy is visible or is tracking player moves in pplayer direction otherwise moves in a random way
+     * Move all enemies
+     * If the enemy is visible or is tracking the player it moves goes after the plyer (direction)
+     * Otherwise moves in a random way
      */
     public void moveEnemies(){
         for(int i = 0; i < enemies.size(); i++) {

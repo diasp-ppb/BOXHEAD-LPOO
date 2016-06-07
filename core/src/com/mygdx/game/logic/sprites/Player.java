@@ -17,10 +17,10 @@ import java.util.ArrayList;
  */
 public class Player extends Character {
 
-    private static final int IDLE = 0;
-    private static final int WALK = 1;
-    private ArrayList<Weapon> bag;
-    private int inUseIndex;
+    private static final int IDLE = 0;/*index of idle animation*/
+    private static final int WALK = 1; /*index of walk animation*/
+    private ArrayList<Weapon> bag; /*bag with weapons*/
+    private int inUseIndex; /*current weapon of bag in use*/
     private boolean move = false;
 
     /**
@@ -65,11 +65,11 @@ public class Player extends Character {
 
         if (inUseIndex  == 0) {
 
-            if(move)
+            if(move) //legs are moving (animation walk)
             batch.draw(legs,(float)(getWidth()/2+ legsOffsetX + getX() - legs.getRegionWidth()*0.5f),(float)(getHeight()/2 +legsOffsetY + getY() - legs.getRegionHeight()*0.5f),
                     legs.getRegionWidth()*0.5f, legs.getRegionHeight()*0.5f,
                     legs.getRegionWidth(), legs.getRegionHeight(),scale,scale,Rotation);
-            else
+            else  //legs are quiet (idle animation)
                 batch.draw(animations.get(IDLE).getFrame(),(float)(getWidth()/2+ legsOffsetX + getX() - legs.getRegionWidth()*0.5f),(float)(getHeight()/2 +legsOffsetY + getY() - legs.getRegionHeight()*0.5f),
                         legs.getRegionWidth()*0.5f, legs.getRegionHeight()*0.5f,
                         legs.getRegionWidth(), legs.getRegionHeight(),scale,scale,Rotation);
@@ -85,6 +85,7 @@ public class Player extends Character {
 
             legsOffsetX = 0;//10 * cos;
             legsOffsetY = 0;//10* sin;
+
             if(move)
             batch.draw(legs,(float)(legsOffsetX +getWidth()/2+ getX() - legs.getRegionWidth()*0.5f),(float)(getHeight()/2 + getY() - legs.getRegionHeight()*0.5f),
                     legs.getRegionWidth()*0.5f, legs.getRegionHeight()*0.5f,
