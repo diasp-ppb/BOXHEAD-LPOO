@@ -16,7 +16,6 @@ public class Player extends Character {
 
     private static final int IDLE = 0;
     private static final int WALK = 1;
-
     private ArrayList<Weapon> bag;
     private int inUseIndex;
     private boolean move = false;

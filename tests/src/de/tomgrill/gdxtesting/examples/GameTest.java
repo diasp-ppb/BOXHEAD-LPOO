@@ -18,9 +18,7 @@ import com.badlogic.gdx.math.Vector2;
 
 import com.mygdx.game.logic.Animation;
 import com.mygdx.game.logic.Game;
-import com.mygdx.game.logic.designPatterns.AmmoFactory;
-import com.mygdx.game.logic.designPatterns.BulletFactory;
-import com.mygdx.game.logic.designPatterns.ZombieSpawner;
+import com.mygdx.game.logic.GameObjectFactory;
 import com.mygdx.game.logic.sprites.Bomb;
 import com.mygdx.game.logic.sprites.Bullet;
 import com.mygdx.game.logic.sprites.Enemy;
@@ -100,7 +98,7 @@ public class GameTest {
     public void testFactories(){
         // Zombie Spwaner
 
-        ZombieSpawner zombie = new ZombieSpawner(500,500);
+        GameObjectFactory zombie = new GameObjectFactory(500,500);
 
         ArrayList<Enemy> zombies =  zombie.create(10);
 

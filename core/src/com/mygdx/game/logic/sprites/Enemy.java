@@ -16,7 +16,7 @@ public class Enemy extends Character {
     private boolean tracking;   //Track player
 
     public Enemy(int x,int y){
-        super(x, y, 0.75);
+        super(x, y, 0.75f);
         setDirection(new Vector2(1, 0));
         setVisible(true);
         tracking = false;
@@ -92,8 +92,8 @@ public class Enemy extends Character {
         TextureRegion temp = animations.get(currentAnimation).getFrame(frame);
         float Rotation = MathUtils.atan2(direction.y,direction.x)* MathUtils.radiansToDegrees;
 
-        batch.draw(temp,(float)(getWidth()/2  + getX() - temp.getRegionWidth()*0.5f),(float)(getHeight()/2  + getY() - temp.getRegionHeight()*0.5f),
-                temp.getRegionWidth()*0.5f, temp.getRegionHeight()*0.5f,
+        batch.draw(temp,getWidth()/2  + getX() - temp.getRegionWidth()*scale,getHeight()/2  + getY() - temp.getRegionHeight()*scale,
+                temp.getRegionWidth()*scale, temp.getRegionHeight()*scale,
                 temp.getRegionWidth(), temp.getRegionHeight(),scale,scale,Rotation);
 
     }

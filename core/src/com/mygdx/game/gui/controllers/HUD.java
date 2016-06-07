@@ -82,7 +82,7 @@ public class HUD {
         //Create new TouchPad with the created style
         touchpad = new Touchpad(10, touchpadStyle);
         //setBounds(x,y,width,height)
-        touchpad.setBounds(30, 30,height/3, height/3);
+        touchpad.setBounds(30, 30,2*height/5, 2*height/5);
         stage.addActor(touchpad);
 
         style = new ImageButton.ImageButtonStyle();

@@ -11,6 +11,7 @@ import com.mygdx.game.audio.*;
 public class HowToPlay extends State {
     private Texture tutorial_1;
     private Texture tutorial_2;
+    private Texture tutorial_3;
     private int n_tut;
     private com.mygdx.game.audio.SoundManager soundManager;
 
@@ -18,6 +19,7 @@ public class HowToPlay extends State {
         super(manager);
         tutorial_1 = new Texture("Tutorial_1.png");
         tutorial_2 = new Texture("Tutorial_2.png");
+        tutorial_3 = new Texture("Tutorial_3.png");
         n_tut = 1;
         this.soundManager = soundManager;
         this.soundManager.PlayMusic();
@@ -37,7 +39,7 @@ public class HowToPlay extends State {
             soundManager.PlayClick();
             n_tut++;
             Gdx.app.log("just touched","");
-            if(n_tut>2){
+            if(n_tut>3){
                 manager.set(new Menu(manager,soundManager));
                 dispose();
             }
@@ -53,6 +55,8 @@ public class HowToPlay extends State {
             batch.draw(tutorial_1, 0, 0);
         else if(n_tut == 2)
             batch.draw(tutorial_2,0,0);
+        else if(n_tut == 3)
+            batch.draw(tutorial_3,0,0);
         batch.end();
     }
 

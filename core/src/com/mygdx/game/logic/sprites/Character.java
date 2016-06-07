@@ -10,15 +10,15 @@ import com.mygdx.game.logic.Animation;
 public abstract class Character extends Animated {
     protected boolean alive;
     protected Vector2 direction;
-    protected double velocity;
+    protected float velocity;
 
-    public Character(int x,int y, double velocity){
+    public Character(int x,int y, float velocity){
         super(48,x,y);
         this.alive = true;
         this.velocity = velocity;
         direction = new Vector2(0,0); //N - influencia a maneira como o rectangular é formatado em set bounds
-        sprite.rotate(direction.angle());
-        sprite.setBounds(sprite.getX(), sprite.getY(), (float)getSize(), (float)getSize());
+        getSprite().rotate(direction.angle());
+        getSprite().setBounds(getX(), getY(), getSize(), getSize());
     }
 
     public double getVelocity(){

@@ -2,14 +2,12 @@ package com.mygdx.game.logic.sprites;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 
-/**
- * Created by Catarina Ramos on 04/06/2016.
- */
 public class GameObject {
     private boolean visible;
-    public int spriteSize;
-    public Sprite sprite;
+    private int spriteSize;
+    private Sprite sprite;
 
     public GameObject(int size,int x,int y){
         sprite = new Sprite();
@@ -18,35 +16,41 @@ public class GameObject {
         spriteSize = size;
     }
 
-    public double getX(){
+    public Sprite getSprite(){return sprite;}
+
+    public float getX(){
         return sprite.getX();
     }
 
-    public double getY(){
+    public float getY(){
         return sprite.getY();
     }
 
-    public double getCenterX(){return sprite.getX()+sprite.getWidth()/2;}
+    public float getCenterX(){return sprite.getX()+sprite.getWidth()/2;}
 
-    public double getCenterY(){return sprite.getY()+sprite.getWidth()/2;}
+    public float getCenterY(){return sprite.getY()+sprite.getWidth()/2;}
 
-    public void addPosition(double x,double y){
-        sprite.setPosition((float)(x+getX()), (float)(y+getY()));
+    public void addPosition(float x,float y){
+        sprite.setPosition(x+getX(), y+getY());
     }
 
-    public void setPosition(double x, double y){
-        sprite.setPosition((float)x,(float)y);
+    public Vector2 getPosition(){
+        return new Vector2(getX(),getY());
     }
 
-    public double getSize(){
+    public void setPosition(float x, float y){
+        sprite.setPosition(x,y);
+    }
+
+    public float getSize(){
         return spriteSize;
     }
 
-    public double getWidth(){
+    public float getWidth(){
         return sprite.getWidth();
     }
 
-    public double getHeight(){
+    public float getHeight(){
         return sprite.getHeight();
     }
 

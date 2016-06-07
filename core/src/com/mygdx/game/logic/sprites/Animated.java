@@ -4,10 +4,6 @@ import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.logic.Animation;
 
 /**
- * Created by Catarina Ramos on 05/06/2016.
- */
-
-/**
  * Class that make a skeleton for animated GameObjects
  */
 public abstract class Animated extends GameObject{

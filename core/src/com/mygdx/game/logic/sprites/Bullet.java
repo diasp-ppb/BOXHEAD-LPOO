@@ -10,9 +10,6 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 
-/**
- * Created by Catarina Ramos on 29/05/2016.
- */
 public class Bullet extends GameObject {
     private int durability;
     private final int velocity = 40;
@@ -22,8 +19,8 @@ public class Bullet extends GameObject {
         super(24,0,0);
         this.direction = direction;
         durability =dur;
-        sprite.setTexture(text);
-        sprite.setBounds((float)getX(), (float)getY(), spriteSize, spriteSize);
+        getSprite().setTexture(text);
+        getSprite().setBounds((float)getX(), (float)getY(), getSize(), getSize());
     }
 
     public void incPosition(){
