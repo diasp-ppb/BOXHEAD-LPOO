@@ -31,7 +31,7 @@ public class Bomb extends Animated {
 
     /**
      * Add a animation to  animations array
-     * @param bomb
+     * @param bomb  bomb animation
      */
     public void loadAnimations(Animation bomb) {
         super.animations.add(bomb);
@@ -56,7 +56,7 @@ public class Bomb extends Animated {
 
     /**
      * Draw explosion in a Spritebatch
-     * @param batch
+     * @param batch SpriteBatch
      */
     public void draw(SpriteBatch batch)
     {

@@ -33,8 +33,8 @@ public class Game {
 
     /**
      * Game constructor take as parameters game map dimensions
-     * @param map_width
-     * @param map_height
+     * @param map_width  map width
+     * @param map_height map height
      */
     public Game(int map_width, int map_height) {
         pause = false;
@@ -55,7 +55,7 @@ public class Game {
 
     /**
      * Set On/Off Pause state in game
-     * @param p
+     * @param p boolean Pause state
      */
     public void setPause(boolean p){
         pause = p;
@@ -80,8 +80,8 @@ public class Game {
     /**
      * Move player in a direction.
      * X and Y values should be between 0 and 1.
-     * @param x
-     * @param y
+     * @param x percent of movement in X axis
+     * @param y percent of movement in Y axis
      * @return Vector2 with player movement
      */
     public Vector2 movePlayer(float x, float y) {
@@ -168,7 +168,7 @@ public class Game {
 
     /**
      * Draw visible objects to SpriteBatch
-     * @param batch
+     * @param batch Spritebatch
      */
     public void draw(SpriteBatch batch) {
         batch.begin();
@@ -211,7 +211,7 @@ public class Game {
     /**
      * Game cicle
      * Create botwaves, move gamme object, check collisions, updates animation frames
-     * @param dt
+     * @param dt time between updates
      */
     public void update(float dt) {
         //new level ?
@@ -284,10 +284,10 @@ public class Game {
 
     /**
      * Receives camera view and calculate all objects in the game, deciding what object will be draw
-     * @param x
-     * @param y
-     * @param width
-     * @param height
+     * @param x camera X coordinate
+     * @param y camera Y coordinate
+     * @param width displayed width
+     * @param height displayed height
      */
     public void loadVisibleObjects(float x, float y, float width, float height){
         Rectangle visibleRegion = new Rectangle(x,y,width,height);
@@ -363,16 +363,16 @@ public class Game {
     }
 
     /**
-     * Return EndGame flag
-     * @return endGame
+     *
+     * @return Return EndGame flag
      */
     public boolean getEndGame(){
         return  endGame;
     }
 
     /**
-     * Return current pplayer score
-     * @return score
+     *
+     * @return Return current pplayer score
      */
     public long getScore()
     {
@@ -380,8 +380,8 @@ public class Game {
     }
 
     /**
-     * Return current difficult game level
-     * @return level
+     *
+     * @return Return current difficult game level
      */
     public int getLevel() {return level; }
 

@@ -27,7 +27,7 @@ public class Rifle extends Weapon {
     /**
      * Increases weapon ammo.
      * The increase depends on level.
-     * @param level
+     * @param level Game level
      */
     @Override
     public void recharge(int level) {

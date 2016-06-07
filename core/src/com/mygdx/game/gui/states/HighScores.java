@@ -1,20 +1,15 @@
 package com.mygdx.game.gui.states;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.audio.SoundManager;
-import com.mygdx.game.logic.Game;
 import com.mygdx.game.logic.GameData;
-import com.mygdx.game.logic.Save;
 
 /**
  * Created by Madnar on 04/06/2016.
@@ -31,11 +26,7 @@ public class HighScores extends State  {
     private SoundManager soundManager;
     private Texture background;
 
-    /**
-     * Construtor for Higscore class
-     * @param manager
-     * @param soundManager
-     */
+
     public HighScores(GameStateManager manager, SoundManager soundManager) {
         super(manager);
 
@@ -54,12 +45,12 @@ public class HighScores extends State  {
         config.color = Color.GRAY;
         font = gen.generateFont(config);
 
-        Save save = new Save();
-        save.init();
 
-        save.load();
-        highScores = Save.gd.getHighScores();
-        names = Save.gd.getNames();
+        GameData.init();
+
+        GameData.load();
+        highScores = GameData.getHighScores();
+        names = GameData.getNames();
 
 
 
@@ -75,9 +66,6 @@ public class HighScores extends State  {
             manager.set(new Menu(manager,soundManager));
             dispose();
         }
-        /*if (Gdx.input.isKeyPressed(Input.Keys.BACK)){
-
-        }*/
     }
 
     @Override

@@ -5,8 +5,15 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.mygdx.game.logic.Animation;
 
+/**
+ * Represents gun in players bag
+ */
 public class Gun extends Weapon {
 
+    /**
+     * Gun constructor
+     * @param a amount ammo loaded in weapon
+     */
     public Gun(int a) {
         super(a,1);
         idle = new Animation(new TextureRegion(new Texture(Gdx.files.internal("idle_gun.png"))),1,0.30f);
@@ -14,6 +21,11 @@ public class Gun extends Weapon {
         current_anim = idle;
     }
 
+    /**
+     * Increase ammo loaded in gun
+     * It depends on level
+     * @param level Game level
+     */
     @Override
     public void recharge(int level) {
         ammo += 10 + level;

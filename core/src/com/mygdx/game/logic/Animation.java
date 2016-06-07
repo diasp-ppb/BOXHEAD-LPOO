@@ -81,8 +81,8 @@ public class Animation {
 
     /**
      * Return correspondent frame to a given time
-     * @param frame
-     * @return
+     * @param frame current time
+     * @return TextureRegion  frame
      */
     public TextureRegion getFrame(int frame)
     {

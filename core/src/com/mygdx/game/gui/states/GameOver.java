@@ -7,9 +7,8 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.audio.SoundManager;
-import com.mygdx.game.logic.Save;
+import com.mygdx.game.logic.GameData;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -24,7 +23,7 @@ public class GameOver extends State {
     SoundManager soundManager;
     long score;
     private BitmapFont font;
-    private Save scores;
+    private GameData scores;
     private boolean drawMsg;
     private SimpleDateFormat sdf;
 
@@ -51,17 +50,16 @@ public class GameOver extends State {
         super.cam.position.set(background.getWidth()/2, background.getHeight()/2, 0);
 
 
-        Save scores = new Save();
+
         sdf = new SimpleDateFormat("dd/MM/yyyy");
-        scores.init();
-        scores.load();
-        if(scores.gd.isHighScore(score)) {
+        GameData.init();
+        GameData.load();
+
+        if(GameData.isHighScore(score)) {
             String currentDateandTime = sdf.format(new Date());
-            scores.gd.addHighScore(score, currentDateandTime);
-            scores.gd.sortHighScores();
-            scores.save();
-
-
+            GameData.addHighScore(score, currentDateandTime);
+            GameData.sortHighScores();
+            GameData.save();
             drawMsg = true;
         }
 

@@ -23,11 +23,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.Texture;
 import com.mygdx.game.logic.GameData;
-import com.mygdx.game.logic.Save;
-import com.mygdx.game.logic.sprites.Gun;
 
 import de.tomgrill.gdxtesting.GdxTestRunner;
 
@@ -42,7 +38,7 @@ public class GameSaveTest {
         Gdx.files.local("highscore.txt").delete();
 
 
-        Save temp = new Save();
+        GameData temp = new GameData();
         temp.init();
 
         temp.load();

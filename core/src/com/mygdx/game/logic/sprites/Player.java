@@ -12,6 +12,9 @@ import com.sun.javafx.binding.StringFormatter;
 
 import java.util.ArrayList;
 
+/**
+ * Class responsible for user character
+ */
 public class Player extends Character {
 
     private static final int IDLE = 0;
@@ -20,6 +23,9 @@ public class Player extends Character {
     private int inUseIndex;
     private boolean move = false;
 
+    /**
+     * Player constructor
+     */
     public Player(){
         super(0,0,4);
         bag = new ArrayList<Weapon>();
@@ -30,12 +36,19 @@ public class Player extends Character {
         loadAnimations();
     }
 
+    /**
+     * Load legs animation
+     */
     @Override
     public void loadAnimations() {
         super.animations.add( new Animation(new TextureRegion(new Texture("idle_player.png")),1,0.5f));
         super.animations.add( new Animation(new TextureRegion(new Texture("walk.png")),20,0.10f));
     }
 
+    /**
+     * Draw player on a SpriteBatch
+     * @param batch Spritebatch
+     */
     @Override
     public void draw(SpriteBatch batch) {
         float scale = 0.5f;
@@ -87,6 +100,10 @@ public class Player extends Character {
     }
 
 
+    /**
+     * Updates player animation
+     * @param dt time between updates
+     */
     public void update(float dt)
     {
         if(move)
@@ -108,11 +125,19 @@ public class Player extends Character {
     }
 
 
+    /**
+     *
+     * @return Return current animation frame
+     */
     public TextureRegion getFrame()
     {
         return animations.get(WALK).getFrame();
     }
 
+    /**
+     * Change in use weapon to the wepon in "u" position in the bag
+     * @param u  bag weapon index
+     */
     public void setInUse(int u){
 
         bag.get(inUseIndex).current_anim.resetAnimation();
@@ -121,41 +146,79 @@ public class Player extends Character {
     }
 
 
+    /**
+     *
+     * @return Return current weapon index in the bag
+     */
     public int getInUse(){
         return inUseIndex;
     }
 
+    /**
+     *
+     * @return Return bag content
+     */
     public final ArrayList<Weapon> getBag(){
         return bag;
     }
 
+    /**
+     * Set current weapon animation.
+     * char 'r' - reload animation
+     * char 'i' - idle animation
+     * @param b weapon behaviour
+     */
     public void setWeaponBehavior(char b){
         bag.get(inUseIndex).setAnimation(b);
     }
 
+    /**
+     * Reload in use weapon.
+     * Ammont of ammo added depends on level.
+     * @param level Game level
+     */
     public void rechargeWeapons(int level){
         for(int i = 0; i < bag.size(); i++){
             bag.get(i).recharge(level);
         }
     }
+
+    /**
+     * Set player attack animmation
+     */
     public void attackAnimation()
     {
-       //SOUNDWHRE
+
     }
+
+    /**
+     * Set weapon reload animation
+     */
     public void reloadAnimation()
     {
         bag.get(inUseIndex).setAnimation('r');
     }
 
+    /**
+     * Set weapon  idle animation
+     */
     public void idleAnimation()
     {
         bag.get(inUseIndex).setAnimation('i');
     }
+
+    /**
+     *Set at true  moveflag animation
+     */
     public void moveAnimation()
     {
         move = true;
     }
 
+    /**
+     *
+     * @return Return the amount of ammo in equippped weapon
+     */
     public int getAmmo()
     {
         return bag.get(inUseIndex).ammo;

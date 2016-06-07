@@ -36,12 +36,11 @@ public abstract class Animated extends GameObject{
 
     /**
      * Update object
-     * @param dt
+     * @param dt time between updates
      */
     public abstract void update(float dt);
 
     /**
-     *
      * @return Return number of animation loops
      */
     public double getAnimationcicle()
