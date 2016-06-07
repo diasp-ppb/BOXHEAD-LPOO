@@ -7,8 +7,16 @@ import com.mygdx.game.logic.Animation;
 /**
  * Created by Catarina Ramos on 01/06/2016.
  */
+
+/**
+ * Represents player Rifle
+ */
 public class Rifle extends Weapon {
 
+    /**
+     * Rifle constructor
+     * @param a ammount of ammo
+     */
     public Rifle(int a) {
         super(a,2);//damage - mata 2 zombies
         idle = new Animation(new TextureRegion(new Texture("idle_rifle.png")),1,0.20f);
@@ -17,6 +25,11 @@ public class Rifle extends Weapon {
         current_anim = idle;
     }
 
+    /**
+     * Increases weapon ammo.
+     * The increase depends on level.
+     * @param level
+     */
     @Override
     public void recharge(int level) {
         ammo += 5 + level/2;

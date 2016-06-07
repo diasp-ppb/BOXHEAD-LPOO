@@ -11,12 +11,21 @@ import java.util.Random;
 /**
  * Created by Catarina Ramos on 04/06/2016.
  */
+
+/**
+ * Class responsible for generate ammoBoxs
+ */
 public class AmmoFactory {
     private Texture box_text;
     private double width;
     private double height;
     private int spriteSize;
 
+    /**
+     * AmmoFactory constructor
+     * @param w width of the map
+     * @param h heigth of the map
+     */
     public AmmoFactory(double w, double h){
         this.spriteSize = 48;
         width = w;
@@ -24,6 +33,11 @@ public class AmmoFactory {
         box_text = new Texture("ammo.png");
     }
 
+    /**
+     * Create a ArrayList of n ammoBoxs
+     * @param number number of ammoBox to be created
+     * @return ArryaList with ammoBoxs
+     */
     public ArrayList<GameObject> create(int number) {
         Random rnd = new Random();
         ArrayList<GameObject> boxs = new ArrayList<GameObject>();
@@ -35,6 +49,9 @@ public class AmmoFactory {
         return boxs;
     }
 
+    /**
+     * Release AmmoFactory resources
+     */
     public void dispose(){
         box_text.dispose();
     }

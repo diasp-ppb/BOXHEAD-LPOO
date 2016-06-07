@@ -19,6 +19,10 @@ import com.mygdx.game.logic.Save;
 /**
  * Created by Madnar on 04/06/2016.
  */
+
+/**
+ * State responsable for top5 scores diplay on the screen
+ */
 public class HighScores extends State  {
 
     private long[] highScores;
@@ -27,7 +31,11 @@ public class HighScores extends State  {
     private SoundManager soundManager;
     private Texture background;
 
-
+    /**
+     * Construtor for Higscore class
+     * @param manager
+     * @param soundManager
+     */
     public HighScores(GameStateManager manager, SoundManager soundManager) {
         super(manager);
 
@@ -103,12 +111,7 @@ public class HighScores extends State  {
 
         for(int i = 0; i < highScores.length; i++) {
 
-            s = String.format(
-                    "%2d. %7s %s",
-                    i + 1,
-                    highScores[i],
-                    names[i]
-            );
+            s = String.format("%2d. %7s %s", i + 1, highScores[i], names[i]);
 
             glyphLayout.setText(font,s);
             w = glyphLayout.width;

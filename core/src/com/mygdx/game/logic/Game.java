@@ -15,10 +15,14 @@ import com.mygdx.game.logic.sprites.Enemy;
 import com.mygdx.game.logic.sprites.GameObject;
 import com.mygdx.game.logic.sprites.Player;
 import com.mygdx.game.logic.sprites.Weapon;
+import com.sun.xml.internal.bind.v2.TODO;
+
 import java.util.ArrayList;
 import java.util.Random;
 
-
+/**
+ * Implements all game logic and all objects relations
+ */
 public class Game {
     private int level;
     private long score;
@@ -35,6 +39,11 @@ public class Game {
     private boolean endGame;
     private Animation bomb;
 
+    /**
+     * Game constructor take as parameters game map dimensions
+     * @param map_width
+     * @param map_height
+     */
     public Game(int map_width, int map_height) {
         pause = false;
         level = 0;
@@ -57,18 +66,37 @@ public class Game {
         bomb  = new Animation(new TextureRegion(new Texture("explosion.png")),13,0.05f);
     }
 
+    /**
+     * Set On/Off Pause state in game
+     * @param p
+     */
     public void setPause(boolean p){
         pause = p;
     }
 
+    /**
+     * Return current Pause state
+     * @return Pause state
+     */
     public boolean isPause(){
         return pause;
     }
 
+    /**
+     * Return Player present in the game
+     * @return Player
+     */
     public final Player getPlayer() {
         return player;
     }
 
+    /**
+     * Move player in a direction.
+     * X and Y values should be between 0 and 1.
+     * @param x
+     * @param y
+     * @return Vector2 with player movement
+     */
     public Vector2 movePlayer(float x, float y) {
 
         double x_init = player.getX()  + x * player.getVelocity();
@@ -94,6 +122,10 @@ public class Game {
             return res;
     }
 
+    /**
+     * Test collision between player  and enemies
+     * If collision exist kills player
+     */
     public void playerEnemiesColision(){
         for(int i = 0; i < enemies.size();i++) {
             boolean collidingPlayer = enemies.get(i).sprite.getBoundingRectangle().overlaps(player.sprite.getBoundingRectangle());
@@ -104,6 +136,11 @@ public class Game {
         }
     }
 
+    /**
+     * Test collision between bullets  and enemies
+     * If collision exits kills zombie
+     * If bullet durability decreased to 0, destroy bullet
+     */
     public void bulletsEnemiesColision() {
         for (int i = 0; i < bullets.size(); i++) {
             for (int j = 0; j < enemies.size(); j++) {
@@ -125,6 +162,10 @@ public class Game {
         }
     }
 
+    /**
+     * Test collision between player and ammoBoxs
+     * If a collision occurs delete ammoBoxs and increase ammo in weapons
+     */
     public void playerBoxColision(){
         for(int i = 0; i < ammoBoxs.size();i++){
             if(ammoBoxs.get(i).sprite.getBoundingRectangle().overlaps(player.sprite.getBoundingRectangle())){
@@ -137,6 +178,11 @@ public class Game {
     }
 
     //Only draws the visible objects
+
+    /**
+     * Draw visible objects to SpriteBatch
+     * @param batch
+     */
     public void draw(SpriteBatch batch) {
         batch.begin();
         for (int b = 0; b < ammoBoxs.size();b++){
@@ -161,6 +207,11 @@ public class Game {
         batch.end();
     }
 
+    /**
+     * Set Player attack animation
+     * Decrease ammo in current weapon
+     * Create bullet with current player direction
+     */
     public void shoot() {
         player.attackAnimation();
         Weapon w = player.getBag().get(player.getInUse());
@@ -170,6 +221,11 @@ public class Game {
         }
     }
 
+    /**
+     * Game cicle
+     * Create botwaves, move gamme object, check collisions, updates animation frames
+     * @param dt
+     */
     public void update(float dt) {
         //new level ?
         if(enemies.size() == 0){
@@ -205,15 +261,24 @@ public class Game {
         }
     }
 
+    /**
+     * Set EndGame Flag
+     */
     public void gameOver() {
         endGame = true;
     }
 
+    /**
+     * Release Game resources
+     */
     public void dispose() {
        bulletFactory.dispose();
        ammoFactory.dispose();
     }
 
+    /**
+     * Switch to nextWeapon in  player bag
+     */
     public void nextWeapon(){
         int inUse = player.getInUse();
         int size = player.getBag().size();
@@ -224,10 +289,20 @@ public class Game {
             player.setInUse(inUse+1);
     }
 
+    /**
+     * Set reload player animation
+     */
     public void reloadWeapon(){
         player.reloadAnimation();
     }
 
+    /**
+     * Receives camera view and calculate all objects in the game, deciding what object will be draw
+     * @param x
+     * @param y
+     * @param width
+     * @param height
+     */
     public void loadVisibleObjects(float x, float y, float width, float height){
         Rectangle visibleRegion = new Rectangle(x,y,width,height);
         for (int i = 0;i < enemies.size();i++){
@@ -256,6 +331,9 @@ public class Game {
         }
     }
 
+    /**
+     * Move all enemies if enemy is visible or is tracking player moves in pplayer direction otherwise moves in a random way
+     */
     public void moveEnemies(){
         for(int i = 0; i < enemies.size(); i++) {
 
@@ -284,6 +362,9 @@ public class Game {
             }
         }
 
+    /**
+     * Move all game bullets in their on direction at a certain speed
+     */
     public void moveBullets(){
         for (int i = 0; i < bullets.size(); i++) {
             if (!map.overlaps(bullets.get(i).sprite.getBoundingRectangle())) {
@@ -295,15 +376,27 @@ public class Game {
         }
     }
 
+    /**
+     * Return EndGame flag
+     * @return endGame
+     */
     public boolean getEndGame(){
         return  endGame;
     }
 
+    /**
+     * Return current pplayer score
+     * @return score
+     */
     public long getScore()
     {
         return score;
     }
 
+    /**
+     * Return current difficult game level
+     * @return level
+     */
     public int getLevel() {return level; }
 
 }

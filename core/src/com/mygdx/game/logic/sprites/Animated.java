@@ -6,6 +6,10 @@ import com.mygdx.game.logic.Animation;
 /**
  * Created by Catarina Ramos on 05/06/2016.
  */
+
+/**
+ * Class that make a skeleton for animated GameObjects
+ */
 public abstract class Animated extends GameObject{
     protected Array<Animation> animations;
     protected int currentAnimation;
@@ -13,6 +17,13 @@ public abstract class Animated extends GameObject{
     protected float timer;
     protected double animationcicle;
 
+
+    /**
+     * Animated constructor
+     * @param size size of GameObject
+     * @param x  Coordinate X in the map
+     * @param y  Coordinate Y in the map
+     */
     public Animated(int size, int x, int y){
         super(size,x,y);
         currentAnimation = 0;
@@ -22,10 +33,21 @@ public abstract class Animated extends GameObject{
         animations = new Array<Animation>();
     }
 
+    /**
+     * Load objects animations
+     */
     public abstract void loadAnimations();
 
+    /**
+     * Update object
+     * @param dt
+     */
     public abstract void update(float dt);
 
+    /**
+     *
+     * @return Return number of animation loops
+     */
     public double getAnimationcicle()
     {
         return animationcicle;

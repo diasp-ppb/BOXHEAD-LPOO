@@ -12,6 +12,10 @@ import java.util.Random;
 /**
  * Created by Catarina Ramos on 02/06/2016.
  */
+
+/**
+ * Class responsible for generate enemies
+ */
 public class ZombieSpawner {
     private double width;
     private double height;
@@ -20,6 +24,11 @@ public class ZombieSpawner {
     private Animation move;
     private Animation attack;
 
+    /**
+     * Zombie Spawner constructor
+     * @param w  map width
+     * @param h  map heigth
+     */
     public ZombieSpawner(double w, double h){
         width = w;
         height = h;
@@ -28,6 +37,11 @@ public class ZombieSpawner {
        attack = new Animation (new TextureRegion(new Texture("attack_zombie.png")),9,0.1f);;
     };
 
+    /**
+     * Generata a specific number of enemies
+     * @param number number of enemies that will be generated
+     * @return  ArrayList with enemies
+     */
     public ArrayList<Enemy> create(int number){
         Random rnd = new Random();
         Vector2 entrance = new Vector2(0,0);
@@ -57,4 +71,5 @@ public class ZombieSpawner {
         }
         return wave;
     }
+
 }

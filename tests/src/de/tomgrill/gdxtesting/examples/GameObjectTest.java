@@ -34,11 +34,11 @@ public class GameObjectTest {
 
         assertEquals(10,test.getSize(),0);
 
-        assertEquals(0,test.getWidth(),0); //Duvidas
-        assertEquals(0,test.getHeight(),0); //Duvidas
+        assertEquals(0,test.getWidth(),0);
+        assertEquals(0,test.getHeight(),0);
 
-        assertEquals(1,test.getCenterX(),0); //Duvidas
-        assertEquals(2,test.getCenterY(),0);//Duvidas
+        assertEquals(1,test.getCenterX(),0);
+        assertEquals(2,test.getCenterY(),0);
 
 
         assertTrue(test.isVisible());

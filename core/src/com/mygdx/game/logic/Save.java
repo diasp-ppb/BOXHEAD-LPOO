@@ -17,11 +17,19 @@ import java.io.ObjectOutputStream;
 /**
  * Created by Madnar on 04/06/2016.
  */
+
+/**
+ * Class responsable for load and save  Highscore file
+ */
 public class Save {
     public static GameData gd;
+    private static String FILENAME = "highscore.txt";
 
+    /**
+     * Saves GameData content into highscores.txt
+     */
     public static void save () {
-        FileHandle temp = Gdx.files.local("highscore.txt");
+        FileHandle temp = Gdx.files.local(FILENAME);
       for(int i = 0; i < 5; i++)
       {
           if(i == 0)
@@ -32,8 +40,13 @@ public class Save {
       }
 
     }
+
+    /**
+     * Load highscore.txt content.
+     * If empty initialize GameData.
+     */
     public static void load() {
-        FileHandle temp = Gdx.files.local("highscore.txt");
+        FileHandle temp = Gdx.files.local(FILENAME);
 
 
         String content  = temp.readString();
@@ -59,11 +72,13 @@ public class Save {
     }
 
 
-
+    /**
+     * Inicialize GameData
+     */
     public static void init() {
         gd = new GameData();
         gd.init();
-        FileHandle temp = Gdx.files.local("highscore.txt");
+        FileHandle temp = Gdx.files.local(FILENAME);
         temp.writeString("",true);
 
     }
