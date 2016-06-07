@@ -1,4 +1,4 @@
-package com.mygdx.game.gui.controllers;
+package com.mygdx.game.gui;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;

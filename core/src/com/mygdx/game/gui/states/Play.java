@@ -6,7 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mygdx.game.audio.SoundManager;
-import com.mygdx.game.gui.controllers.HUD;
+import com.mygdx.game.gui.HUD;
 import com.mygdx.game.logic.Game;
 
 /**
