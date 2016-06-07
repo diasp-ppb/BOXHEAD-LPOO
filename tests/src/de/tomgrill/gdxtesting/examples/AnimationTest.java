@@ -20,20 +20,6 @@ import de.tomgrill.gdxtesting.GdxTestRunner;
 @RunWith(GdxTestRunner.class)
 public class AnimationTest {
 
-    @Test
-    public void testAnimation()
-    {
-      Animation test = new Animation(new TextureRegion(new Texture("idle_player.png")),1,0.5f);
-        assertEquals(0.5f,test.getFrameTime(),0);
-        assertEquals(1,test.getFramesCount(),0);
 
-        test.update(0.5f);
-
-        test.update(0.5f);
-
-        assertEquals(1,test.getAnimationCount(),0);
-
-
-    }
 
 }
