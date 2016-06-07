@@ -155,15 +155,5 @@ public class GameData {
         }
     }
 
-    /**
-     * Update Arrays highscore and names  with input arrays
-     * @param hiqhscores ArrayList with top 5 scores
-     * @param names  ArrayList with scores tags
-     */
-    public void setArrays(long[] hiqhscores, String[] names)
-    {
-        this.highScores = hiqhscores;
-        this.names = names;
 
-    }
 }

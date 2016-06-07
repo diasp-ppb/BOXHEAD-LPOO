@@ -12,12 +12,16 @@ import com.mygdx.game.logic.sprites.Player;
 import com.mygdx.game.logic.sprites.Rifle;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import de.tomgrill.gdxtesting.GdxTestRunner;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+@RunWith(GdxTestRunner.class)
 public class GameObjectsTest {
 
     @Test

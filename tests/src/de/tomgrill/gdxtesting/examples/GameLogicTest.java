@@ -6,8 +6,9 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.logic.Animation;
 import com.mygdx.game.logic.Game;
+import com.mygdx.game.logic.GameData;
 import com.mygdx.game.logic.GameObjectFactory;
-import com.mygdx.game.logic.Save;
+
 import com.mygdx.game.logic.sprites.Bomb;
 import com.mygdx.game.logic.sprites.Bullet;
 import com.mygdx.game.logic.sprites.Enemy;
@@ -15,8 +16,11 @@ import com.mygdx.game.logic.sprites.GameObject;
 import com.mygdx.game.logic.sprites.Player;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
+
+import de.tomgrill.gdxtesting.GdxTestRunner;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -24,6 +28,7 @@ import static org.junit.Assert.assertTrue;
 /**
  * Created by Catarina Ramos on 07/06/2016.
  */
+@RunWith(GdxTestRunner.class)
 public class GameLogicTest {
 
     @Test
@@ -81,6 +86,7 @@ public class GameLogicTest {
         assertEquals(1,test.getLevel());
     }
 
+    @Test
     public void testBomb()
     {
         Animation bomb = new Animation(new TextureRegion(new Texture("explosion.png")),13,0.05f);
@@ -89,7 +95,7 @@ public class GameLogicTest {
         assertEquals(10,test.getX(),0);
         assertEquals(10,test.getY(),0);
     }
-
+    @Test
     public void testFactory(){
         GameObjectFactory factory = new GameObjectFactory(500,500);
 
@@ -111,12 +117,12 @@ public class GameLogicTest {
     public void testSave()
     {
         Gdx.files.local("highscore.txt").delete();
-        Save temp = new Save();
-        temp.init();
-        temp.load();
 
-        long scores [] = temp.gd.getHighScores();
-        String names[] = temp.gd.getNames();
+        GameData.init();
+        GameData.load();
+
+        long scores [] = GameData.getHighScores();
+        String names[] = GameData.getNames();
 
         for(int i = 0; i < 5 ; i++)
         {
@@ -124,29 +130,29 @@ public class GameLogicTest {
             assertEquals("----",names[i]);
         }
 
-        temp.gd.addHighScore(10, "20/20/20");
-        temp.gd.sortHighScores();
+        GameData.addHighScore(10, "20/20/20");
+        GameData.sortHighScores();
 
-        temp.save();
-        temp.load();
+        GameData.save();
+        GameData.load();
 
-        scores = temp.gd.getHighScores();
-        names  = temp.gd.getNames();
+        scores = GameData.getHighScores();
+        names  = GameData.getNames();
 
         assertEquals(10,scores[0]);
         assertEquals("20/20/20", names[0]);
 
-        temp.gd.addHighScore(10, "20/20/20");
-        temp.gd.addHighScore(10, "20/20/20");
-        temp.gd.addHighScore(10, "20/20/20");
-        temp.gd.addHighScore(10, "20/20/20");
+        GameData.addHighScore(10, "20/20/20");
+        GameData.addHighScore(10, "20/20/20");
+        GameData.addHighScore(10, "20/20/20");
+        GameData.addHighScore(10, "20/20/20");
 
-        temp.save();
+        GameData.save();
 
-        temp.load();
+        GameData.load();
 
-        scores = temp.gd.getHighScores();
-        names  = temp.gd.getNames();
+        scores = GameData.getHighScores();
+        names  = GameData.getNames();
         for(int i = 0; i < 5 ; i++) {
             assertEquals(10, scores[i]);
             assertEquals("20/20/20", names[i]);
